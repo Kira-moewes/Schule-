@@ -22,8 +22,8 @@ h1{font-family:"Manrope",sans-serif;font-weight:300;font-size:34pt;line-height:1
 .ask b{font-weight:500}
 .ask .mail{display:block;font-family:"Manrope",sans-serif;font-weight:500;font-size:19pt;letter-spacing:-.01em;margin-top:1.5mm}
 .tabs{margin-top:auto;display:grid;grid-template-columns:repeat(8,1fr);border-top:.3mm dashed var(--muted);height:52mm}
-.tab{border-left:.3mm dashed var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-size:9pt;text-align:center;line-height:1.45}
-.tab:first-child{border-left:none}
+.tab{border-right:.3mm dashed var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-size:9pt;text-align:center;line-height:1.45}
+.tab:first-child{border-right:none} /* rotated 180°, so border-right renders on the left */
 @media print{@page{size:A4;margin:0}body{background:#fff}.controls{display:none}.scale{overflow:visible;padding:0}.sheet{box-shadow:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 
