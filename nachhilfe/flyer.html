@@ -1,29 +1,41 @@
 <title>Nachhilfe-Flyer Kira</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500&family=Inter:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Inter:wght@400;500;600&display=swap">
 <style>
-/* Printed A4: one image band with wordmark, lots of white, offer, email with per-location code word, tear-offs. Single light look (paper). */
-:root{--bg:#ecebe6;--ink:#24261f;--muted:#74766c;--line:#d9d8d0;color-scheme:light}
+/* Printed A4 built for a crowded pinboard: readable from 2 m — dark green block with huge NACHHILFE + subjects,
+   yellow "free lesson" sticker, short check-list, email + code word, bold tear-offs. Single light look (paper). */
+:root{--bg:#ecebe6;--ink:#1f231c;--muted:#5f6359;--line:#d9d8d0;--moss:#3f4d38;--moss2:#55654b;--sun:#ffd84d;color-scheme:light}
 body{background:var(--bg);color:var(--ink);font-family:"Inter","Helvetica Neue",system-ui,sans-serif}
 .controls{max-width:210mm;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px));display:grid;gap:8px;font-size:14px}
 .controls input{font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:999px;width:100%;box-sizing:border-box;background:#fff;color:var(--ink)}
 .controls p{margin:0;color:var(--muted)}
 .scale{overflow-x:auto;padding-bottom:24px}
-.sheet{width:210mm;height:297mm;margin:0 auto;background:#fff;box-sizing:border-box;padding:12mm 14mm 0;display:flex;flex-direction:column;box-shadow:0 2px 16px rgba(0,0,0,.1)}
-.visual{position:relative;height:92mm;border-radius:6mm;overflow:hidden;background:linear-gradient(#d6d9ce,#a9b49d);color:#fff}
-.visual svg{position:absolute;inset:0;width:100%;height:100%}
-.visual span{position:absolute;top:7mm;left:8mm;font-size:8.5pt;letter-spacing:.16em;text-transform:uppercase}
-.wordmark{position:absolute;left:0;right:0;bottom:-14mm;text-align:center;font-family:"Manrope",sans-serif;font-weight:300;font-size:180pt;line-height:1;letter-spacing:-.05em}
-.label{font-size:8.5pt;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:16mm 0 4mm}
-h1{font-family:"Manrope",sans-serif;font-weight:300;font-size:34pt;line-height:1.08;letter-spacing:-.025em;margin:0}
-.sub{margin:5mm 0 0;font-size:12.5pt;color:var(--muted);line-height:1.6}
-.meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6mm;margin-top:11mm;padding-top:5mm;border-top:.3mm solid var(--line);font-size:10.5pt;line-height:1.45;color:var(--muted)}
-.meta b{display:block;font-weight:500;font-size:12pt;color:var(--ink)}
-.ask{margin-top:9mm;font-size:12pt;line-height:1.5}
-.ask b{font-weight:500}
-.ask .mail{display:block;font-family:"Manrope",sans-serif;font-weight:500;font-size:19pt;letter-spacing:-.01em;margin-top:1.5mm}
-.tabs{margin-top:auto;display:grid;grid-template-columns:repeat(8,1fr);border-top:.3mm dashed var(--muted);height:52mm}
-.tab{border-right:.3mm dashed var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-size:9pt;text-align:center;line-height:1.45}
+.sheet{width:210mm;height:297mm;margin:0 auto;background:#fff;box-sizing:border-box;padding:10mm 12mm 0;display:flex;flex-direction:column;box-shadow:0 2px 16px rgba(0,0,0,.1)}
+
+.band{position:relative;border-radius:6mm;overflow:hidden;background:var(--moss);color:#fff;padding:10mm 10mm 16mm}
+.band svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:38mm}
+.band .brand{position:relative;display:flex;justify-content:space-between;font-size:9pt;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+.band .brand b{font-family:"Manrope",sans-serif;font-weight:600;letter-spacing:-.01em;text-transform:none;font-size:14pt;opacity:1}
+.band h1{position:relative;font-family:"Manrope",sans-serif;font-weight:800;font-size:80pt;line-height:.95;letter-spacing:-.03em;margin:9mm 0 0}
+.band .subjects{position:relative;font-family:"Manrope",sans-serif;font-weight:600;font-size:23pt;line-height:1.25;margin:5mm 0 0}
+.band .who{position:relative;font-size:13pt;margin:3mm 0 0;opacity:.9}
+.sticker{position:absolute;right:12mm;top:52mm;width:48mm;height:48mm;border-radius:50%;background:var(--sun);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(9deg);font-family:"Manrope",sans-serif;box-shadow:0 1.5mm 0 rgba(0,0,0,.15)}
+.sticker b{font-weight:800;font-size:25pt;line-height:1}
+.sticker span{font-weight:600;font-size:13pt;line-height:1.15;margin-top:1mm}
+
+h2{font-family:"Manrope",sans-serif;font-weight:800;font-size:29pt;line-height:1.1;letter-spacing:-.02em;margin:14mm 0 8mm}
+ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6mm 8mm;font-size:14.5pt;line-height:1.35}
+li{display:grid;grid-template-columns:7mm 1fr;align-items:start}
+li::before{content:"";width:5mm;height:5mm;margin-top:.6mm;border-radius:50%;background:var(--moss) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 7' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+li b{font-weight:600}
+.cta{margin-top:14mm;border:.5mm solid var(--ink);border-radius:5mm;padding:5mm 6mm;display:grid;gap:1.5mm}
+.cta p{margin:0;font-size:12pt}
+.cta .mail{font-family:"Manrope",sans-serif;font-weight:800;font-size:22pt;letter-spacing:-.01em}
+.cta .code{background:var(--sun);padding:0 1.5mm;font-weight:600}
+
+.tabs{margin-top:auto;display:grid;grid-template-columns:repeat(8,1fr);border-top:.3mm dashed var(--muted);height:54mm}
+.tab{border-right:.3mm dashed var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-size:9pt;text-align:center;line-height:1.4}
 .tab:first-child{border-right:none} /* rotated 180°, so border-right renders on the left */
+.tab b{font-family:"Manrope",sans-serif;font-weight:800;font-size:11pt}
 @media print{@page{size:A4;margin:0}body{background:#fff}.controls{display:none}.scale{overflow:visible;padding:0}.sheet{box-shadow:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 
@@ -34,28 +46,30 @@ h1{font-family:"Manrope",sans-serif;font-weight:300;font-size:34pt;line-height:1
 </div>
 
 <div class="scale"><div class="sheet">
-  <div class="visual">
-    <svg viewBox="0 0 1200 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <path fill="#bcc3ae" d="M0 360 C200 290 380 340 560 310 S900 260 1200 310 V640 H0Z"/>
-      <path fill="#9fac92" d="M0 440 C220 390 420 450 640 420 S980 390 1200 430 V640 H0Z"/>
-      <path fill="#869579" d="M0 520 C240 480 460 530 700 505 S1020 485 1200 515 V640 H0Z"/>
+  <div class="band">
+    <svg viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="#4a5a42" d="M0 90 C220 40 420 100 640 70 S980 40 1200 80 V220 H0Z"/>
+      <path fill="#55654b" d="M0 150 C240 110 460 160 700 135 S1020 115 1200 145 V220 H0Z"/>
     </svg>
-    <span>Online-Nachhilfe mit Lern-App · aus Kerpen</span>
-    <div class="wordmark">kira</div>
+    <div class="brand"><b>kira</b><span>aus Kerpen</span></div>
+    <h1>NACH&shy;HILFE</h1>
+    <p class="subjects">Mathe · Deutsch<br>Englisch · Latein</p>
+    <p class="who">für alle Klassen · online per Teams</p>
+    <div class="sticker"><b>1. Stunde</b><span>kostenlos</span></div>
   </div>
 
-  <p class="label">Mathe · Deutsch · Englisch · Latein · alle Klassen</p>
-  <h1>Vorbereitet in jede<br>Klassenarbeit.</h1>
-  <p class="sub">Nachhilfe per Teams und eine eigene Lern-App mit Lernplan,<br>Probeklausur und Chat für Fragen zwischen den Stunden.</p>
+  <h2>Vorbereitet in jede Klassenarbeit.</h2>
+  <ul>
+    <li><span><b>Kein Fahrweg</b> – bequem online von zu Hause</span></li>
+    <li><span><b>Lern-App inklusive</b> – mit Lernplan &amp; Probeklausur</span></li>
+    <li><span><b>Hilfe zwischendurch</b> – Fragen per Chat</span></li>
+    <li><span><b>Monatlich kündbar</b> – ohne lange Bindung</span></li>
+  </ul>
 
-  <div class="meta">
-    <span><b>Erste Stunde kostenlos</b>unverbindlich kennenlernen</span>
-    <span><b>Lern-App inklusive</b>Üben auch zwischen den Stunden</span>
-    <span><b>Monatlich kündbar</b>ohne lange Bindung</span>
+  <div class="cta">
+    <p>Kostenlose Probestunde: einfach E-Mail mit Betreff <span class="code">„Probestunde <span class="c"></span>“</span> an</p>
+    <span class="mail">kira.moewes@gmail.com</span>
   </div>
-
-  <p class="ask">Probestunde anfragen – einfach eine E-Mail mit Betreff <b>„Probestunde <span class="c"></span>“</b> an
-    <span class="mail">kira.moewes@gmail.com</span></p>
 
   <div class="tabs" id="tabs"></div>
 </div></div>
@@ -66,7 +80,7 @@ const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&qu
 function draw(){
   const c=esc(document.getElementById("code").value.trim());
   document.querySelectorAll(".c").forEach(e=>e.innerHTML=c);
-  document.getElementById("tabs").innerHTML=Array(8).fill(`<div class="tab"><span>kira · Probestunde gratis<br>${MAIL}<br>Betreff: Probestunde ${c}</span></div>`).join("");
+  document.getElementById("tabs").innerHTML=Array(8).fill(`<div class="tab"><span><b>NACHHILFE</b><br>1. Stunde gratis<br>${MAIL}<br>Betreff: Probestunde ${c}</span></div>`).join("");
 }
 document.getElementById("code").addEventListener("input",draw);
 draw();
