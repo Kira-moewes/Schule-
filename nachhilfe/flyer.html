@@ -2,12 +2,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Inter:wght@400;500;600&display=swap">
 <style>
 /* Printed A4 built for a crowded pinboard: readable from 2 m — dark green block with huge NACHHILFE + subjects,
-   yellow "free lesson" sticker, short check-list, email + code word, bold tear-offs. Single light look (paper). */
+   yellow "free lesson" sticker, short check-list, email, bold tear-offs. Single light look (paper). */
 :root{--bg:#ecebe6;--ink:#1f231c;--muted:#5f6359;--line:#d9d8d0;--moss:#3f4d38;--moss2:#55654b;--sun:#ffd84d;color-scheme:light}
 body{background:var(--bg);color:var(--ink);font-family:"Inter","Helvetica Neue",system-ui,sans-serif}
-.controls{max-width:210mm;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px));display:grid;gap:8px;font-size:14px}
-.controls input{font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:999px;width:100%;box-sizing:border-box;background:#fff;color:var(--ink)}
-.controls p{margin:0;color:var(--muted)}
 .scale{overflow-x:auto;padding-bottom:24px}
 .sheet{width:210mm;height:297mm;margin:0 auto;background:#fff;box-sizing:border-box;padding:10mm 12mm 0;display:flex;flex-direction:column;box-shadow:0 2px 16px rgba(0,0,0,.1)}
 
@@ -29,20 +26,13 @@ li b{font-weight:600}
 .cta{margin-top:14mm;border:.5mm solid var(--ink);border-radius:5mm;padding:5mm 6mm;display:grid;gap:1.5mm}
 .cta p{margin:0;font-size:12pt}
 .cta .mail{font-family:"Manrope",sans-serif;font-weight:800;font-size:22pt;letter-spacing:-.01em}
-.cta .code{background:var(--sun);padding:0 1.5mm;font-weight:600}
 
 .tabs{margin-top:auto;display:grid;grid-template-columns:repeat(8,1fr);border-top:.3mm dashed var(--muted);height:54mm}
 .tab{border-right:.3mm dashed var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-size:9pt;text-align:center;line-height:1.4}
 .tab:first-child{border-right:none} /* rotated 180°, so border-right renders on the left */
 .tab b{font-family:"Manrope",sans-serif;font-weight:800;font-size:11pt}
-@media print{@page{size:A4;margin:0}body{background:#fff}.controls{display:none}.scale{overflow:visible;padding:0}.sheet{box-shadow:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media print{@page{size:A4;margin:0}body{background:#fff;margin:0}.scale{overflow:visible;padding:0}.sheet{box-shadow:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
-
-<div class="controls">
-  <label for="code">Codewort für diesen Aushangort (z.&nbsp;B. B für Bäcker, R für Rewe)</label>
-  <input id="code" value="B" maxlength="12">
-  <p>Notiere dir, welches Codewort an welchem Ort hängt. Steht es im Betreff einer Anfrage, weißt du, welcher Aushang gewirkt hat.</p>
-</div>
 
 <div class="scale"><div class="sheet">
   <div class="band">
@@ -66,7 +56,7 @@ li b{font-weight:600}
   </ul>
 
   <div class="cta">
-    <p>Kostenlose Probestunde: einfach E-Mail mit Betreff <span class="code">„Probestunde <span class="c"></span>“</span> an</p>
+    <p>Kostenlose Probestunde: einfach eine E-Mail an</p>
     <span class="mail">kira.moewes@gmail.com</span>
   </div>
 
@@ -75,12 +65,8 @@ li b{font-weight:600}
 
 <script>
 const MAIL="kira.moewes@gmail.com";
-const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
 function draw(){
-  const c=esc(document.getElementById("code").value.trim());
-  document.querySelectorAll(".c").forEach(e=>e.innerHTML=c);
-  document.getElementById("tabs").innerHTML=Array(8).fill(`<div class="tab"><span><b>NACHHILFE</b><br>Kira Moewes · 1. Stunde gratis<br>${MAIL}<br>Betreff: Probestunde ${c}</span></div>`).join("");
+  document.getElementById("tabs").innerHTML=Array(8).fill(`<div class="tab"><span><b>NACHHILFE</b><br>Kira Moewes · 1. Stunde gratis<br>${MAIL}</span></div>`).join("");
 }
-document.getElementById("code").addEventListener("input",draw);
 draw();
 </script>
