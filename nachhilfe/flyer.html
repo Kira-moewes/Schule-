@@ -1,75 +1,100 @@
 <title>Nachhilfe-Flyer Kira</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600&family=Inter:wght@400;500&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-/* Printed A4 sheet: deliberately single light look (it's paper). Screen controls above, sheet below. */
-:root{--paper:#ffffff;--ink:#17212e;--muted:#566273;--accent:#1f5f8b;--marker:#ffe45c;--line:#c9d2dc;--bg:#e9edf2;color-scheme:light}
-body{background:var(--bg);color:var(--ink);font-family:"Inter","Segoe UI",system-ui,sans-serif}
+/* Printed A4 sheet in the landing page's earthy look: hills image block with giant wordmark, info + QR, tear-off strips.
+   Deliberately single light look (it's paper). */
+:root{--stone:#dcd6cb;--mist:#eeebe5;--taupe:#a39885;--moss:#5f6c56;--ink:#262822;--muted:#5d5f55;--line:#c9c2b5;color-scheme:light}
+body{background:var(--stone);color:var(--ink);font-family:"Inter","Helvetica Neue",system-ui,sans-serif}
 .controls{max-width:210mm;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px));display:grid;gap:8px;font-size:14px}
-.controls label{font-weight:600}
-.controls input{font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;width:100%;box-sizing:border-box;background:#fff;color:var(--ink)}
-.controls p{margin:0;color:var(--muted)}
+.controls label{font-weight:500}
+.controls input{font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:999px;width:100%;box-sizing:border-box;background:#fff;color:var(--ink)}
+.controls p{margin:0;color:var(--muted);word-break:break-all}
 .scale{overflow-x:auto;padding-bottom:24px}
-.sheet{width:210mm;height:297mm;margin:0 auto;background:var(--paper);box-sizing:border-box;padding:16mm 16mm 0;display:flex;flex-direction:column;box-shadow:0 2px 12px rgba(0,0,0,.12)}
-h1{font-family:"Outfit",system-ui,sans-serif;font-weight:800;font-size:46pt;line-height:1.02;margin:0;letter-spacing:-.01em}
-mark{background:linear-gradient(transparent 55%,var(--marker) 55%);color:inherit}
-.sub{font-size:16pt;color:var(--muted);margin:6mm 0 0}
-.big{margin-top:10mm;display:inline-block;align-self:flex-start;background:var(--accent);color:#fff;font-family:"Outfit",sans-serif;font-weight:800;font-size:24pt;padding:3mm 6mm;border-radius:3mm;transform:rotate(-1.5deg)}
-.body{display:flex;gap:10mm;margin-top:12mm;align-items:flex-start}
-ul{margin:0;padding-left:5mm;font-size:15pt;line-height:1.55;flex:1}
-.qr{text-align:center;font-size:10pt;color:var(--muted)}
-.qr #qr{width:42mm;height:42mm;margin-bottom:2mm}
-.qr #qr img,.qr #qr canvas{width:42mm!important;height:42mm!important}
-.price{margin-top:8mm;font-size:15pt}
-.price b{font-family:"Outfit",sans-serif;font-size:22pt}
-.tabs{margin-top:auto;display:grid;grid-template-columns:repeat(8,1fr);border-top:1.5px dashed var(--ink);height:62mm}
-.tab{border-right:1.5px dashed var(--ink);writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-size:10.5pt;text-align:center;padding:2mm 0}
-.tab:first-child{border-right:none}
-.tab b{font-family:"Outfit",sans-serif}
-@media print{
-  @page{size:A4;margin:0}
-  body{background:#fff}.controls{display:none}.scale{overflow:visible;padding:0}.sheet{box-shadow:none}
-}
+.sheet{width:210mm;height:297mm;margin:0 auto;background:#fff;box-sizing:border-box;padding:10mm 10mm 0;display:flex;flex-direction:column;box-shadow:0 2px 16px rgba(0,0,0,.12)}
+.visual{position:relative;height:118mm;border-radius:8mm;overflow:hidden;background:linear-gradient(#cfd3c6,#9aa68e);color:#fff}
+.visual svg.hills{position:absolute;inset:0;width:100%;height:100%}
+.ring{position:absolute;border:.3mm solid rgba(255,255,255,.5);border-radius:50%;width:150mm;height:150mm;top:14mm}
+.ring.a{left:-75mm}.ring.b{right:-75mm}
+.top{position:absolute;top:9mm;left:10mm;right:10mm;display:flex;justify-content:space-between;align-items:flex-start;gap:6mm}
+.top p{margin:0;font-size:13pt;line-height:1.35;max-width:95mm}
+.top b{display:block;font-family:"Manrope",sans-serif;font-weight:600;font-size:21pt;margin-bottom:1.5mm}
+.badge{background:#fff;color:var(--ink);border-radius:20mm;padding:3mm 5mm;font-size:10pt;font-weight:600;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.wordmark{position:absolute;left:0;right:0;bottom:-15mm;text-align:center;font-family:"Manrope",sans-serif;font-weight:300;font-size:200pt;line-height:1;letter-spacing:-.05em}
+.info{display:flex;gap:8mm;margin-top:9mm;align-items:flex-start}
+.info .left{flex:1}
+.eyebrow{font-size:8.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 2mm}
+h2{font-family:"Manrope",sans-serif;font-weight:500;font-size:22pt;line-height:1.15;letter-spacing:-.02em;margin:0 0 4mm}
+.facts{display:flex;flex-wrap:wrap;gap:2mm;margin-bottom:4mm}
+.fact{border:.3mm solid var(--taupe);border-radius:20mm;padding:1mm 3.5mm;font-size:10.5pt}
+ul{margin:0;padding-left:4.5mm;font-size:11.5pt;line-height:1.55}
+.qr{text-align:center;font-size:9pt;color:var(--muted)}
+.qr #qr{width:38mm;height:38mm;padding:3mm;background:var(--mist);border-radius:5mm;margin-bottom:2mm}
+.qr #qr img,.qr #qr canvas{width:38mm!important;height:38mm!important}
+.bar{margin-top:6mm;display:flex;justify-content:space-between;align-items:center;background:var(--moss);color:#fff;border-radius:6mm;padding:4mm 6mm;font-size:11pt}
+.bar b{font-family:"Manrope",sans-serif;font-weight:300;font-size:22pt;letter-spacing:-.02em}
+.tabs{margin-top:auto;display:grid;grid-template-columns:repeat(8,1fr);border-top:.4mm dashed var(--muted);height:52mm}
+.tab{border-left:.4mm dashed var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-size:9.5pt;text-align:center;padding:2mm 0;line-height:1.3}
+.tab:first-child{border-left:none}
+.tab b{font-family:"Manrope",sans-serif;font-weight:600}
+@media print{@page{size:A4;margin:0}body{background:#fff}.controls{display:none}.scale{overflow:visible;padding:0}.sheet{box-shadow:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 
 <div class="controls">
   <label for="url">Adresse deiner Seite (für den QR-Code)</label>
   <input id="url" value="https://[deine-seite].de">
-  <label for="ort">Kennung für diesen Aushangort (zum Messen, z.&nbsp;B. baecker, rewe)</label>
+  <label for="ort">Kennung für diesen Aushangort (z.&nbsp;B. baecker, rewe)</label>
   <input id="ort" value="aushang1">
   <p>Der QR-Code führt auf: <span id="target"></span></p>
 </div>
 
 <div class="scale"><div class="sheet">
-  <h1>[Mathe] verstehen statt <mark>verzweifeln.</mark></h1>
-  <p class="sub">Nachhilfe für Klasse [5–10] · in Kerpen &amp; online</p>
-  <div class="big">1. Stunde kostenlos</div>
+  <div class="visual">
+    <svg class="hills" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <path fill="#b3bba4" d="M0 380 C180 300 320 340 460 310 S760 240 920 290 S1120 320 1200 290 V700 H0Z"/>
+      <path fill="#a0ad92" d="M0 440 C160 390 300 430 470 400 S760 360 900 410 S1100 430 1200 400 V700 H0Z"/>
+      <path fill="#8b9a7f" d="M0 520 C200 460 380 520 560 490 S880 450 1040 500 S1160 520 1200 510 V700 H0Z"/>
+      <path fill="#76866b" d="M0 600 C220 550 420 610 640 580 S980 550 1200 590 V700 H0Z"/>
+    </svg>
+    <div class="ring a"></div><div class="ring b"></div>
+    <div class="top">
+      <p><b>Erste Stunde kostenlos.</b>Nachhilfe in Kerpen &amp; online – ruhig erklärt, bis es sitzt.</p>
+      <span class="badge">Klasse [5–10]</span>
+    </div>
+    <div class="wordmark">kira</div>
+  </div>
 
-  <div class="body">
-    <ul>
-      <li>Geduldig erklärt – ich habe den Stoff gerade selbst gelernt und weiß, wo es hakt</li>
-      <li>[Lern-App zum Üben zwischen den Stunden]</li>
-      <li>Fester Termin pro Woche, auch kurzfristig vor Arbeiten</li>
-      <li>[Fächer: Mathe, Englisch]</li>
-    </ul>
+  <div class="info">
+    <div class="left">
+      <p class="eyebrow">Nachhilfe</p>
+      <h2>Verstehen statt auswendig lernen.</h2>
+      <div class="facts"><span class="fact">[Mathe]</span><span class="fact">[Englisch]</span><span class="fact">[zu Hause · online]</span></div>
+      <ul>
+        <li>Erste Stunde kostenlos – kein Risiko</li>
+        <li>[Lern-App zum Üben zwischen den Stunden]</li>
+        <li>Ich habe den Stoff gerade selbst gelernt und weiß, wo es hakt</li>
+        <li>Fester Termin pro Woche, auch vor Klassenarbeiten</li>
+      </ul>
+    </div>
     <div class="qr"><div id="qr"></div>Scannen &amp; mehr erfahren</div>
   </div>
 
-  <p class="price"><b>[10 €]</b> pro 45 Minuten · Kira · <b>[nachhilfe-adresse@beispiel.de]</b></p>
+  <div class="bar"><span><b>[10 €]</b> / 45 Min.</span><span>[nachhilfe-adresse@beispiel.de]</span></div>
 
   <div class="tabs" id="tabs"></div>
 </div></div>
 
 <script>
 const MAIL="[nachhilfe-adresse@beispiel.de]";
-document.getElementById("tabs").innerHTML=Array(8).fill(`<div class="tab"><span><b>Nachhilfe · 1. Std. gratis</b><br>${MAIL}</span></div>`).join("");
+document.getElementById("tabs").innerHTML=Array(8).fill(`<div class="tab"><span><b>kira · Nachhilfe</b><br>1. Stunde gratis<br>${MAIL}</span></div>`).join("");
 const qrEl=document.getElementById("qr");
 function draw(){
   const u=document.getElementById("url").value.trim(), o=document.getElementById("ort").value.trim();
   const t=u+(o?(u.includes("?")?"&":"?")+"ort="+encodeURIComponent(o):"");
   document.getElementById("target").textContent=t;
   qrEl.innerHTML="";
-  if(window.QRCode) new QRCode(qrEl,{text:t,width:320,height:320,correctLevel:QRCode.CorrectLevel.M});
+  if(window.QRCode) new QRCode(qrEl,{text:t,width:320,height:320,colorDark:"#262822",colorLight:"#eeebe5",correctLevel:QRCode.CorrectLevel.M});
   else qrEl.textContent="QR-Code konnte nicht geladen werden";
 }
 ["url","ort"].forEach(id=>document.getElementById(id).addEventListener("input",draw));

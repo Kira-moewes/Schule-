@@ -1,94 +1,143 @@
 <title>Nachhilfe mit Kira</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600&family=Inter:wght@400;500&display=swap">
 <style>
-/* Layout: one narrow reading column on squared notebook paper; highlighter marks the key promise */
+/* Layout: inset hero "window" with drawn sage hills + giant wordmark bleeding off the bottom; below, frosted cards on stone.
+   Deliberately one earthy light look (no dark variant) — colors set explicitly. */
 :root{
-  --paper:#f7f9fb; --grid:#e3e9f0; --ink:#17212e; --muted:#566273; --card:#ffffff; --line:#d9e0e8;
-  --accent:#1f5f8b; --accent-ink:#ffffff; --marker:#ffe45c; --marker-ink:#17212e;
-  --display:"Outfit", "Segoe UI", system-ui, sans-serif;
-  --body:"Inter", "Segoe UI", system-ui, sans-serif;
+  --stone:#dcd6cb; --mist:#eeebe5; --taupe:#a39885; --sage:#8e9c84; --moss:#5f6c56; --ink:#262822; --muted:#5d5f55;
+  --glass:rgba(255,255,255,.38); --glass-line:rgba(255,255,255,.6); --white:#ffffff;
+  --display:"Manrope","Helvetica Neue",system-ui,sans-serif; --body:"Inter","Helvetica Neue",system-ui,sans-serif;
+  color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#11161d; --grid:#1b222c; --ink:#e8edf3; --muted:#9aa6b5; --card:#18202a; --line:#28313d;
-  --accent:#6fb3e0; --accent-ink:#0b1620; --marker:#c9a91a; --marker-ink:#11161d; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --paper:#11161d; --grid:#1b222c; --ink:#e8edf3; --muted:#9aa6b5; --card:#18202a; --line:#28313d;
-  --accent:#6fb3e0; --accent-ink:#0b1620; --marker:#c9a91a; --marker-ink:#11161d; color-scheme:dark}
+body{background:var(--stone);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--stone)}
+.page{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-block:12px 40px}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
-.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 56px;display:grid;gap:36px}
-h1,h2{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
-h1{font-size:clamp(2rem,7vw,2.8rem);font-weight:800}
-h2{font-size:1.3rem;font-weight:600;margin-bottom:10px}
-mark{background:linear-gradient(transparent 55%,var(--marker) 55%);color:inherit;padding:0 .1em}
-.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
-.lead{font-size:1.1rem;color:var(--muted);margin:12px 0 0}
-.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.fact{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.88rem;font-weight:500}
-.btn{display:inline-block;margin-top:20px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none;border-radius:10px;padding:12px 18px}
-.btn:focus-visible,button:focus-visible{outline:3px solid var(--marker);outline-offset:2px}
-ul.benefits{list-style:none;padding:0;margin:0;display:grid;gap:12px}
-.benefits li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.benefits strong{display:block;font-family:var(--display);font-size:1.05rem}
-.benefits span{color:var(--muted);font-size:.95rem}
-ol.steps{margin:0;padding-left:1.3em;display:grid;gap:6px}
-.price{font-family:var(--display);font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums}
-.price small{font-family:var(--body);font-size:.9rem;font-weight:500;color:var(--muted)}
-.contact{background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:20px;display:grid;gap:10px}
+/* HERO */
+.hero{position:relative;overflow:hidden;border-radius:28px;min-height:min(88svh,780px);color:var(--white);
+  background:linear-gradient(#cfd3c6 0%,#b8bfaa 45%,#9aa68e 100%);isolation:isolate}
+.hills{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.ring{position:absolute;border:1px solid rgba(255,255,255,.45);border-radius:50%;pointer-events:none}
+.r1{width:120%;aspect-ratio:1;left:-60%;top:8%}
+.r2{width:120%;aspect-ratio:1;right:-60%;top:8%}
+.spark{position:absolute;width:18px;height:18px;transform:translate(-50%,-50%)}
+nav{position:relative;margin:18px auto 0;width:max-content;max-width:calc(100% - 32px);display:flex;gap:4px;padding:5px;border-radius:999px;
+  background:rgba(255,255,255,.18);border:1px solid var(--glass-line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+nav a{color:var(--white);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:999px}
+nav a:hover,nav a:focus-visible{background:rgba(255,255,255,.22);outline:none}
+.hero-copy{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding:clamp(48px,12vh,120px) 24px 0}
+.hero-copy p{margin:0;max-width:30ch;font-size:1.05rem;line-height:1.45;text-shadow:0 1px 12px rgba(40,45,35,.35)}
+.hero-copy strong{display:block;font-family:var(--display);font-weight:600;font-size:1.5rem;margin-bottom:6px}
+.pill{display:inline-block;background:var(--white);color:var(--ink);text-decoration:none;font-weight:600;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:12px 18px;border-radius:999px}
+.pill:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.wordmark{position:absolute;left:0;right:0;bottom:-.17em;text-align:center;font-family:var(--display);font-weight:300;font-size:clamp(140px,38vw,440px);line-height:1;letter-spacing:-.05em;color:var(--white);opacity:.95;pointer-events:none;user-select:none}
+
+/* CONTENT */
+main{max-width:980px;margin:0 auto;display:grid;gap:56px;padding-top:56px}
+.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h2{font-family:var(--display);font-weight:500;font-size:clamp(1.6rem,4.5vw,2.4rem);line-height:1.15;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.fact{border:1px solid var(--taupe);border-radius:999px;padding:5px 14px;font-size:.85rem}
+.field{position:relative;border-radius:28px;padding:28px 18px;overflow:hidden;isolation:isolate;
+  background:radial-gradient(60% 80% at 15% 30%,#b9c3ac 0%,transparent 70%),radial-gradient(50% 70% at 85% 70%,#c6b8a2 0%,transparent 70%),var(--mist)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:var(--glass);border:1px solid var(--glass-line);border-radius:20px;padding:22px 18px;min-height:200px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+.tag{align-self:flex-start;background:rgba(255,255,255,.75);border-radius:999px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px}
+.card svg{width:26px;height:26px;color:var(--ink)}
+.card h3{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0 0 4px;text-transform:uppercase;letter-spacing:.03em}
+.card p{margin:0;font-size:.92rem;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
+.step{border-top:1px solid var(--taupe);padding-top:14px}
+.step span{font-family:var(--display);font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.step p{margin:4px 0 0}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.price{background:var(--mist);border-radius:24px;padding:24px}
+.price b{display:block;font-family:var(--display);font-weight:300;font-size:3.4rem;line-height:1;letter-spacing:-.03em;margin:8px 0;font-variant-numeric:tabular-nums}
+.contact{background:var(--moss);color:var(--white);border-radius:24px;padding:24px;display:grid;gap:12px;align-content:start}
+.contact .eyebrow{color:rgba(255,255,255,.7)}
 .mail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.mail code{font-size:1.05rem;font-weight:600;user-select:all;word-break:break-all}
-button.copy{font:inherit;font-size:.85rem;font-weight:600;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
-.hint{font-size:.88rem;color:var(--muted);margin:0}
-footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+.mail code{font-family:var(--body);font-size:1.05rem;font-weight:500;user-select:all;word-break:break-all}
+button.copy{font:inherit;font-size:.78rem;background:rgba(255,255,255,.15);color:var(--white);border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:6px 12px;cursor:pointer}
+.contact .pill{justify-self:start}
+button:focus-visible{outline:2px solid var(--white);outline-offset:2px}
+footer{max-width:980px;margin:40px auto 0;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (prefers-reduced-motion:no-preference){.wordmark{animation:rise 1.2s cubic-bezier(.2,.7,.2,1) both}@keyframes rise{from{transform:translateY(8%)}}}
 </style>
 
-<div class="wrap">
-  <header>
-    <p class="eyebrow">Nachhilfe in Kerpen &amp; online</p>
-    <h1>Endlich verstehen statt auswendig lernen. <mark>Die erste Stunde ist kostenlos.</mark></h1>
-    <p class="lead">Ich bin Kira, gehe in die [Stufe] und gebe Nachhilfe für Schüler:innen der Klassen [5–10].</p>
-    <div class="facts">
-      <span class="fact">[Mathe]</span><span class="fact">[Englisch]</span><span class="fact">Klasse [5–10]</span><span class="fact">[bei euch zu Hause · online]</span>
+<div class="page">
+  <section class="hero" aria-label="Nachhilfe mit Kira">
+    <svg class="hills" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <path fill="#b3bba4" d="M0 420 C180 340 320 380 460 350 S760 280 920 330 S1120 360 1200 330 V800 H0Z"/>
+      <path fill="#a0ad92" d="M0 480 C160 430 300 470 470 440 S760 400 900 450 S1100 470 1200 440 V800 H0Z"/>
+      <path fill="#8b9a7f" d="M0 560 C200 500 380 560 560 530 S880 490 1040 540 S1160 560 1200 550 V800 H0Z"/>
+      <path fill="#76866b" d="M0 650 C220 600 420 660 640 630 S980 600 1200 640 V800 H0Z"/>
+    </svg>
+    <div class="grain"></div>
+    <div class="ring r1"></div><div class="ring r2"></div>
+    <svg class="spark" style="left:50%;top:44%" viewBox="0 0 20 20" aria-hidden="true"><path fill="#fff" d="M10 0C11 7 13 9 20 10 13 11 11 13 10 20 9 13 7 11 0 10 7 9 9 7 10 0Z"/></svg>
+
+    <nav aria-label="Seitenbereiche"><a href="#angebot">Angebot</a><a href="#ablauf">Ablauf</a><a href="#preis">Preis</a><a href="#kontakt">Kontakt</a></nav>
+
+    <div class="hero-copy">
+      <p><strong>Erste Stunde kostenlos.</strong>Nachhilfe in [Mathe &amp; Englisch] für Klasse [5–10] – ruhig erklärt, bis es sitzt. In Kerpen &amp; online.</p>
+      <a class="pill" href="#kontakt">Probestunde</a>
     </div>
-    <a class="btn" href="#kontakt">Kostenlose Probestunde anfragen</a>
-  </header>
-
-  <section>
-    <h2>Was Ihr Kind bekommt</h2>
-    <ul class="benefits">
-      <li><strong>Kein Risiko</strong><span>Die erste Stunde ist kostenlos. Passt es nicht, zahlen Sie nichts.</span></li>
-      <li><strong>Üben zwischen den Stunden</strong><span>[Mit meiner Lern-App wiederholt Ihr Kind den Stoff auch zu Hause, Sie sehen den Fortschritt.]</span></li>
-      <li><strong>Erklärt von jemandem, der den Stoff kennt</strong><span>Ich habe die gleichen Themen vor Kurzem selbst gelernt und weiß, wo es hakt. [Note / Erfahrung ergänzen]</span></li>
-    </ul>
+    <div class="wordmark" aria-hidden="true">kira</div>
   </section>
 
-  <section>
-    <h2>So läuft es ab</h2>
-    <ol class="steps">
-      <li>Sie schreiben mir eine kurze E-Mail.</li>
-      <li>Wir machen eine kostenlose Probestunde.</li>
-      <li>Passt es, vereinbaren wir einen festen Termin pro Woche.</li>
-    </ol>
-  </section>
+  <main>
+    <section id="angebot">
+      <p class="eyebrow">Angebot</p>
+      <h2>Verstehen statt auswendig lernen.</h2>
+      <div class="facts"><span class="fact">[Mathe]</span><span class="fact">[Englisch]</span><span class="fact">Klasse [5–10]</span><span class="fact">[zu Hause · online]</span></div>
+    </section>
 
-  <section>
-    <h2>Preis</h2>
-    <p class="price">[10 €] <small>pro 45 Minuten · erste Stunde kostenlos</small></p>
-  </section>
+    <section class="field" aria-label="Was Ihr Kind bekommt">
+      <div class="grain"></div>
+      <div class="cards">
+        <article class="card"><span class="tag">Start</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11 2h2v8h8v2h-8v8h-2v-8H3v-2h8z"/></svg>
+          <div><h3>Kein Risiko</h3><p>Die erste Stunde ist kostenlos. Passt es nicht, zahlen Sie nichts.</p></div></article>
+        <article class="card"><span class="tag">Zwischendurch</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+          <div><h3>Üben mit App</h3><p>[Mit meiner Lern-App wiederholt Ihr Kind den Stoff auch zu Hause.]</p></div></article>
+        <article class="card"><span class="tag">Erfahrung</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3l7 7 7-7 2 2-7 7 7 7-2 2-7-7-7 7-2-2 7-7-7-7z"/></svg>
+          <div><h3>Weiß, wo es hakt</h3><p>Ich habe den Stoff gerade selbst gelernt. [Note / Erfahrung ergänzen]</p></div></article>
+      </div>
+    </section>
 
-  <section class="contact" id="kontakt">
-    <h2>Probestunde vereinbaren</h2>
-    <p class="hint">Schreiben Sie mir Fach, Klasse und wann es Ihnen passt.</p>
-    <div class="mail">
-      <code id="mail">[nachhilfe-adresse@beispiel.de]</code>
-      <button class="copy" id="copy" type="button">Adresse kopieren</button>
+    <section id="ablauf">
+      <p class="eyebrow">Ablauf</p>
+      <h2>In drei Schritten zur ersten Stunde.</h2>
+      <div class="steps">
+        <div class="step"><span>01</span><p>Sie schreiben mir eine kurze E-Mail.</p></div>
+        <div class="step"><span>02</span><p>Wir machen eine kostenlose Probestunde.</p></div>
+        <div class="step"><span>03</span><p>Passt es, gibt es einen festen Termin pro Woche.</p></div>
+      </div>
+    </section>
+
+    <div class="split">
+      <section class="price" id="preis">
+        <p class="eyebrow">Preis</p>
+        <b>[10 €]</b>
+        <p style="margin:0;color:var(--muted)">pro 45 Minuten · erste Stunde kostenlos</p>
+      </section>
+      <section class="contact" id="kontakt">
+        <p class="eyebrow" style="margin:0">Kontakt</p>
+        <h2 style="font-size:1.6rem">Probestunde vereinbaren</h2>
+        <p style="margin:0;opacity:.85">Schreiben Sie mir Fach, Klasse und wann es Ihnen passt.</p>
+        <div class="mail"><code id="mail">[nachhilfe-adresse@beispiel.de]</code><button class="copy" id="copy" type="button">Kopieren</button></div>
+        <a class="pill" id="mailto" href="#">E-Mail schreiben</a>
+      </section>
     </div>
-    <a class="btn" style="margin-top:4px" id="mailto" href="#">E-Mail schreiben</a>
-  </section>
+  </main>
 
-  <footer>[Impressum &amp; Datenschutz – vor Veröffentlichung ergänzen]</footer>
+  <footer><span>Kira · Nachhilfe Kerpen</span><span>[Impressum &amp; Datenschutz – vor Veröffentlichung ergänzen]</span></footer>
 </div>
 
 <script>
@@ -98,6 +147,6 @@ document.getElementById("copy").onclick=async e=>{
   const b=e.currentTarget;
   try{await navigator.clipboard.writeText(mail);b.textContent="Kopiert";}
   catch{const r=document.createRange();r.selectNodeContents(document.getElementById("mail"));getSelection().removeAllRanges();getSelection().addRange(r);b.textContent="Markiert";}
-  setTimeout(()=>b.textContent="Adresse kopieren",1500);
+  setTimeout(()=>b.textContent="Kopieren",1500);
 };
 </script>
