@@ -1,0 +1,103 @@
+<title>Nachhilfe mit Kira</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one narrow reading column on squared notebook paper; highlighter marks the key promise */
+:root{
+  --paper:#f7f9fb; --grid:#e3e9f0; --ink:#17212e; --muted:#566273; --card:#ffffff; --line:#d9e0e8;
+  --accent:#1f5f8b; --accent-ink:#ffffff; --marker:#ffe45c; --marker-ink:#17212e;
+  --display:"Outfit", "Segoe UI", system-ui, sans-serif;
+  --body:"Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11161d; --grid:#1b222c; --ink:#e8edf3; --muted:#9aa6b5; --card:#18202a; --line:#28313d;
+  --accent:#6fb3e0; --accent-ink:#0b1620; --marker:#c9a91a; --marker-ink:#11161d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11161d; --grid:#1b222c; --ink:#e8edf3; --muted:#9aa6b5; --card:#18202a; --line:#28313d;
+  --accent:#6fb3e0; --accent-ink:#0b1620; --marker:#c9a91a; --marker-ink:#11161d; color-scheme:dark}
+
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 56px;display:grid;gap:36px}
+h1,h2{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,7vw,2.8rem);font-weight:800}
+h2{font-size:1.3rem;font-weight:600;margin-bottom:10px}
+mark{background:linear-gradient(transparent 55%,var(--marker) 55%);color:inherit;padding:0 .1em}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.lead{font-size:1.1rem;color:var(--muted);margin:12px 0 0}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.88rem;font-weight:500}
+.btn{display:inline-block;margin-top:20px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none;border-radius:10px;padding:12px 18px}
+.btn:focus-visible,button:focus-visible{outline:3px solid var(--marker);outline-offset:2px}
+ul.benefits{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.benefits li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.benefits strong{display:block;font-family:var(--display);font-size:1.05rem}
+.benefits span{color:var(--muted);font-size:.95rem}
+ol.steps{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.price{font-family:var(--display);font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums}
+.price small{font-family:var(--body);font-size:.9rem;font-weight:500;color:var(--muted)}
+.contact{background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:20px;display:grid;gap:10px}
+.mail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.mail code{font-size:1.05rem;font-weight:600;user-select:all;word-break:break-all}
+button.copy{font:inherit;font-size:.85rem;font-weight:600;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+.hint{font-size:.88rem;color:var(--muted);margin:0}
+footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Nachhilfe in Kerpen &amp; online</p>
+    <h1>Endlich verstehen statt auswendig lernen. <mark>Die erste Stunde ist kostenlos.</mark></h1>
+    <p class="lead">Ich bin Kira, gehe in die [Stufe] und gebe Nachhilfe für Schüler:innen der Klassen [5–10].</p>
+    <div class="facts">
+      <span class="fact">[Mathe]</span><span class="fact">[Englisch]</span><span class="fact">Klasse [5–10]</span><span class="fact">[bei euch zu Hause · online]</span>
+    </div>
+    <a class="btn" href="#kontakt">Kostenlose Probestunde anfragen</a>
+  </header>
+
+  <section>
+    <h2>Was Ihr Kind bekommt</h2>
+    <ul class="benefits">
+      <li><strong>Kein Risiko</strong><span>Die erste Stunde ist kostenlos. Passt es nicht, zahlen Sie nichts.</span></li>
+      <li><strong>Üben zwischen den Stunden</strong><span>[Mit meiner Lern-App wiederholt Ihr Kind den Stoff auch zu Hause, Sie sehen den Fortschritt.]</span></li>
+      <li><strong>Erklärt von jemandem, der den Stoff kennt</strong><span>Ich habe die gleichen Themen vor Kurzem selbst gelernt und weiß, wo es hakt. [Note / Erfahrung ergänzen]</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>So läuft es ab</h2>
+    <ol class="steps">
+      <li>Sie schreiben mir eine kurze E-Mail.</li>
+      <li>Wir machen eine kostenlose Probestunde.</li>
+      <li>Passt es, vereinbaren wir einen festen Termin pro Woche.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Preis</h2>
+    <p class="price">[10 €] <small>pro 45 Minuten · erste Stunde kostenlos</small></p>
+  </section>
+
+  <section class="contact" id="kontakt">
+    <h2>Probestunde vereinbaren</h2>
+    <p class="hint">Schreiben Sie mir Fach, Klasse und wann es Ihnen passt.</p>
+    <div class="mail">
+      <code id="mail">[nachhilfe-adresse@beispiel.de]</code>
+      <button class="copy" id="copy" type="button">Adresse kopieren</button>
+    </div>
+    <a class="btn" style="margin-top:4px" id="mailto" href="#">E-Mail schreiben</a>
+  </section>
+
+  <footer>[Impressum &amp; Datenschutz – vor Veröffentlichung ergänzen]</footer>
+</div>
+
+<script>
+const mail=document.getElementById("mail").textContent;
+document.getElementById("mailto").href="mailto:"+mail+"?subject="+encodeURIComponent("Kostenlose Probestunde");
+document.getElementById("copy").onclick=async e=>{
+  const b=e.currentTarget;
+  try{await navigator.clipboard.writeText(mail);b.textContent="Kopiert";}
+  catch{const r=document.createRange();r.selectNodeContents(document.getElementById("mail"));getSelection().removeAllRanges();getSelection().addRange(r);b.textContent="Markiert";}
+  setTimeout(()=>b.textContent="Adresse kopieren",1500);
+};
+</script>
