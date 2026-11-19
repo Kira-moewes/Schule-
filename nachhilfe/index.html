@@ -5,7 +5,7 @@
 /* Layout: one quiet hero image with the wordmark, then a single narrow column with wide vertical spacing and hairlines.
    Deliberately one light look — colors set explicitly. */
 :root{
-  --bg:#f7f7f4; --ink:#24261f; --muted:#7a7c72; --line:#e2e1da; --sage:#8e9c84; --moss:#5f6c56; --white:#fff;
+  --bg:#f7f7f4; --ink:#24261f; --muted:#74766c; --line:#e2e1da; --soft:#eeeee8; --moss:#5f6c56; --white:#fff;
   --display:"Manrope","Helvetica Neue",system-ui,sans-serif; --body:"Inter","Helvetica Neue",system-ui,sans-serif;
   color-scheme:light;
 }
@@ -17,16 +17,17 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hero svg{position:absolute;inset:0;width:100%;height:100%}
 .top{position:absolute;top:22px;left:24px;right:24px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .top span{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
-.pill{display:inline-block;background:var(--white);color:var(--ink);text-decoration:none;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:11px 18px;border-radius:999px}
+.pill{display:inline-block;background:var(--white);color:var(--ink);text-decoration:none;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:11px 18px;border-radius:999px;white-space:nowrap}
 .pill:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .wordmark{position:absolute;left:0;right:0;bottom:-.17em;text-align:center;font-family:var(--display);font-weight:300;font-size:clamp(140px,38vw,440px);line-height:1;letter-spacing:-.05em;pointer-events:none;user-select:none}
 
 main{max-width:600px;margin:0 auto;display:grid;gap:clamp(88px,14vw,140px);padding-top:clamp(72px,12vw,120px)}
 .label{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 20px}
 h1,h2{font-family:var(--display);font-weight:300;letter-spacing:-.025em;line-height:1.15;margin:0;text-wrap:balance}
-h1{font-size:clamp(2rem,6vw,3rem)}
+h1{font-size:clamp(2.1rem,6.5vw,3.2rem)}
 h2{font-size:clamp(1.5rem,4.5vw,2rem)}
 .sub{color:var(--muted);margin:20px 0 0}
+.free{display:inline-block;margin-top:24px;font-size:.9rem;border-bottom:1px solid var(--ink);padding-bottom:2px}
 .list{list-style:none;margin:0;padding:0}
 .list li{display:grid;grid-template-columns:2.5rem 1fr;gap:12px;padding:22px 0;border-top:1px solid var(--line)}
 .list li:last-child{border-bottom:1px solid var(--line)}
@@ -34,12 +35,19 @@ h2{font-size:clamp(1.5rem,4.5vw,2rem)}
 .list b{font-weight:500;display:block}
 .list p{margin:2px 0 0;color:var(--muted)}
 .price{font-family:var(--display);font-weight:300;font-size:clamp(3rem,10vw,4.5rem);letter-spacing:-.04em;line-height:1;margin:0;font-variant-numeric:tabular-nums}
+.price small{font-size:1.1rem;letter-spacing:0;color:var(--muted)}
+.note{font-size:.9rem;color:var(--muted);margin:12px 0 0}
+.safe{background:var(--soft);border-radius:20px;padding:28px 24px}
+.safe ol{margin:0;padding:0;list-style:none;display:grid;gap:18px}
+.safe li{display:grid;grid-template-columns:2.5rem 1fr;gap:12px}
+.safe li span{font-family:var(--display);font-size:.8rem;color:var(--muted);padding-top:3px}
 .mail{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:28px}
 .mail code{font-family:var(--body);font-size:1.05rem;user-select:all;word-break:break-all}
 button.copy{font:inherit;font-size:.78rem;color:var(--muted);background:none;border:0;border-bottom:1px solid var(--line);padding:0 0 2px;cursor:pointer}
 .cta{display:inline-block;margin-top:32px;background:var(--moss);color:var(--white);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:14px 22px;border-radius:999px}
 .cta:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-footer{max-width:600px;margin:120px auto 0;font-size:.75rem;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer{max-width:600px;margin:120px auto 0;font-size:.75rem;color:var(--muted);display:grid;gap:8px}
+footer div{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media (prefers-reduced-motion:no-preference){.wordmark{animation:rise 1.2s cubic-bezier(.2,.7,.2,1) both}@keyframes rise{from{transform:translateY(8%)}}}
 </style>
 
@@ -50,47 +58,71 @@ footer{max-width:600px;margin:120px auto 0;font-size:.75rem;color:var(--muted);d
       <path fill="#9fac92" d="M0 560 C220 510 420 570 640 540 S980 510 1200 550 V800 H0Z"/>
       <path fill="#869579" d="M0 650 C240 610 460 660 700 635 S1020 615 1200 645 V800 H0Z"/>
     </svg>
-    <div class="top"><span>Nachhilfe · Kerpen &amp; online</span><a class="pill" href="#kontakt">Probestunde</a></div>
+    <div class="top"><span>Online-Nachhilfe mit Lern-App</span><a class="pill" href="#kontakt">Probestunde</a></div>
     <div class="wordmark" aria-hidden="true">kira</div>
   </section>
 
   <main>
     <section>
-      <p class="label">Nachhilfe</p>
-      <h1>Verstehen statt auswendig lernen.</h1>
-      <p class="sub">[Mathe und Englisch] für Klasse [5–10]. Die erste Stunde ist kostenlos.</p>
+      <p class="label">[Fach] · Klasse [5–10]</p>
+      <h1>Vorbereitet in jede Klassenarbeit.</h1>
+      <p class="sub">Nachhilfe per Teams und eine eigene Lern-App. So ist Ihr Kind auch zwischen den Stunden nicht allein mit dem Stoff.</p>
+      <a class="free" href="#kontakt">Die erste Stunde ist kostenlos →</a>
     </section>
 
     <section aria-label="Was Ihr Kind bekommt">
       <p class="label">Was Ihr Kind bekommt</p>
       <ul class="list">
-        <li><span>01</span><div><b>Kein Risiko</b><p>Die erste Stunde ist kostenlos.</p></div></li>
-        <li><span>02</span><div><b>Üben zwischen den Stunden</b><p>[Mit meiner Lern-App, auch zu Hause.]</p></div></li>
-        <li><span>03</span><div><b>Erklärt von jemandem, der weiß, wo es hakt</b><p>Ich habe den Stoff gerade selbst gelernt.</p></div></li>
+        <li><span>01</span><div><b>Jede Woche Nachhilfe per Teams</b><p>Zu einem festen Termin oder flexibel über die App. Wir arbeiten an dem, was gerade in der Schule dran ist.</p></div></li>
+        <li><span>02</span><div><b>Ein Plan bis zur nächsten Klassenarbeit</b><p>Lernplan mit Erinnerungen aufs Handy, Lernpfade mit Quiz und eine Probeklausur zum Schluss.</p></div></li>
+        <li><span>03</span><div><b>Mehr Zeit, wenn es darauf ankommt</b><p>Kein festes Stundenkontingent. Vor einer Arbeit gibt es mehr Unterstützung.</p></div></li>
+        <li><span>04</span><div><b>Hilfe auch zwischen den Stunden</b><p>Chat für kurze Fragen, Arbeitsblätter mit persönlicher Rückmeldung, Erklärvideos zu den wichtigsten Themen.</p></div></li>
+        <li><span>05</span><div><b>Sie wissen, wo Ihr Kind steht</b><p>Auf Wunsch ein kurzer Monatsbericht für Sie.</p></div></li>
       </ul>
     </section>
 
     <section>
       <p class="label">Preis</p>
-      <p class="price">[10 €]</p>
-      <p class="sub">pro 45 Minuten</p>
+      <p class="price">105 € <small>im Monat</small></p>
+      <p class="sub">Nachhilfe und Lern-App für ein Fach. Das sind rund 24 € pro Woche – alles inklusive.</p>
+      <p class="note">Jedes weitere Fach: 29 € im Monat zusätzlich.</p>
+    </section>
+
+    <section class="safe" aria-label="Ohne Risiko starten">
+      <p class="label">Ohne Risiko starten</p>
+      <ol>
+        <li><span>01</span><div>Die erste Stunde ist <b>kostenlos</b>.</div></li>
+        <li><span>02</span><div>Passt der erste Monat nicht, zahlen Sie <b>nur die Hälfte</b>.</div></li>
+        <li><span>03</span><div><b>Monatlich kündbar</b>, ohne lange Bindung.</div></li>
+      </ol>
+    </section>
+
+    <section>
+      <p class="label">Über mich</p>
+      <p style="margin:0">Ich bin Kira. [Stufe, Note im Fach, wie lange du schon Nachhilfe gibst – zwei Sätze.]</p>
+      <p class="sub" style="font-style:italic">„[Ein Satz von zufriedenen Eltern]“</p>
     </section>
 
     <section id="kontakt">
       <p class="label">Kontakt</p>
       <h2>Kostenlose Probestunde vereinbaren.</h2>
-      <p class="sub">Schreiben Sie mir Fach, Klasse und wann es Ihnen passt.</p>
-      <div class="mail"><code id="mail">[nachhilfe-adresse@beispiel.de]</code><button class="copy" id="copy" type="button">kopieren</button></div>
+      <p class="sub">Schreiben Sie mir Fach, Klasse und zwei Terminwünsche. Ich antworte innerhalb von 24 Stunden.</p>
+      <div class="mail"><code id="mail">kira.moewes@gmail.com</code><button class="copy" id="copy" type="button">kopieren</button></div>
       <a class="cta" id="mailto" href="#">E-Mail schreiben</a>
     </section>
   </main>
 
-  <footer><span>Kira · Nachhilfe</span><span>[Impressum · Datenschutz]</span></footer>
+  <footer>
+    <span>Zahlung jeweils bis zum 3. des Monats. Termine bitte bis 24 Stunden vorher absagen, dann finden wir einen Ersatz. Die Daten in der App nutze ich nur für die Nachhilfe.</span>
+    <div><span>Kira Moewes · Nachhilfe</span><span>[Impressum · Datenschutz]</span></div>
+  </footer>
 </div>
 
 <script>
 const mail=document.getElementById("mail").textContent;
-document.getElementById("mailto").href="mailto:"+mail+"?subject="+encodeURIComponent("Kostenlose Probestunde");
+const ort=new URLSearchParams(location.search).get("ort");
+const body="Hallo Kira,\n\nich interessiere mich für eine kostenlose Probestunde.\n\nFach:\nKlasse:\nTerminwünsche:\n\nViele Grüße\n"+(ort?"\n(gefunden über: "+ort+")":"");
+document.getElementById("mailto").href="mailto:"+mail+"?subject="+encodeURIComponent("Kostenlose Probestunde")+"&body="+encodeURIComponent(body);
 document.getElementById("copy").onclick=async e=>{
   const b=e.currentTarget;
   try{await navigator.clipboard.writeText(mail);b.textContent="kopiert";}
