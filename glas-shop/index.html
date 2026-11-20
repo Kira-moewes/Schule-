@@ -31,13 +31,15 @@ p{text-wrap:pretty}
 .btn:active{transform:scale(.97)}
 svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* z-scale: hero canvas 2 · hero copy 3 · header 30 · toast 40 · sheet 50 */
+/* z-scale: hero canvas 2 · hero copy 3 · header 30 · cart 44–45 · sheet 50 */
 .promo{background:var(--forest);color:#fff;text-align:center;font-size:14px;font-weight:600;padding:8px 16px}
 .promo b{color:var(--ring)}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--bg)}
 .head{display:flex;align-items:center;gap:24px;height:68px}
 .logo{width:118px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo{filter:brightness(0) invert(.92)}}
+:root[data-theme="dark"] .logo{filter:brightness(0) invert(.92)}
 .head nav{display:flex;gap:22px;font-weight:600;font-size:16px;margin-right:auto}
 .head nav a{text-decoration:none}.head nav a:hover{color:var(--green-ink)}
 .icon-btn{position:relative;width:44px;height:44px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;cursor:pointer}
@@ -129,9 +131,32 @@ footer{background:var(--soft);padding-block:48px calc(env(safe-area-inset-bottom
 .foot p{color:var(--muted);font-size:15px;max-width:30ch}
 .concept{margin:36px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 
-/* toast + sheet */
-#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);z-index:40;transform:translate(-50%,140%);background:var(--fg);color:var(--bg);padding:12px 20px;border-radius:99px;font-weight:600;font-size:15px;transition:transform .4s cubic-bezier(.22,1,.36,1),visibility 0s .4s;visibility:hidden;white-space:nowrap}
-#toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+/* cart drawer + sheet */
+#scrim{position:fixed;inset:0;z-index:44;background:rgba(15,20,15,.4);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+#scrim.open{opacity:1;visibility:visible;transition:opacity .3s}
+#cartPanel{position:fixed;top:0;right:0;bottom:0;z-index:45;width:min(420px,100%);background:var(--sheet);display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top,0px) + 20px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 20px) 20px;
+  transform:translateX(105%);visibility:hidden;transition:transform .45s cubic-bezier(.22,1,.36,1),visibility 0s .45s;box-shadow:-12px 0 40px rgba(0,0,0,.15)}
+#cartPanel.open{transform:none;visibility:visible;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.cp-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.cp-head h2{font-size:24px}
+.x{width:44px;height:44px;border:0;background:transparent;border-radius:50%;cursor:pointer;font-size:26px;line-height:1}
+.x:hover{background:var(--soft)}
+#cartList{list-style:none;margin:0;padding:8px 0;overflow-y:auto;flex:1}
+#cartList li{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+#cartList .th{width:64px;aspect-ratio:5/7;border-radius:12px;background:var(--tint);display:grid;place-items:center}
+#cartList .th img{height:62%;width:auto}
+#cartList b{display:block;font-size:16px}
+#cartList small{color:var(--muted);font-size:14px}
+.qty{display:flex;align-items:center;gap:4px;margin-top:6px}
+.qty button{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);cursor:pointer;font-weight:700}
+.qty span{min-width:22px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.line{font-weight:700;font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);text-align:center;padding:48px 0}
+.cp-foot{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:12px}
+.cp-foot .sum{display:flex;justify-content:space-between;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.cp-foot small{color:var(--muted)}
+#checkoutMsg{margin:0;font-size:14px;color:var(--green-ink);min-height:1.4em}
 #detail{position:fixed;inset:auto 0 0;z-index:50;background:var(--sheet);border-radius:24px 24px 0 0;
   padding-block:28px calc(env(safe-area-inset-bottom,0px) + 28px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   transform:translateY(105%);transition:transform .5s cubic-bezier(.22,1,.36,1),visibility 0s .5s;visibility:hidden;box-shadow:0 -12px 40px rgba(0,0,0,.18)}
@@ -254,7 +279,17 @@ footer{background:var(--soft);padding-block:48px calc(env(safe-area-inset-bottom
   </div>
 </footer>
 
-<div id="toast" role="status" aria-live="polite"></div>
+<div id="scrim"></div>
+<aside id="cartPanel" aria-label="Warenkorb" aria-hidden="true">
+  <div class="cp-head"><h2>Warenkorb</h2><button class="x" id="cartClose" aria-label="Warenkorb schließen">×</button></div>
+  <ul id="cartList"></ul>
+  <div class="cp-foot">
+    <div class="sum"><span>Summe</span><span id="cartSum">0,00 €</span></div>
+    <small>inkl. MwSt., zzgl. Versand</small>
+    <button class="btn" id="checkout">Zur Kasse</button>
+    <p id="checkoutMsg" role="status"></p>
+  </div>
+</aside>
 <aside id="detail" aria-label="Produktdetails"><div>
   <div class="pic" id="dPic"><img id="dImg" src="img/weiss.png" alt=""></div>
   <div><h2 id="dName"></h2><p id="dText"></p>
@@ -273,11 +308,22 @@ const P=[ // img, name, sub, price €, text, kind, seasonal, tint
 const eur=n=>n.toFixed(2).replace('.',',')+' €';
 const priceHTML=p=>`<b>${eur(p[3])}</b><span>${eur(p[3]*2)} je 1 kg</span>`; // 500 g jar → base price per kg
 // --- shop ---
-const grid=document.getElementById('grid'),countEl=document.getElementById('count'),cartBtn=document.getElementById('cartBtn'),toast=document.getElementById('toast');
-let cart=0,toastT;
-function addToCart(k){cart++;countEl.textContent=cart;cartBtn.setAttribute('aria-label',`Warenkorb, ${cart} Artikel`);
-  countEl.classList.remove('bump');void countEl.offsetWidth;countEl.classList.add('bump');
-  toast.textContent=`${P[k][1]} liegt im Warenkorb`;toast.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>toast.classList.remove('show'),2200)}
+const grid=document.getElementById('grid'),countEl=document.getElementById('count'),cartBtn=document.getElementById('cartBtn'),cartPanel=document.getElementById('cartPanel'),scrim=document.getElementById('scrim');
+const cart=new Map(); // product index -> quantity
+function renderCart(){let n=0,sum=0;cartList.innerHTML='';
+  cart.forEach((q,k)=>{const p=P[k];n+=q;sum+=q*p[3];const li=document.createElement('li');
+    li.innerHTML=`<div class="th" style="--tint:${p[7]}"><img src="img/${p[0]}.png" alt=""></div><div><b>${p[1]}</b><small>500 g · ${eur(p[3])}</small>
+      <div class="qty"><button aria-label="eins weniger">−</button><span>${q}</span><button aria-label="eins mehr">+</button></div></div><span class="line">${eur(q*p[3])}</span>`;
+    const [minus,plus]=li.querySelectorAll('.qty button');
+    minus.onclick=()=>{q>1?cart.set(k,q-1):cart.delete(k);renderCart()};plus.onclick=()=>{cart.set(k,q+1);renderCart()};
+    cartList.appendChild(li)});
+  if(!n)cartList.innerHTML='<li class="empty">Dein Warenkorb ist noch leer.</li>';
+  cartSum.textContent=eur(sum);countEl.textContent=n||'';cartBtn.setAttribute('aria-label',`Warenkorb, ${n} Artikel`);checkout.disabled=!n}
+function openCart(){renderCart();checkoutMsg.textContent='';cartPanel.classList.add('open');scrim.classList.add('open');cartPanel.setAttribute('aria-hidden','false');cartClose.focus({preventScroll:true})}
+function closeCart(){cartPanel.classList.remove('open');scrim.classList.remove('open');cartPanel.setAttribute('aria-hidden','true')}
+function addToCart(k){cart.set(k,(cart.get(k)||0)+1);countEl.classList.remove('bump');void countEl.offsetWidth;countEl.classList.add('bump');openCart()}
+cartBtn.onclick=openCart;cartClose.onclick=scrim.onclick=closeCart;
+checkout.onclick=()=>{checkoutMsg.textContent='Demo-Shop: Hier gibt es keine echte Bestellung.'};
 const cards=P.map((p,k)=>{const c=document.createElement('article');c.className='card';c.dataset.k=k;
   c.innerHTML=`<div class="media" style="--tint:${p[7]}"><div class="stage"><img src="img/${p[0]}.png" alt="${p[1]}" loading="lazy"></div>
     ${p[6]?'<span class="badge">Saison</span>':''}
@@ -302,7 +348,7 @@ function openP(k){current=k%P.length;const p=P[current];dImg.src=`img/${p[0]}.pn
   dName.textContent=`${p[1]} | 500 g`;dText.textContent=p[4];dPrice.innerHTML=priceHTML(p);
   lastFocus=document.activeElement;det.classList.add('open');buy.focus({preventScroll:true});onOpen(current)}
 const closeP=()=>{det.classList.remove('open');lastFocus?.focus?.({preventScroll:true})};
-close.onclick=closeP;addEventListener('keydown',e=>{if(e.key==='Escape')closeP()});
+close.onclick=closeP;addEventListener('keydown',e=>{if(e.key==='Escape'){closeP();closeCart()}});
 buy.onclick=()=>{addToCart(current);closeP()};
 newsForm.onsubmit=e=>{e.preventDefault();newsMsg.textContent=mail.checkValidity()?'Danke! (Demo – es wurde nichts gespeichert.)':'Diese Adresse sieht nicht vollständig aus. Bitte prüfe sie noch einmal.'};
 
