@@ -1,63 +1,154 @@
 <meta charset="utf-8">
 <title>KERNIG Nussmus</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;600&display=swap">
+<meta name="description" content="KERNIG – Nussmus aus gerösteten Nüssen, sonst nichts. Mandel, Erdnuss und saisonale Sorten im Glas.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@400;500;600&display=swap">
 <style>
-/* Layout: one screen; oversized jar photos glide along a flat arc, a wine-red chamfered plinth with a turning word-ring sits behind the centre */
+/* Layout: full-screen hero (3D jar carousel on a wine-red plinth), then a calm editorial shop page on cool grey with wine-red bands */
 :root{
-  --bg:#e9ecee; --fg:#2b1a14; --plinth:#8b1e2b; --ring:#ec6a3d; --brand:#b8402a; --pill:#fff; --muted:#8b8f94;
+  --bg:#e9ecee; --surface:#f6f7f8; --fg:#2b1a14; --plinth:#8b1e2b; --ring:#ec6a3d; --brand:#b8402a; --pill:#fff; --muted:#6f7479; --line:#d5d9dc; --on-plinth:#fbe9e2;
   --display:"Fraunces",Georgia,serif; --body:"Outfit",system-ui,sans-serif;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17191b;--fg:#eee6e0;--plinth:#7a1824;--ring:#f07a4f;--pill:#26292c;--muted:#9aa0a6;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#17191b;--fg:#eee6e0;--plinth:#7a1824;--ring:#f07a4f;--pill:#26292c;--muted:#9aa0a6;color-scheme:dark}
-html,body{height:100%}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);overflow:hidden;user-select:none;touch-action:none}
-header{position:fixed;inset:0 0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:start;z-index:30;
-  padding-top:calc(env(safe-area-inset-top,0px) + 22px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17191b;--surface:#1f2224;--fg:#eee6e0;--plinth:#7a1824;--ring:#f07a4f;--pill:#26292c;--muted:#a3a9ae;--line:#33373a;--on-plinth:#fbe9e2;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17191b;--surface:#1f2224;--fg:#eee6e0;--plinth:#7a1824;--ring:#f07a4f;--pill:#26292c;--muted:#a3a9ae;--line:#33373a;--on-plinth:#fbe9e2;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);margin:0}
+img{max-width:100%}
+a{color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--ring);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h2{font:500 clamp(32px,4.4vw,56px)/1.05 var(--display);letter-spacing:-.01em;margin:0 0 16px;text-wrap:balance}
+.eyebrow{font:600 11px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin:0 0 12px}
+.lead{color:var(--muted);max-width:56ch;margin:0}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+section{padding-block:clamp(64px,10vw,120px)}
+
+/* header */
+header{position:fixed;inset:0 0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;z-index:30;transition:background .3s,box-shadow .3s;
+  padding-block:calc(env(safe-area-inset-top,0px) + 14px) 14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.solid{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
 .lang{display:flex}
 .lang button,.menu{font:600 10px var(--body);letter-spacing:.08em;border:1px solid var(--muted);background:var(--bg);color:var(--fg);border-radius:99px;height:30px;min-width:30px;cursor:pointer}
 .lang button+button{margin-left:-4px}
 .lang button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff;position:relative}
-.menu{justify-self:end;display:flex;align-items:center;gap:8px;padding:0 4px 0 12px;height:26px;font-size:9px}
-.menu i{width:18px;height:18px;border-radius:50%;background:var(--brand)}
-.logo{width:clamp(96px,10vw,140px);display:block;margin-top:6px}
-button:focus-visible,.jar:focus-visible{outline:2px solid var(--ring);outline-offset:3px}
+.menu{justify-self:end;display:flex;align-items:center;gap:8px;padding:0 4px 0 12px}
+.menu i{width:20px;height:20px;border-radius:50%;background:var(--brand)}
+.logo{width:clamp(96px,10vw,130px);display:block}
+#nav{position:fixed;top:calc(env(safe-area-inset-top,0px) + 62px);right:max(16px,env(safe-area-inset-right,0px));z-index:31;background:var(--pill);border-radius:18px;padding:10px;
+  box-shadow:0 12px 40px rgba(0,0,0,.15);display:grid;min-width:200px}
+#nav[hidden]{display:none}
+#nav a{padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:500}
+#nav a:hover{background:var(--bg)}
 
-#stage{position:fixed;inset:0;overflow:hidden}
+/* hero */
+#hero{position:relative;height:100svh;min-height:560px;overflow:hidden;padding:0}
 #plinth{position:absolute;left:50%;transform:translateX(-50%);overflow:visible}
 #plinth text{font:600 112px var(--display);fill:var(--ring);letter-spacing:10px}
 #spin{transform-box:view-box;transform-origin:500px 640px;animation:spin 50s linear infinite}
 @keyframes spin{to{transform:rotate(-360deg)}}
-
-#gl{position:fixed;inset:0;width:100%;height:100%;z-index:10;filter:drop-shadow(0 28px 22px rgba(30,10,10,.22))}
+#gl{position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:pan-y;filter:drop-shadow(0 26px 20px rgba(30,10,10,.22))}
 #gl.hover{cursor:pointer}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.sr:focus-within{position:fixed;width:auto;height:auto;clip:auto;left:16px;top:70px;z-index:60;display:flex;gap:6px;flex-wrap:wrap}
-.hint{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);left:50%;transform:translateX(-50%);color:#fff;font:600 9px var(--body);letter-spacing:.2em;z-index:30;white-space:nowrap}
-.legal{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);font-size:10px;color:var(--muted);z-index:30}
+.hero-copy{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 28px);z-index:3;text-align:center;color:var(--on-plinth);pointer-events:none;padding-inline:16px}
+.hero-copy h1{font:500 clamp(22px,2.6vw,34px)/1.15 var(--display);margin:0 0 6px}
+.hero-copy p{margin:0;font-size:13px;opacity:.85}
 
+/* intro */
+.intro{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,6vw,96px);align-items:end}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0 0;padding:0;list-style:none}
+.facts li{border-top:1px solid var(--line);padding-top:14px}
+.facts b{display:block;font:500 clamp(28px,3vw,40px)/1 var(--display);color:var(--brand);font-variant-numeric:tabular-nums}
+.facts span{font-size:13px;color:var(--muted)}
+
+/* products */
+.shop-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,40vw),1fr));gap:20px}
+.card{background:var(--surface);border-radius:22px;padding:16px;display:flex;flex-direction:column;cursor:pointer;transition:transform .25s,box-shadow .25s;border:0;text-align:left;font:inherit;color:inherit}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -18px rgba(40,15,10,.35)}
+.card .pic{position:relative;aspect-ratio:1;border-radius:14px;display:grid;place-items:center;margin-bottom:16px;background:var(--tint)}
+.card .pic img{height:80%;width:auto;filter:drop-shadow(0 14px 12px rgba(30,10,10,.25));transition:transform .3s}
+.card:hover .pic img{transform:scale(1.05) rotate(-2deg)}
+.badge{position:absolute;top:10px;left:10px;background:var(--brand);color:#fff;font:600 9px var(--body);letter-spacing:.14em;padding:5px 9px;border-radius:99px}
+.card h3{font:500 20px/1.2 var(--display);margin:0 0 4px}
+.card small{color:var(--muted);font-size:13px}
+.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:14px}
+.card .row b{font-weight:600;font-variant-numeric:tabular-nums}
+.card .row span{font-size:12px;font-weight:600;color:var(--brand)}
+
+/* process */
+.process{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:center}
+.process img{border-radius:24px;width:100%;aspect-ratio:1;object-fit:cover}
+.steps{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:22px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:16px;counter-increment:s}
+.steps li::before{content:counter(s);width:44px;height:44px;border-radius:50%;border:1px solid var(--brand);color:var(--brand);display:grid;place-items:center;font:500 18px var(--display)}
+.steps h3{margin:2px 0 4px;font:600 16px var(--body)}
+.steps p{margin:0;color:var(--muted);font-size:15px}
+
+/* promise band */
+.band{background:var(--plinth);color:var(--on-plinth)}
+.band .eyebrow{color:var(--ring)}
+.promises{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,56px)}
+.promises h3{font:500 clamp(26px,3vw,38px)/1.1 var(--display);margin:0 0 10px}
+.promises p{margin:0;opacity:.8;font-size:15px}
+
+/* story */
+.story{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,80px);align-items:center}
+.story img{border-radius:24px;width:100%;aspect-ratio:4/5;object-fit:cover}
+.story p{color:var(--muted);max-width:52ch}
+
+/* newsletter */
+.news{background:var(--surface);border-radius:28px;padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.news form{display:flex;gap:10px;flex-wrap:wrap}
+.news input{flex:1 1 220px;min-width:0;font:inherit;padding:14px 18px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+.btn{font:600 14px var(--body);border:0;border-radius:99px;padding:14px 22px;cursor:pointer;background:var(--plinth);color:#fff}
+#newsMsg{flex-basis:100%;margin:0;font-size:14px;color:var(--brand);min-height:1.4em}
+
+/* footer */
+footer{padding-block:56px calc(env(safe-area-inset-bottom,0px) + 32px);border-top:1px solid var(--line)}
+.foot{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:32px}
+.foot h4{font:600 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px}
+.foot a{text-decoration:none}.foot a:hover{color:var(--brand)}
+.foot p{color:var(--muted);font-size:14px;max-width:34ch}
+.concept{margin-top:40px;font-size:12px;color:var(--muted)}
+
+/* product sheet */
 #detail{position:fixed;inset:auto 0 0;z-index:50;background:var(--pill);border-radius:24px 24px 0 0;
   padding-block:24px calc(env(safe-area-inset-bottom,0px) + 28px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1);box-shadow:0 -10px 40px rgba(0,0,0,.2)}
+#detail:not(.open){visibility:hidden;transition:transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s .45s}
 #detail.open{transform:none}
-#detail>div{max-width:560px;margin:0 auto}
+#detail>div{max-width:620px;margin:0 auto;display:grid;grid-template-columns:120px 1fr;gap:24px;align-items:center}
+#detail img{width:100%;filter:drop-shadow(0 12px 10px rgba(30,10,10,.25))}
 #detail small{font:600 11px var(--body);letter-spacing:.15em;color:var(--brand)}
-#detail h2{font:600 32px var(--display);margin:4px 0 6px;text-wrap:balance}
+#detail h2{font-size:30px;margin:4px 0 6px}
 #detail p{color:var(--muted);line-height:1.6;margin:0 0 16px}
 #detail .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 #detail b{font:600 20px var(--body);font-variant-numeric:tabular-nums;margin-right:auto}
-#detail button{font:600 13px var(--body);border:0;border-radius:99px;padding:12px 20px;cursor:pointer}
-#buy{background:var(--plinth);color:#fff}#close{background:none;color:var(--fg)}
-@media (prefers-reduced-motion:reduce){#spin{animation:none}}
+#close{background:none;color:var(--fg);border:0;font:600 14px var(--body);cursor:pointer;padding:14px}
+
+@media (max-width:820px){
+  .intro,.process,.story,.news{grid-template-columns:1fr}
+  .promises{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr 1fr}
+  .foot>div:first-child{grid-column:1/-1}
+  #detail>div{grid-template-columns:80px 1fr}
+}
+@media (max-width:480px){.facts{grid-template-columns:1fr}.grid{gap:12px}.card{padding:10px}.card h3{font-size:17px}}
+@media (prefers-reduced-motion:reduce){#spin{animation:none}html{scroll-behavior:auto}}
 </style>
 
-<header>
-  <div class="lang"><button aria-pressed="false">DE</button><button aria-pressed="true">EN</button></div>
-  <img class="logo" src="img/logo.png" alt="KERNIG">
-  <button class="menu">MENÜ <i></i></button>
+<header id="top">
+  <div class="lang"><button aria-pressed="true">DE</button><button aria-pressed="false">EN</button></div>
+  <a href="#hero" aria-label="KERNIG Startseite"><img class="logo" src="img/logo.png" alt="KERNIG"></a>
+  <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="nav">MENÜ <i></i></button>
 </header>
+<nav id="nav" hidden>
+  <a href="#sortiment">Sortiment</a><a href="#herstellung">Herstellung</a><a href="#geschichte">Über uns</a><a href="#newsletter">Newsletter</a>
+</nav>
 
-<main id="stage">
+<main>
+<section id="hero" aria-label="Unsere Sorten">
   <svg id="plinth" viewBox="0 0 1000 2000" aria-hidden="true">
     <defs>
       <clipPath id="clip"><polygon points="250,40 750,40 960,300 960,2000 40,2000 40,300"/></clipPath>
@@ -66,78 +157,183 @@ button:focus-visible,.jar:focus-visible{outline:2px solid var(--ring);outline-of
     <polygon points="250,40 750,40 960,300 960,2000 40,2000 40,300" fill="var(--plinth)" stroke="var(--plinth)" stroke-width="70" stroke-linejoin="round"/>
     <g clip-path="url(#clip)"><g id="spin"><text><textPath href="#c">GERÖSTET · GEMAHLEN · GELIEBT · GERÖSTET · GEMAHLEN · GELIEBT ·</textPath></text></g></g>
   </svg>
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="hero-copy"><h1>Nussmus. Nur Nuss.</h1><p>Geröstet, gemahlen, abgefüllt – sonst nichts.</p></div>
+</section>
+
+<section class="wrap" aria-labelledby="introH">
+  <div class="intro">
+    <div>
+      <p class="eyebrow">Was uns ausmacht</p>
+      <h2 id="introH">Wir rösten Nüsse, bis sie duften. Dann mahlen wir sie, bis sie fließen.</h2>
+    </div>
+    <div>
+      <p class="lead">Mehr braucht gutes Nussmus nicht. Kein Zucker, kein Palmöl, kein Salz – außer in unseren Specials, und da steht jede Zutat vorne aufs Etikett.</p>
+      <ul class="facts">
+        <li><b>100 %</b><span>Nuss in den Basis-Sorten</span></li>
+        <li><b>0</b><span>Zusatzstoffe</span></li>
+        <li><b>500 g</b><span>im Glas mit Metalldeckel</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="sortiment" class="wrap" aria-labelledby="shopH" style="padding-top:0">
+  <div class="shop-head">
+    <div><p class="eyebrow">Sortiment</p><h2 id="shopH">Fünf Gläser. Jede Sorte ein Liebling.</h2></div>
+    <p class="lead" style="max-width:36ch">Drei Klassiker für jeden Tag, zwei Specials, solange der Vorrat reicht.</p>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section id="herstellung" class="wrap" aria-labelledby="procH">
+  <div class="process">
+    <img src="img/loeffel.jpg" alt="Goldener Löffel zieht cremiges Mandelmus aus einem KERNIG-Glas" loading="lazy">
+    <div>
+      <p class="eyebrow">Herstellung</p>
+      <h2 id="procH">Drei Schritte. Keiner davon ist eine Abkürzung.</h2>
+      <ol class="steps">
+        <li><div><h3>Rösten</h3><p>In kleinen Mengen, bis die Nüsse innen goldbraun sind. Das gibt den Geschmack, nicht Zucker.</p></div></li>
+        <li><div><h3>Mahlen</h3><p>Langsam und kühl gemahlen. Dauert länger, schont aber die Öle und macht das Mus samtig.</p></div></li>
+        <li><div><h3>Abfüllen</h3><p>Direkt ins Glas, mit Metalldeckel. Das Öl, das sich oben absetzt, ist ein gutes Zeichen: einfach umrühren.</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="promH">
+  <div class="wrap">
+    <p class="eyebrow">Unser Versprechen</p>
+    <h2 id="promH" style="margin-bottom:48px">Was nicht reinkommt.</h2>
+    <div class="promises">
+      <div><h3>Kein Zucker.</h3><p>Die Süße kommt vom Rösten. Unsere Specials sind die Ausnahme und klar gekennzeichnet.</p></div>
+      <div><h3>Kein Palmöl.</h3><p>Nussmus trennt sich mit der Zeit. Das ist natürlich und braucht keinen Emulgator.</p></div>
+      <div><h3>Kein Plastik.</h3><p>Glas und Metall, beides gut recycelbar. Das Etikett ist aus Papier.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="geschichte" class="wrap" aria-labelledby="storyH">
+  <div class="story">
+    <img src="img/mood.jpg" alt="KERNIG Weißes Mandelmus auf gelbem Sockel neben Brot mit Mandelmus" loading="lazy">
+    <div>
+      <p class="eyebrow">Über uns</p>
+      <h2 id="storyH">Angefangen hat es mit einem Glas, das wir nicht kaufen konnten.</h2>
+      <p>Wir wollten Mandelmus ohne Zucker, das trotzdem nach etwas schmeckt. Also haben wir selbst geröstet, gemahlen und probiert, bis es stimmte. Heute machen wir genau das, nur in größeren Mengen.</p>
+      <p>Jede neue Sorte testen wir so lange, bis wir sie selbst jeden Morgen essen würden.</p>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter" class="wrap" aria-labelledby="newsH" style="padding-top:0">
+  <div class="news">
+    <div><p class="eyebrow">Newsletter</p><h2 id="newsH" style="font-size:clamp(28px,3.4vw,42px)">Neue Specials zuerst erfahren.</h2><p class="lead">Einmal im Monat, kein Spam.</p></div>
+    <form id="newsForm" novalidate>
+      <label for="mail" class="vh">E-Mail-Adresse</label>
+      <input id="mail" type="email" placeholder="deine@email.de" autocomplete="email" required>
+      <button class="btn">Anmelden</button>
+      <p id="newsMsg" role="status"></p>
+    </form>
+  </div>
+</section>
 </main>
-<canvas id="gl" aria-hidden="true"></canvas>
-<nav class="sr" aria-label="Produkte"></nav>
-<div class="hint">SCROLLEN ZUM ENTDECKEN</div>
-<div class="legal">Impressum &amp; Datenschutz</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><img class="logo" src="img/logo.png" alt="KERNIG"><p>Nussmus aus gerösteten Nüssen. Im Glas, ohne Zusätze.</p></div>
+      <div><h4>Shop</h4><ul><li><a href="#sortiment">Alle Sorten</a></li><li><a href="#sortiment">Specials</a></li><li><a href="#newsletter">Newsletter</a></li></ul></div>
+      <div><h4>KERNIG</h4><ul><li><a href="#geschichte">Über uns</a></li><li><a href="#herstellung">Herstellung</a></li></ul></div>
+      <div><h4>Rechtliches</h4><ul><li><a href="#hinweis">Hinweis</a></li></ul></div>
+    </div>
+    <p class="concept" id="hinweis">Konzept- und Portfolio-Website. KERNIG ist eine fiktive Marke; Produkte, Preise und Bestellfunktion sind nicht echt, es werden keine Daten gespeichert.</p>
+  </div>
+</footer>
+
 <aside id="detail" aria-live="polite"><div>
-  <small id="dTag"></small><h2 id="dName"></h2><p id="dText"></p>
-  <div class="row"><b id="dPrice"></b><button id="close">Schließen</button><button id="buy">In den Warenkorb</button></div>
+  <img id="dImg" alt="">
+  <div><small id="dTag"></small><h2 id="dName"></h2><p id="dText"></p>
+  <div class="row"><b id="dPrice"></b><button id="close">Schließen</button><button id="buy" class="btn">In den Warenkorb</button></div></div>
 </div></aside>
 
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
-import * as THREE from 'three';
-const P=[ // img, name, tag, price, text
- ["weiss","Weißes Mandelmus","100 % Mandeln · 500 g","12,90 €","Blanchierte Mandeln, langsam gemahlen. Mild, cremig, ideal für Porridge und Dressings."],
- ["erdnuss","Erdnussmus","100 % Erdnüsse · 500 g","7,90 €","Geröstete Erdnüsse, sonst nichts. Kein Palmöl, kein Zucker, kein Salz."],
- ["pumpkin","Pumpkin Spice","Limited Edition · 500 g","10,90 €","Haselnussmus mit Kürbis, Zimt und Sternanis. Schmeckt nach Herbst auf dem Löffel."],
- ["braun","Braunes Mandelmus","100 % Mandeln · 500 g","11,90 €","Ganze Mandeln mit Haut, kräftig geröstet. Nussig, leicht herb, perfekt aufs Brot."],
- ["schoko","Schoko Erdnuss","Limited Edition · 500 g","9,90 €","Erdnussmus mit Kakao. Für alle, die zwischen Erdnuss und Schokolade nicht wählen wollen."],
+const P=[ // img, name, tag, price, text, card tint
+ ["weiss","Weißes Mandelmus","100 % Mandeln · 500 g","12,90 €","Blanchierte Mandeln, langsam gemahlen. Mild, cremig, ideal für Porridge und Dressings.","#f3e7b8"],
+ ["erdnuss","Erdnussmus","100 % Erdnüsse · 500 g","7,90 €","Geröstete Erdnüsse, sonst nichts. Kein Palmöl, kein Zucker, kein Salz.","#f4d6d8"],
+ ["pumpkin","Pumpkin Spice","Limited Edition · 500 g","10,90 €","Haselnussmus mit Kürbis, Zimt und Sternanis. Schmeckt nach Herbst auf dem Löffel.","#f2d2bd"],
+ ["braun","Braunes Mandelmus","100 % Mandeln · 500 g","11,90 €","Ganze Mandeln mit Haut, kräftig geröstet. Nussig, leicht herb, perfekt aufs Brot.","#e6dccd"],
+ ["schoko","Schoko Erdnuss","Limited Edition · 500 g","9,90 €","Erdnussmus mit Kakao. Für alle, die zwischen Erdnuss und Schokolade nicht wählen wollen.","#d9cfc6"],
 ];
+// --- page chrome (works even if 3D fails) ---
+const header=document.getElementById('top'),menuBtn=document.getElementById('menuBtn'),nav=document.getElementById('nav');
+menuBtn.onclick=()=>{nav.hidden=!nav.hidden;menuBtn.setAttribute('aria-expanded',!nav.hidden)};
+nav.onclick=()=>{nav.hidden=true;menuBtn.setAttribute('aria-expanded','false')};
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>document.querySelectorAll('.lang button').forEach(x=>x.setAttribute('aria-pressed',x===b)));
+const grid=document.getElementById('grid');
+P.forEach((p,k)=>{const c=document.createElement('button');c.className='card';c.style.setProperty('--tint',p[5]);
+  c.innerHTML=`<div class="pic">${p[2].startsWith('Limited')?'<span class="badge">LIMITED</span>':''}<img src="img/${p[0]}.png" alt="" loading="lazy"></div><h3>${p[1]}</h3><small>${p[2]}</small><div class="row"><b>${p[3]}</b><span>Ansehen →</span></div>`;
+  c.onclick=()=>openP(k);grid.appendChild(c)});
+const det=document.getElementById('detail');let onOpen=()=>{};
+function openP(k){const p=P[k%P.length];dImg.src=`img/${p[0]}.png`;dTag.textContent=p[2].toUpperCase();dName.textContent=p[1];dText.textContent=p[4];dPrice.textContent=p[3];
+  buy.textContent='In den Warenkorb';det.classList.add('open');onOpen(k)}
+close.onclick=()=>det.classList.remove('open');
+addEventListener('keydown',e=>{if(e.key==='Escape')det.classList.remove('open')});
+buy.onclick=()=>{buy.textContent='Im Warenkorb ✓'};
+newsForm.onsubmit=e=>{e.preventDefault();newsMsg.textContent=mail.checkValidity()?'Danke! (Demo – es wurde nichts gespeichert.)':'Bitte gib eine gültige E-Mail-Adresse ein.'};
+
+// --- 3D hero ---
+const THREE=await import('three');
 const N=P.length*2; // list repeated so the arc never runs empty
-const canvas=document.getElementById('gl'),plinth=document.getElementById('plinth');
+const hero=document.getElementById('hero'),canvas=document.getElementById('gl'),plinth=document.getElementById('plinth');
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(30,1,10,20000);
-const meta=await (await fetch('img/meta.json')).json(),loader=new THREE.TextureLoader();
+const meta=await (await fetch('img/meta.json')).json(),loader=new THREE.TextureLoader(),maxAniso=renderer.capabilities.getMaxAnisotropy();
 function buildJar(key){ // whole jar = the photo wrapped on its own silhouette: real lid, real glass, geometric (clean) edges
   const m=meta[key],pts=m.profile.map(([r,y])=>new THREE.Vector2(r,y));pts.unshift(new THREE.Vector2(0,0));
   const top=pts[pts.length-1].y;pts.push(new THREE.Vector2(0,top));
-  const geo=new THREE.LatheGeometry(pts,128,Math.PI),p=geo.attributes.position,uv=geo.attributes.uv;
+  const geo=new THREE.LatheGeometry(pts,160,Math.PI),p=geo.attributes.position,uv=geo.attributes.uv;
   for(let i=0;i<uv.count;i++)uv.setY(i,Math.min(p.getY(i)/top,.999)); // v by height, not by point index
-  const tex=loader.load(`img/${key}-wrap.jpg`);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=8;
+  const tex=loader.load(`img/${key}-wrap.jpg`);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=maxAniso;
   const mesh=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:tex}));mesh.position.y=-top/2;
   const g=new THREE.Group();g.add(mesh);return g}
 const jars=[...Array(N)].map((_,k)=>{const g=buildJar(P[k%P.length][0]);g.userData={k,hover:0,tilt:(k*37%13-6)/60};scene.add(g);return g});
 
-let W,H,R,cy,jw,STEP,pos=0,target=0,vel=0,hovered=null;
-function layout(){W=innerWidth;H=innerHeight;renderer.setSize(W,H,false);
+let W,H,R,cy,jw,STEP,pos=0,target=0,vel=0,hovered=null,running=true;
+function layout(){W=hero.clientWidth;H=hero.clientHeight;renderer.setSize(W,H,false);
   camera.aspect=W/H;camera.position.z=(H/2)/Math.tan(THREE.MathUtils.degToRad(15));camera.updateProjectionMatrix(); // 1 world unit = 1 css px at z=0
-  jw=Math.max(150,Math.min(W*.22,H*.32));R=Math.max(W*1.3,H*1.6);cy=H*.5+R;STEP=Math.asin(Math.min(jw*1.3/R,.9));
+  jw=Math.max(140,Math.min(W*.21,H*.3));R=Math.max(W*1.3,H*1.6);cy=H*.47+R;STEP=Math.asin(Math.min(jw*1.3/R,.9));
   const pw=Math.min(W<700?W*.95:W*.62,H*1.05);Object.assign(plinth.style,{width:pw+'px',top:H*.5+'px'})}
 const wrap=a=>{a=((a%N)+N)%N;return a>N/2?a-N:a};
-function frame(t){
+function frame(){
+  if(!running)return;
   if(!dragging)target+=.004; // idle drift
   const prev=pos;pos+=(target-pos)*.06;vel=pos-prev;
-  canvas.style.filter=`drop-shadow(0 28px 22px rgba(30,10,10,.22))`+(Math.abs(vel)>.006?` blur(${Math.min(Math.abs(vel)*50,4)}px)`:'');
-  jars.forEach((g,i)=>{const a=wrap(i-pos),ang=a*STEP,u=g.userData;
+  canvas.style.filter='drop-shadow(0 26px 20px rgba(30,10,10,.22))'+(Math.abs(vel)>.008?` blur(${Math.min(Math.abs(vel)*40,3)}px)`:'');
+  jars.forEach(g=>{const a=wrap(g.userData.k-pos),ang=a*STEP,u=g.userData;
     u.hover+=((g===hovered?1:0)-u.hover)*.15;
-    const s=jw*(1-Math.min(Math.abs(a)*.12,.4))*(1+u.hover*.06);
-    g.position.set(R*Math.sin(ang),H/2-cy+R*Math.cos(ang)+u.hover*12,-Math.abs(a)*120);
-    g.scale.setScalar(s);
+    g.position.set(R*Math.sin(ang),H/2-cy+R*Math.cos(ang)+u.hover*10,-Math.abs(a)*120);
+    g.scale.setScalar(jw*(1-Math.min(Math.abs(a)*.12,.4))*(1+u.hover*.05));
     g.rotation.set(0,0,-ang*1.6+u.tilt*Math.min(Math.abs(a),1)); // jars face front; only the arc tilts them
     g.visible=Math.abs(a)<3.2});
   renderer.render(scene,camera);requestAnimationFrame(frame)}
+new IntersectionObserver(([e])=>{const was=running;running=e.isIntersecting;if(running&&!was)requestAnimationFrame(frame)}).observe(hero); // pause 3D when scrolled away
 
 const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
-function hit(e){ndc.set(e.clientX/W*2-1,-e.clientY/H*2+1);ray.setFromCamera(ndc,camera);
+function hit(e){const r=canvas.getBoundingClientRect();ndc.set((e.clientX-r.left)/W*2-1,-(e.clientY-r.top)/H*2+1);ray.setFromCamera(ndc,camera);
   const h=ray.intersectObjects(jars.filter(g=>g.visible),true)[0];let o=h&&h.object;while(o&&!jars.includes(o))o=o.parent;return o||null}
-addEventListener('wheel',e=>{target+=(e.deltaY+e.deltaX)*.0025},{passive:true});
+let lastY=scrollY;
+addEventListener('scroll',()=>{header.classList.toggle('solid',scrollY>H*.6);if(scrollY<H)target+=(scrollY-lastY)*.004;lastY=scrollY},{passive:true}); // scrolling turns the carousel
 let dragging=false,lastX=0,downX=0,downY=0;
 canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=downX=e.clientX;downY=e.clientY});
 addEventListener('pointerup',e=>{if(!dragging)return;dragging=false;
   if(Math.hypot(e.clientX-downX,e.clientY-downY)<6){const g=hit(e);if(g)openP(g.userData.k)} // a tap, not a drag
   else target=Math.round(target)});
-addEventListener('pointermove',e=>{hovered=e.pointerType==='mouse'?hit(e):null;canvas.classList.toggle('hover',!!hovered);
+addEventListener('pointercancel',()=>dragging=false);
+canvas.addEventListener('pointermove',e=>{hovered=e.pointerType==='mouse'?hit(e):null;canvas.classList.toggle('hover',!!hovered);
   if(dragging){target-=(e.clientX-lastX)*.006;lastX=e.clientX}});
-const det=document.getElementById('detail');
-function openP(k){const p=P[k%P.length];dTag.textContent=p[2].toUpperCase();dName.textContent=p[1];dText.textContent=p[4];dPrice.textContent=p[3];
-  buy.textContent='In den Warenkorb';det.classList.add('open');target+=wrap(k-target)}
-close.onclick=()=>det.classList.remove('open');
-buy.onclick=()=>{buy.textContent='Im Warenkorb ✓'};
-const sr=document.querySelector('.sr');P.forEach((p,k)=>{const b=document.createElement('button');b.textContent=p[1];b.onclick=()=>openP(k);sr.appendChild(b)});
-document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>document.querySelectorAll('.lang button').forEach(x=>x.setAttribute('aria-pressed',x===b)));
+canvas.addEventListener('pointerleave',()=>{hovered=null;canvas.classList.remove('hover')});
+onOpen=k=>{if(scrollY<H)target+=wrap(k-target)};
 addEventListener('resize',layout);layout();requestAnimationFrame(frame);
 </script>

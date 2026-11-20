@@ -14,6 +14,9 @@ for k in ['weiss','braun','erdnuss','pumpkin','schoko']:
     lr=[]
     for y in range(h):
         xs=np.where(a[y]>128)[0];lr.append((xs[0]+1.5,xs[-1]-1.5) if len(xs)>3 else (w/2,w/2))
+    # smooth the silhouette row-to-row so the 3D outline has no stair-steps from the low-res cut-out
+    L_=np.array([p[0] for p in lr]);R_=np.array([p[1] for p in lr]);k_=np.ones(9)/9
+    L_=np.convolve(np.pad(L_,4,mode='edge'),k_,'valid');R_=np.convolve(np.pad(R_,4,mode='edge'),k_,'valid');lr=list(zip(L_,R_))
     th=(np.arange(TW)/TW-.5)*2*np.pi;lim=np.radians(89)
     wgt=np.clip((lim-np.abs(th))/np.radians(3),0,1);sn=.5+.5*np.sin(np.clip(th,-lim,lim))
     out=np.zeros((TH,TW,3))
