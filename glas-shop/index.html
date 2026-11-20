@@ -98,38 +98,33 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .price b{font-size:21px;font-weight:700}
 .price span{color:var(--muted);font-size:15px}
 
-/* why */
-.why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:clamp(56px,8vw,104px)}
-.why div{border-radius:var(--r);padding:28px 26px 30px;background:var(--tint)}
-.why svg{width:34px;height:34px;color:var(--fg);margin-bottom:18px}
-.why h3{font-size:22px;margin-bottom:6px}
-.why p{margin:0;color:#3f3a33}
+/* banners: one photo + one idea each, photo bleeds into a background sampled from it */
+.banner{display:grid;grid-template-columns:1fr 1fr;align-items:center;border-radius:calc(var(--r) + 6px);overflow:hidden;background:var(--bb);color:#1d1d1b;margin-bottom:clamp(20px,3vw,32px)}
+.banner img{width:100%;height:100%;max-height:560px;object-fit:cover}
+.banner .txt{padding:clamp(28px,5vw,72px)}
+.banner h2{font-size:clamp(32px,4.2vw,56px);font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+.banner p{margin:0 0 24px;max-width:40ch;font-size:18px;color:#3b372f}
+.banner .btn{display:inline-block;text-decoration:none;background:#1d1d1b}
+.banner .btn:hover{background:var(--forest)}
+.b-yellow{--bb:#e9c06f}.b-yellow img{-webkit-mask:linear-gradient(90deg,#000 80%,transparent);mask:linear-gradient(90deg,#000 80%,transparent)}
+.b-grey{--bb:#eceff1;grid-template-columns:1fr 1fr}.b-grey img{order:2;-webkit-mask:linear-gradient(270deg,#000 80%,transparent);mask:linear-gradient(270deg,#000 80%,transparent)}
+.ingr{font-size:15px;font-weight:600;letter-spacing:.02em;margin:0 0 10px;color:#5b4a26}
 
-/* story */
-.story{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:center;padding-bottom:clamp(56px,8vw,104px)}
-.story img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--r)}
-.story p{color:var(--muted);max-width:52ch}
-.steps{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:14px;counter-reset:s}
-.steps li{display:flex;gap:14px;align-items:flex-start;counter-increment:s}
-.steps li::before{content:counter(s);flex:none;width:34px;height:34px;border-radius:50%;background:var(--t-yellow);color:#3f3a33;font-weight:800;display:grid;place-items:center}
-.steps b{display:block}
-.steps span{color:var(--muted);font-size:16px}
+/* newsletter: one quiet line */
+.news{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-block:clamp(40px,6vw,72px);margin-top:clamp(28px,5vw,64px);border-top:1px solid var(--line)}
+.news h2{font-size:clamp(22px,2.4vw,30px)}
+.news p{margin:4px 0 0;color:var(--muted);font-size:15px}
+.news form{display:flex;gap:8px;flex:1 1 380px;max-width:520px;flex-wrap:wrap}
+.news input{flex:1 1 220px;min-width:0;font:inherit;padding:13px 20px;border-radius:99px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg)}
+.news input::placeholder{color:var(--muted)}
+#newsMsg{flex-basis:100%;margin:0;font-size:14px;min-height:1.4em;color:var(--green-ink)}
 
-/* newsletter */
-.news{background:var(--t-forest);color:#fff;border-radius:calc(var(--r) + 8px);padding:clamp(28px,5vw,56px);display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;margin-bottom:clamp(56px,8vw,96px)}
-.news p{margin:8px 0 0;opacity:.85}
-.news form{display:flex;gap:10px;flex-wrap:wrap}
-.news input{flex:1 1 220px;min-width:0;font:inherit;padding:14px 20px;border-radius:99px;border:0;background:#fff;color:#1d1d1b}
-.news input::placeholder{color:#6d6d6a}
-#newsMsg{flex-basis:100%;margin:0;font-size:15px;min-height:1.5em;color:var(--ring)}
-
-footer{background:var(--soft);padding-block:48px calc(env(safe-area-inset-bottom,0px) + 28px)}
-.foot{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:28px}
-.foot h4{margin:0 0 10px;font-size:15px}
-.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:15px;color:var(--muted)}
-.foot a{text-decoration:none}.foot a:hover{color:var(--green-ink)}
-.foot p{color:var(--muted);font-size:15px;max-width:30ch}
-.concept{margin:36px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer{background:var(--forest);color:#e8efe6;padding-block:28px calc(env(safe-area-inset-bottom,0px) + 28px)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:15px}
+.foot .logo{filter:brightness(0) invert(.95)!important;width:100px}
+.foot nav{display:flex;gap:22px;flex-wrap:wrap;font-weight:600}
+.foot a{text-decoration:none}.foot a:hover{color:var(--ring)}
+.concept{margin:18px 0 0;font-size:13px;opacity:.7}
 
 /* cart drawer + sheet */
 #scrim{position:fixed;inset:0;z-index:44;background:rgba(15,20,15,.4);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
@@ -170,7 +165,7 @@ footer{background:var(--soft);padding-block:48px calc(env(safe-area-inset-bottom
 #detail .row .price{margin:0 auto 0 0}
 #close{background:none;border:0;font-weight:600;font-size:15px;cursor:pointer;padding:14px}
 
-@media (max-width:900px){.head nav{display:none}.head .logo{margin-right:auto}.why{grid-template-columns:1fr}.story,.news{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}.foot>div:first-child{grid-column:1/-1}}
+@media (max-width:900px){.head nav{display:none}.head .logo{margin-right:auto}.banner{grid-template-columns:1fr}.b-grey img{order:0}.banner img{max-height:380px;-webkit-mask:linear-gradient(180deg,#000 75%,transparent)!important;mask:linear-gradient(180deg,#000 75%,transparent)!important}}
 @media (max-width:560px){
   .grid{grid-template-columns:1fr 1fr;gap:20px 12px}
   .cart{width:60px;height:60px;border-width:6px;right:-6px;bottom:-6px}.cart svg{width:22px;height:22px}
@@ -195,7 +190,7 @@ footer{background:var(--soft);padding-block:48px calc(env(safe-area-inset-bottom
 <header>
   <div class="wrap head">
     <a href="#hero" aria-label="KERNIG, zum Anfang"><img class="logo" src="img/logo.png" alt="KERNIG"></a>
-    <nav aria-label="Hauptmenü"><a href="#sortiment">Nussmus</a><a href="#sortiment" data-chip="saison">Saison-Sorten</a><a href="#geschichte">Über uns</a></nav>
+    <nav aria-label="Hauptmenü"><a href="#sortiment">Nussmus</a><a href="#sortiment" data-chip="saison">Saison-Sorten</a><a href="#geschichte">Zutaten</a></nav>
     <button class="icon-btn" aria-label="Merkliste"><svg class="i"><use href="#i-heart"/></svg></button>
     <button class="icon-btn" aria-label="Warenkorb, 0 Artikel" id="cartBtn"><svg class="i"><use href="#i-cart"/></svg><span id="count"></span></button>
   </div>
@@ -233,30 +228,28 @@ footer{background:var(--soft);padding-block:48px calc(env(safe-area-inset-bottom
   <div class="grid" id="grid"></div>
 </section>
 
-<section class="wrap why" aria-label="Was in unserem Nussmus nicht drin ist">
-  <div style="--tint:var(--t-yellow)"><svg class="i"><use href="#i-leaf"/></svg><h3>Kein Zucker</h3><p>Die Süße kommt vom Rösten. Bei den Saison-Sorten steht jede Zutat vorne auf dem Etikett.</p></div>
-  <div style="--tint:var(--t-pink)"><svg class="i"><use href="#i-drop"/></svg><h3>Kein Palmöl</h3><p>Nussmus trennt sich mit der Zeit. Das ist natürlich: einmal umrühren, fertig.</p></div>
-  <div style="--tint:var(--t-peach)"><svg class="i"><use href="#i-jar"/></svg><h3>Kein Plastik</h3><p>Glas und Metalldeckel, beides gut recycelbar. Das Etikett ist aus Papier.</p></div>
-</section>
-
-<section id="geschichte" class="wrap" aria-labelledby="storyH">
-  <div class="story">
+<section id="geschichte" class="wrap" aria-label="Was drin ist">
+  <div class="banner b-yellow">
     <img src="img/mood.jpg" alt="Weißes Mandelmus auf einem gelben Sockel, daneben Vollkornbrot mit Mandelmus und lose Mandeln" loading="lazy">
-    <div>
-      <h2 id="storyH">Angefangen hat es mit einem Glas, das es nicht zu kaufen gab.</h2>
-      <p>Wir wollten Mandelmus ohne Zucker, das trotzdem nach etwas schmeckt. Also haben wir selbst geröstet, gemahlen und probiert, bis es stimmte. Heute machen wir genau das, nur in größeren Mengen:</p>
-      <ol class="steps">
-        <li><div><b>Rösten</b><span>in kleinen Mengen, bis die Nüsse innen goldbraun sind</span></div></li>
-        <li><div><b>Mahlen</b><span>langsam und kühl, damit das Mus samtig wird</span></div></li>
-        <li><div><b>Abfüllen</b><span>direkt ins Glas, Metalldeckel drauf</span></div></li>
-      </ol>
+    <div class="txt">
+      <p class="ingr">Zutaten: Mandeln.</p>
+      <h2>Das war's.</h2>
+      <p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p>
+      <a class="btn" href="#sortiment" data-chip="mandel">Mandelmus entdecken</a>
+    </div>
+  </div>
+  <div class="banner b-grey">
+    <img src="img/loeffel.jpg" alt="Ein goldener Löffel zieht dickes, cremiges Mandelmus aus dem offenen Glas" loading="lazy">
+    <div class="txt">
+      <h2>Oben Öl? Gutes Zeichen.</h2>
+      <p>Ohne Emulgator trennt sich Nussmus mit der Zeit. Einmal kräftig umrühren, dann ist es wieder cremig. Im Glas mit Metalldeckel, beides recycelbar.</p>
     </div>
   </div>
 </section>
 
 <section id="newsletter" class="wrap" aria-labelledby="newsH">
   <div class="news">
-    <div><h2 id="newsH">Neue Saison-Sorten als Erste probieren</h2><p>Einmal im Monat. Abmelden mit einem Klick.</p></div>
+    <div><h2 id="newsH">Neue Saison-Sorten zuerst</h2><p>Einmal im Monat. Abmelden mit einem Klick.</p></div>
     <form id="newsForm" novalidate>
       <label for="mail" class="vh">E-Mail-Adresse</label>
       <input id="mail" type="email" placeholder="deine@email.de" autocomplete="email" required>
@@ -270,12 +263,10 @@ footer{background:var(--soft);padding-block:48px calc(env(safe-area-inset-bottom
 <footer>
   <div class="wrap">
     <div class="foot">
-      <div><img class="logo" src="img/logo.png" alt="KERNIG"><p>Nussmus aus gerösteten Nüssen. Im Glas, ohne Zusätze.</p></div>
-      <div><h4>Shop</h4><ul><li><a href="#sortiment">Alle Sorten</a></li><li><a href="#sortiment">Saison-Sorten</a></li></ul></div>
-      <div><h4>KERNIG</h4><ul><li><a href="#geschichte">Über uns</a></li><li><a href="#newsletter">Newsletter</a></li></ul></div>
-      <div><h4>Hilfe</h4><ul><li><a href="#hinweis">Versand</a></li><li><a href="#hinweis">Hinweis</a></li></ul></div>
+      <img class="logo" src="img/logo.png" alt="KERNIG">
+      <nav aria-label="Fußzeile"><a href="#sortiment">Alle Sorten</a><a href="#geschichte">Zutaten</a><a href="#newsletter">Newsletter</a></nav>
     </div>
-    <p class="concept" id="hinweis">Konzept- und Portfolio-Website. KERNIG ist eine fiktive Marke; Produkte, Preise, Versand und Bestellfunktion sind nicht echt, es werden keine Daten gespeichert.</p>
+    <p class="concept">Konzept- und Portfolio-Website. KERNIG ist eine fiktive Marke; Produkte, Preise und Bestellfunktion sind nicht echt, es werden keine Daten gespeichert.</p>
   </div>
 </footer>
 
@@ -342,7 +333,7 @@ sortSel.onchange=render;
 const chips=[...document.querySelectorAll('.chips button')];
 const setFilter=f=>{filter=f;chips.forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===f));render()};
 chips.forEach(b=>b.onclick=()=>setFilter(b.dataset.f));
-document.querySelector('[data-chip="saison"]').addEventListener('click',()=>setFilter('saison'));
+document.querySelectorAll('[data-chip]').forEach(a=>a.addEventListener('click',()=>setFilter(a.dataset.chip)));
 const det=document.getElementById('detail');let onOpen=()=>{},lastFocus=null,current=0;
 function openP(k){current=k%P.length;const p=P[current];dImg.src=`img/${p[0]}.png`;dImg.alt=p[1];dPic.style.setProperty('--tint',p[7]);
   dName.textContent=`${p[1]} | 500 g`;dText.textContent=p[4];dPrice.innerHTML=priceHTML(p);
