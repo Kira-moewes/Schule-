@@ -2,152 +2,179 @@
 <title>KERNIG Nussmus</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="KERNIG – Nussmus aus gerösteten Nüssen, sonst nichts. Mandel, Erdnuss und saisonale Sorten im Glas.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
 <style>
-/* Layout: the packaging is the brand system. Type = the jar label's bold condensed sans; colour = wine-red plinth from the hero.
-   Hero carousel → one big statement → the jars on a shelf → process → red "no" band → story → newsletter line. */
+/* Layout: friendly grocery-shop grammar — white page, pastel product stages, round green cart buttons tucked into the image corner,
+   base price per kg under every price. Hero keeps the 3D jar carousel on a deep-green plinth. */
 :root{
-  --bg:#e9ecee; --fg:#22140f; --ink-2:#4d4744; --plinth:#8b1e2b; --ring:#ec6a3d; --brand:#b8402a; --sheet:#fff; --line:#c9ced2; --on-plinth:#fbe9e2; --shelf:#3a2a22;
-  --display:"Barlow Condensed","Arial Narrow",sans-serif; --body:"Barlow",system-ui,sans-serif;
+  --bg:#ffffff; --soft:#f3f5f1; --fg:#1d1d1b; --muted:#646662; --line:#e3e6e0;
+  --green:#8db46a; --green-ink:#4f7a33; --forest:#2f4436; --ring:#b9d48f; --star:#f2b632; --sheet:#fff;
+  --t-yellow:#f7dc8a; --t-pink:#f6cbd3; --t-peach:#f6cdb0; --t-latte:#e3d2bf; --t-forest:#3c5442;
+  --font:"Figtree",system-ui,sans-serif; --r:22px;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17191b;--fg:#f0e8e2;--ink-2:#c2bab5;--plinth:#7a1824;--ring:#f07a4f;--sheet:#25282b;--line:#3a3e42;--on-plinth:#fbe9e2;--shelf:#b9a597;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#17191b;--fg:#f0e8e2;--ink-2:#c2bab5;--plinth:#7a1824;--ring:#f07a4f;--sheet:#25282b;--line:#3a3e42;--on-plinth:#fbe9e2;--shelf:#b9a597;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151715;--soft:#1e211e;--fg:#f1f2ee;--muted:#a9ada6;--line:#2c302c;--sheet:#202320;--green-ink:#a7cf83;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#151715;--soft:#1e211e;--fg:#f1f2ee;--muted:#a9ada6;--line:#2c302c;--sheet:#202320;--green-ink:#a7cf83;color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--body);margin:0}
+body{background:var(--bg);color:var(--fg);font:17px/1.55 var(--font);margin:0}
 img{max-width:100%;display:block}
 a{color:inherit}
 button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--ring);outline-offset:3px}
+:focus-visible{outline:2px solid var(--green-ink);outline-offset:3px}
 .wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--display);font-weight:700;line-height:.95;letter-spacing:-.005em;margin:0;text-wrap:balance}
-h2{font-size:clamp(44px,7vw,96px)}
+h1,h2,h3{margin:0;font-weight:700;line-height:1.1;text-wrap:balance}
+h2{font-size:clamp(28px,3.4vw,42px);letter-spacing:-.01em}
 p{text-wrap:pretty}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.btn{font:600 15px var(--body);border:0;border-radius:99px;padding:14px 24px;cursor:pointer;background:var(--plinth);color:#fff;transition:background .2s}
-.btn:hover{background:var(--brand)}
+.btn{font-weight:700;font-size:16px;border:0;border-radius:99px;padding:14px 26px;cursor:pointer;background:var(--green);color:#fff;transition:background .2s,transform .2s}
+.btn:hover{background:var(--green-ink)}
+.btn:active{transform:scale(.97)}
+svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* z-scale: hero canvas 2 · hero copy 3 · header 30 · menu 31 · sheet 50 */
-header{position:fixed;inset:0 0 auto;display:flex;justify-content:space-between;align-items:center;z-index:30;transition:background .3s,box-shadow .3s;
-  padding-block:calc(env(safe-area-inset-top,0px) + 14px) 14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-header.solid{background:var(--bg);box-shadow:0 1px 0 var(--line)}
-.logo{width:clamp(100px,10vw,132px)}
-.menu{display:flex;align-items:center;gap:10px;border:1.5px solid var(--fg);background:transparent;border-radius:99px;height:38px;padding:0 6px 0 16px;cursor:pointer;font:600 13px var(--body);letter-spacing:.06em}
-.menu i{width:24px;height:24px;border-radius:50%;background:var(--brand);transition:transform .3s cubic-bezier(.22,1,.36,1)}
-.menu[aria-expanded="true"] i{transform:scale(.6)}
-#nav{position:fixed;top:calc(env(safe-area-inset-top,0px) + 66px);right:max(16px,env(safe-area-inset-right,0px));z-index:31;background:var(--sheet);border-radius:14px;padding:8px;
-  box-shadow:0 16px 40px rgba(20,8,5,.18);display:grid;min-width:220px}
-#nav[hidden]{display:none}
-#nav a{padding:10px 14px;border-radius:8px;text-decoration:none;font:600 22px var(--display)}
-#nav a:hover{background:var(--bg);color:var(--brand)}
+/* z-scale: hero canvas 2 · hero copy 3 · header 30 · toast 40 · sheet 50 */
+.promo{background:var(--forest);color:#fff;text-align:center;font-size:14px;font-weight:600;padding:8px 16px}
+.promo b{color:var(--ring)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--bg)}
+.head{display:flex;align-items:center;gap:24px;height:68px}
+.logo{width:118px}
+.head nav{display:flex;gap:22px;font-weight:600;font-size:16px;margin-right:auto}
+.head nav a{text-decoration:none}.head nav a:hover{color:var(--green-ink)}
+.icon-btn{position:relative;width:44px;height:44px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;cursor:pointer}
+.icon-btn:hover{background:var(--soft)}
+#count{position:absolute;top:4px;right:2px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--green);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+#count:empty{display:none}
+#count.bump{animation:bump .4s cubic-bezier(.22,1,.36,1)}
+@keyframes bump{40%{transform:scale(1.4)}}
 
 /* hero */
-#hero{position:relative;height:100svh;min-height:600px;overflow:hidden}
+#hero{position:relative;height:calc(100svh - 104px);min-height:540px;overflow:hidden;background:var(--bg)}
 #plinth{position:absolute;left:50%;transform:translateX(-50%)}
-#plinth text{font:700 128px var(--display);fill:var(--ring);letter-spacing:12px}
+#plinth text{font:800 110px var(--font);fill:var(--ring);letter-spacing:10px}
 #spin{transform-box:view-box;transform-origin:500px 640px;animation:spin 60s linear infinite}
 @keyframes spin{to{transform:rotate(-360deg)}}
-#gl{position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:pan-y;filter:drop-shadow(0 24px 18px rgba(30,10,10,.24))}
+#gl{position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:pan-y;filter:drop-shadow(0 22px 16px rgba(20,30,20,.22))}
 #gl.hover{cursor:pointer}
-.hero-copy{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 26px);z-index:3;text-align:center;color:var(--on-plinth);pointer-events:none;padding-inline:16px}
-.hero-copy h1{font-size:clamp(30px,3.4vw,46px);font-weight:600;line-height:1;text-shadow:0 0 18px var(--plinth),0 0 6px var(--plinth)}
+.hero-copy{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 28px);z-index:3;text-align:center;color:#fff;padding-inline:16px}
+.hero-copy h1{font-size:clamp(28px,3.2vw,44px);font-weight:800;text-shadow:0 0 18px var(--forest),0 0 6px var(--forest)}
+.hero-copy a{display:inline-block;margin-top:14px;text-decoration:none}
 
-/* statement */
-.statement{padding-block:clamp(88px,12vw,168px) clamp(56px,8vw,104px)}
-.statement p{font:600 clamp(32px,4.6vw,64px)/1.04 var(--display);margin:0;max-width:22ch;text-wrap:balance}
-.statement p span{color:var(--brand)}
+/* usp row */
+.usps{display:flex;justify-content:center;gap:clamp(16px,4vw,56px);flex-wrap:wrap;padding-block:22px;border-bottom:1px solid var(--line);font-weight:600;font-size:15px}
+.usps span{display:flex;align-items:center;gap:8px}
+.usps svg{color:var(--green-ink)}
 
-/* shelf */
-#regal{padding-bottom:clamp(88px,12vw,160px)}
-.shelf-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
-.shelf-head p{margin:0;color:var(--ink-2);font-weight:500}
-.shelf-scroll{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px}
-.shelf{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));min-width:780px}
-.shelf .slot{all:unset;cursor:pointer;scroll-snap-align:start;display:grid;grid-template-rows:auto auto;position:relative}
-.shelf .jar{height:clamp(190px,20vw,270px);display:flex;align-items:flex-end;justify-content:center;padding:0 10%}
-.shelf .jar img{max-height:100%;width:auto;filter:drop-shadow(0 8px 6px rgba(30,10,10,.25));transform-origin:50% 100%;transition:transform .45s cubic-bezier(.22,1,.36,1)}
-.shelf .slot:hover .jar img,.shelf .slot:focus-visible .jar img{transform:translateY(-14px) rotate(-3deg)}
-.shelf .slot:focus-visible{outline:2px solid var(--ring);outline-offset:4px}
-.board{grid-column:1/-1;height:14px;background:var(--shelf);border-radius:2px;box-shadow:0 14px 18px -10px rgba(30,10,10,.45)}
-.labels{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));min-width:780px;padding-top:18px}
-.labels div{padding:0 6%;text-align:center}
-.labels h3{font-size:24px;font-weight:600;line-height:1.05}
-.labels p{margin:4px 0 0;color:var(--ink-2);font-size:15px;font-variant-numeric:tabular-nums}
-.sticker{position:absolute;top:8%;right:14%;width:58px;height:58px;border-radius:50%;background:var(--ring);color:#fff;display:grid;place-items:center;
-  font:700 13px/1 var(--display);letter-spacing:.04em;transform:rotate(12deg);box-shadow:0 4px 10px rgba(0,0,0,.18);z-index:1}
+/* shop */
+#sortiment{padding-block:clamp(48px,7vw,88px)}
+.shop-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.shop-top p{margin:6px 0 0;color:var(--muted)}
+.sort{position:relative;border:1.5px solid var(--line);border-radius:14px;padding:6px 40px 6px 14px;min-width:220px}
+.sort small{display:block;font-size:12px;color:var(--muted)}
+.sort select{all:unset;font-weight:600;font-size:16px;width:100%;cursor:pointer}
+.sort::after{content:"";position:absolute;right:16px;top:50%;width:8px;height:8px;border:solid var(--fg);border-width:0 2px 2px 0;transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.chips button{border:1.5px solid var(--line);background:var(--bg);border-radius:99px;padding:8px 16px;font-weight:600;font-size:15px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:clamp(16px,2.4vw,28px) clamp(14px,2vw,24px)}
+.card{display:flex;flex-direction:column}
+.card[hidden]{display:none}
+.media{position:relative;aspect-ratio:5/7;border-radius:var(--r);background:var(--tint);cursor:pointer;margin-bottom:16px}
+.media .stage{position:absolute;inset:0;border-radius:var(--r);overflow:hidden;display:grid;place-items:center}
+.media .stage::after{content:"";position:absolute;left:18%;right:18%;bottom:17%;height:5%;border-radius:50%;background:rgba(40,25,10,.22);filter:blur(8px)} /* floor shadow */
+.media img{position:relative;z-index:1;height:58%;width:auto;margin-top:-6%;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.card:hover .media img{transform:translateY(-8px) rotate(-2deg)}
+.heart{position:absolute;top:12px;right:12px;z-index:2;width:44px;height:44px;border:0;background:transparent;color:#fff;display:grid;place-items:center;cursor:pointer}
+.heart svg{width:30px;height:30px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))}
+.heart[aria-pressed="true"] svg{fill:#fff}
+.cart{position:absolute;right:-8px;bottom:-8px;z-index:2;width:76px;height:76px;border-radius:50%;border:8px solid var(--bg);background:var(--green);color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .2s}
+.cart:hover{background:var(--green-ink)}.cart:active{transform:scale(.94)}
+.cart svg{width:28px;height:28px}
+.badge{position:absolute;top:14px;left:14px;z-index:2;background:var(--fg);color:var(--bg);font-size:12px;font-weight:700;padding:5px 10px;border-radius:99px}
+.card h3{font-size:19px;font-weight:600;line-height:1.3;padding-right:8px;cursor:pointer}
+.card .sub{margin:2px 0 0;color:var(--muted);font-size:15px}
+.price{margin:10px 0 0;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.price b{font-size:21px;font-weight:700}
+.price span{color:var(--muted);font-size:15px}
 
-/* process */
-.process{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:end;padding-bottom:clamp(88px,12vw,160px)}
-.process img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:6px}
-.process h2{margin-bottom:clamp(32px,4vw,56px)}
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
-.steps li{display:grid;grid-template-columns:minmax(120px,0.8fr) 2fr;gap:24px;padding-block:22px;border-top:1.5px solid var(--fg);counter-increment:s}
-.steps li:last-child{border-bottom:1.5px solid var(--fg)}
-.steps h3{font-size:34px;font-weight:600}
-.steps h3::before{content:counter(s) " ";color:var(--brand)}
-.steps p{margin:0;color:var(--ink-2);max-width:48ch}
-
-/* no-band */
-.band{background:var(--plinth);color:var(--on-plinth);padding-block:clamp(80px,11vw,150px)}
-.nos{display:grid;gap:clamp(20px,3vw,36px)}
-.nos div{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(16px,4vw,64px);align-items:end;border-bottom:1.5px solid color-mix(in srgb,var(--on-plinth) 35%,transparent);padding-bottom:clamp(20px,3vw,36px)}
-.nos h2{font-size:clamp(52px,9vw,128px);color:var(--on-plinth)}
-.nos h2 em{font-style:normal;color:var(--ring)}
-.nos p{margin:0;max-width:40ch;line-height:1.7;color:color-mix(in srgb,var(--on-plinth) 86%,transparent)}
+/* why */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:clamp(56px,8vw,104px)}
+.why div{border-radius:var(--r);padding:28px 26px 30px;background:var(--tint)}
+.why svg{width:34px;height:34px;color:var(--fg);margin-bottom:18px}
+.why h3{font-size:22px;margin-bottom:6px}
+.why p{margin:0;color:#3f3a33}
 
 /* story */
-.story{display:grid;grid-template-columns:7fr 5fr;gap:clamp(32px,6vw,96px);align-items:center;padding-block:clamp(88px,12vw,160px)}
-.story h2{font-size:clamp(40px,5.4vw,76px);margin-bottom:28px}
-.story p{color:var(--ink-2);max-width:56ch;margin:0 0 16px}
-.story img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:6px}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:center;padding-bottom:clamp(56px,8vw,104px)}
+.story img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--r)}
+.story p{color:var(--muted);max-width:52ch}
+.steps{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:14px;counter-reset:s}
+.steps li{display:flex;gap:14px;align-items:flex-start;counter-increment:s}
+.steps li::before{content:counter(s);flex:none;width:34px;height:34px;border-radius:50%;background:var(--t-yellow);color:#3f3a33;font-weight:800;display:grid;place-items:center}
+.steps b{display:block}
+.steps span{color:var(--muted);font-size:16px}
 
 /* newsletter */
-.news{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);align-items:end;border-top:1.5px solid var(--fg);padding-block:40px clamp(72px,10vw,120px)}
-.news h2{font-size:clamp(36px,4.4vw,60px)}
+.news{background:var(--t-forest);color:#fff;border-radius:calc(var(--r) + 8px);padding:clamp(28px,5vw,56px);display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;margin-bottom:clamp(56px,8vw,96px)}
+.news p{margin:8px 0 0;opacity:.85}
 .news form{display:flex;gap:10px;flex-wrap:wrap}
-.news input{flex:1 1 220px;min-width:0;font:inherit;padding:14px 20px;border-radius:99px;border:1.5px solid var(--fg);background:transparent;color:var(--fg)}
-.news input::placeholder{color:var(--ink-2)}
-#newsMsg{flex-basis:100%;margin:0;font-size:15px;color:var(--brand);min-height:1.5em}
+.news input{flex:1 1 220px;min-width:0;font:inherit;padding:14px 20px;border-radius:99px;border:0;background:#fff;color:#1d1d1b}
+.news input::placeholder{color:#6d6d6a}
+#newsMsg{flex-basis:100%;margin:0;font-size:15px;min-height:1.5em;color:var(--ring)}
 
-/* footer */
-footer{background:var(--fg);color:var(--bg);padding-block:56px calc(env(safe-area-inset-bottom,0px) + 32px)}
-.foot{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;align-items:flex-start}
-.foot nav{display:flex;gap:28px;flex-wrap:wrap;font:600 22px var(--display)}
-.foot nav a{text-decoration:none}.foot nav a:hover{color:var(--ring)}
-.foot .logo{filter:brightness(0) invert(.92)}
-.concept{margin:40px 0 0;font-size:13px;opacity:.7;max-width:70ch}
+footer{background:var(--soft);padding-block:48px calc(env(safe-area-inset-bottom,0px) + 28px)}
+.foot{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:28px}
+.foot h4{margin:0 0 10px;font-size:15px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:15px;color:var(--muted)}
+.foot a{text-decoration:none}.foot a:hover{color:var(--green-ink)}
+.foot p{color:var(--muted);font-size:15px;max-width:30ch}
+.concept{margin:36px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 
-/* product sheet */
-#detail{position:fixed;inset:auto 0 0;z-index:50;background:var(--sheet);border-radius:20px 20px 0 0;
+/* toast + sheet */
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);z-index:40;transform:translate(-50%,140%);background:var(--fg);color:var(--bg);padding:12px 20px;border-radius:99px;font-weight:600;font-size:15px;transition:transform .4s cubic-bezier(.22,1,.36,1),visibility 0s .4s;visibility:hidden;white-space:nowrap}
+#toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+#detail{position:fixed;inset:auto 0 0;z-index:50;background:var(--sheet);border-radius:24px 24px 0 0;
   padding-block:28px calc(env(safe-area-inset-bottom,0px) + 28px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  transform:translateY(105%);transition:transform .5s cubic-bezier(.22,1,.36,1),visibility 0s .5s;visibility:hidden;box-shadow:0 -12px 40px rgba(20,8,5,.2)}
+  transform:translateY(105%);transition:transform .5s cubic-bezier(.22,1,.36,1),visibility 0s .5s;visibility:hidden;box-shadow:0 -12px 40px rgba(0,0,0,.18)}
 #detail.open{transform:none;visibility:visible;transition:transform .5s cubic-bezier(.22,1,.36,1)}
-#detail>div{max-width:640px;margin:0 auto;display:grid;grid-template-columns:110px 1fr;gap:28px;align-items:center}
-#detail img{width:100%;filter:drop-shadow(0 10px 8px rgba(30,10,10,.25))}
-#detail small{font:600 13px var(--body);letter-spacing:.06em;color:var(--brand)}
-#detail h2{font-size:40px;margin:2px 0 8px}
-#detail p{color:var(--ink-2);margin:0 0 18px}
+#detail>div{max-width:640px;margin:0 auto;display:grid;grid-template-columns:140px 1fr;gap:28px;align-items:center}
+#detail .pic{background:var(--tint);border-radius:18px;aspect-ratio:5/7;display:grid;place-items:center}
+#detail .pic img{height:62%;width:auto}
+#detail h2{font-size:28px;margin:0 0 4px}
+#detail p{color:var(--muted);margin:0 0 14px}
 #detail .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-#detail b{font:600 24px var(--display);font-variant-numeric:tabular-nums;margin-right:auto}
-#close{background:none;border:0;font:600 15px var(--body);cursor:pointer;padding:14px}
+#detail .row .price{margin:0 auto 0 0}
+#close{background:none;border:0;font-weight:600;font-size:15px;cursor:pointer;padding:14px}
 
-@media (max-width:860px){
-  .process,.story,.news{grid-template-columns:1fr}
-  .nos div{grid-template-columns:1fr}
-  .process img{aspect-ratio:1}
-  .steps li{grid-template-columns:1fr;gap:6px}
-  #detail>div{grid-template-columns:76px 1fr;gap:18px}
+@media (max-width:900px){.head nav{display:none}.head .logo{margin-right:auto}.why{grid-template-columns:1fr}.story,.news{grid-template-columns:1fr}.foot{grid-template-columns:1fr 1fr}.foot>div:first-child{grid-column:1/-1}}
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr 1fr;gap:20px 12px}
+  .cart{width:60px;height:60px;border-width:6px;right:-6px;bottom:-6px}.cart svg{width:22px;height:22px}
+  .heart{top:6px;right:6px}.heart svg{width:24px;height:24px}
+  .card h3{font-size:16px}.price b{font-size:18px}.price span,.card .sub{font-size:13px}
+  #detail>div{grid-template-columns:90px 1fr;gap:18px}
+  .sort{min-width:0;flex:1}
 }
-@media (prefers-reduced-motion:reduce){#spin{animation:none}html{scroll-behavior:auto}*{transition-duration:0s!important}}
+@media (prefers-reduced-motion:reduce){#spin{animation:none}html{scroll-behavior:auto}*{transition-duration:0s!important;animation-duration:0s!important}}
 </style>
 
-<header id="top">
-  <a href="#hero" aria-label="KERNIG, zum Anfang"><img class="logo" src="img/logo.png" alt="KERNIG"></a>
-  <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="nav">MENÜ <i></i></button>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2l2.2 11h10.6L20 7H6.2"/><circle cx="9" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-8.6-8.6C2.2 8.2 4.2 5 7.4 5c2 0 3.4 1.1 4.6 2.6C13.2 6.1 14.6 5 16.6 5c3.2 0 5.2 3.2 4 6.4C19 15.6 12 20 12 20z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19l7-7"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M4 4l16 16"/></symbol>
+  <symbol id="i-jar" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="4" rx="1"/><path d="M7 7h10v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M7 12h10"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></symbol>
+</svg>
+
+<div class="promo">Neu im Regal: <b>Pumpkin Spice</b> – nur diese Saison</div>
+<header>
+  <div class="wrap head">
+    <a href="#hero" aria-label="KERNIG, zum Anfang"><img class="logo" src="img/logo.png" alt="KERNIG"></a>
+    <nav aria-label="Hauptmenü"><a href="#sortiment">Nussmus</a><a href="#sortiment" data-chip="saison">Saison-Sorten</a><a href="#geschichte">Über uns</a></nav>
+    <button class="icon-btn" aria-label="Merkliste"><svg class="i"><use href="#i-heart"/></svg></button>
+    <button class="icon-btn" aria-label="Warenkorb, 0 Artikel" id="cartBtn"><svg class="i"><use href="#i-cart"/></svg><span id="count"></span></button>
+  </div>
 </header>
-<nav id="nav" hidden aria-label="Hauptmenü">
-  <a href="#regal">Sorten</a><a href="#herstellung">Herstellung</a><a href="#geschichte">Über uns</a><a href="#newsletter">Newsletter</a>
-</nav>
 
 <main>
 <section id="hero" aria-label="Unsere Sorten">
@@ -156,67 +183,60 @@ footer{background:var(--fg);color:var(--bg);padding-block:56px calc(env(safe-are
       <clipPath id="clip"><polygon points="250,40 750,40 960,300 960,2000 40,2000 40,300"/></clipPath>
       <path id="c" d="M500,640 m-470,0 a470,470 0 1,1 940,0 a470,470 0 1,1 -940,0"/>
     </defs>
-    <polygon points="250,40 750,40 960,300 960,2000 40,2000 40,300" fill="var(--plinth)" stroke="var(--plinth)" stroke-width="70" stroke-linejoin="round"/>
+    <polygon points="250,40 750,40 960,300 960,2000 40,2000 40,300" fill="var(--forest)" stroke="var(--forest)" stroke-width="70" stroke-linejoin="round"/>
     <g clip-path="url(#clip)"><g id="spin"><text><textPath href="#c">GERÖSTET · GEMAHLEN · GELIEBT · GERÖSTET · GEMAHLEN · GELIEBT ·</textPath></text></g></g>
   </svg>
   <canvas id="gl" aria-hidden="true"></canvas>
-  <div class="hero-copy"><h1>Nussmus. Nur Nuss.</h1></div>
+  <div class="hero-copy"><h1>Nussmus. Nur Nuss.</h1><a class="btn" href="#sortiment">Alle Sorten ansehen</a></div>
 </section>
 
-<section class="wrap statement" aria-label="Was KERNIG ausmacht">
-  <p>Wir rösten Nüsse, bis sie duften. Dann mahlen wir sie, bis sie fließen. <span>Mehr kommt nicht ins Glas.</span></p>
-</section>
+<div class="wrap usps" role="list">
+  <span role="listitem"><svg class="i"><use href="#i-leaf"/></svg>Ohne Zucker &amp; Zusätze</span>
+  <span role="listitem"><svg class="i"><use href="#i-drop"/></svg>Ohne Palmöl</span>
+  <span role="listitem"><svg class="i"><use href="#i-jar"/></svg>Im Glas statt Plastik</span>
+  <span role="listitem"><svg class="i"><use href="#i-truck"/></svg>Versand in 1–2 Werktagen</span>
+</div>
 
-<section id="regal" class="wrap" aria-labelledby="regalH">
-  <div class="shelf-head"><h2 id="regalH">Das Regal</h2><p>5 Sorten · je 500 g · zwei davon nur diese Saison</p></div>
-  <div class="shelf-scroll" tabindex="-1">
-    <div class="shelf" id="shelf"></div>
-    <div class="board" style="min-width:780px"></div>
-    <div class="labels" id="labels"></div>
+<section id="sortiment" class="wrap" aria-labelledby="shopH">
+  <div class="shop-top">
+    <div><h2 id="shopH">Nussmus</h2><p id="resultCount">5 Produkte</p></div>
+    <label class="sort"><small>Sortieren nach</small><select id="sortSel"><option value="rec">Empfehlung</option><option value="asc">Preis aufsteigend</option><option value="desc">Preis absteigend</option></select></label>
   </div>
+  <div class="chips" role="group" aria-label="Filter">
+    <button aria-pressed="true" data-f="alle">Alle</button><button aria-pressed="false" data-f="mandel">Mandel</button><button aria-pressed="false" data-f="erdnuss">Erdnuss</button><button aria-pressed="false" data-f="saison">Saison-Sorten</button>
+  </div>
+  <div class="grid" id="grid"></div>
 </section>
 
-<section id="herstellung" class="wrap" aria-labelledby="procH">
-  <div class="process">
-    <img src="img/loeffel.jpg" alt="Ein goldener Löffel zieht dickes, cremiges Mandelmus aus dem offenen Glas" loading="lazy">
+<section class="wrap why" aria-label="Was in unserem Nussmus nicht drin ist">
+  <div style="--tint:var(--t-yellow)"><svg class="i"><use href="#i-leaf"/></svg><h3>Kein Zucker</h3><p>Die Süße kommt vom Rösten. Bei den Saison-Sorten steht jede Zutat vorne auf dem Etikett.</p></div>
+  <div style="--tint:var(--t-pink)"><svg class="i"><use href="#i-drop"/></svg><h3>Kein Palmöl</h3><p>Nussmus trennt sich mit der Zeit. Das ist natürlich: einmal umrühren, fertig.</p></div>
+  <div style="--tint:var(--t-peach)"><svg class="i"><use href="#i-jar"/></svg><h3>Kein Plastik</h3><p>Glas und Metalldeckel, beides gut recycelbar. Das Etikett ist aus Papier.</p></div>
+</section>
+
+<section id="geschichte" class="wrap" aria-labelledby="storyH">
+  <div class="story">
+    <img src="img/mood.jpg" alt="Weißes Mandelmus auf einem gelben Sockel, daneben Vollkornbrot mit Mandelmus und lose Mandeln" loading="lazy">
     <div>
-      <h2 id="procH">So entsteht ein Glas.</h2>
+      <h2 id="storyH">Angefangen hat es mit einem Glas, das es nicht zu kaufen gab.</h2>
+      <p>Wir wollten Mandelmus ohne Zucker, das trotzdem nach etwas schmeckt. Also haben wir selbst geröstet, gemahlen und probiert, bis es stimmte. Heute machen wir genau das, nur in größeren Mengen:</p>
       <ol class="steps">
-        <li><h3>Rösten</h3><p>In kleinen Mengen, bis die Nüsse innen goldbraun sind. Daher kommt der Geschmack, nicht vom Zucker.</p></li>
-        <li><h3>Mahlen</h3><p>Langsam und kühl. Dauert länger, schont aber die Öle und macht das Mus samtig.</p></li>
-        <li><h3>Abfüllen</h3><p>Direkt ins Glas, Metalldeckel drauf. Setzt sich oben Öl ab, ist das ein gutes Zeichen: einmal umrühren.</p></li>
+        <li><div><b>Rösten</b><span>in kleinen Mengen, bis die Nüsse innen goldbraun sind</span></div></li>
+        <li><div><b>Mahlen</b><span>langsam und kühl, damit das Mus samtig wird</span></div></li>
+        <li><div><b>Abfüllen</b><span>direkt ins Glas, Metalldeckel drauf</span></div></li>
       </ol>
     </div>
   </div>
 </section>
 
-<section class="band" aria-label="Was nicht ins Glas kommt">
-  <div class="wrap nos">
-    <div><h2>Kein <em>Zucker.</em></h2><p>Die Süße kommt vom Rösten. Unsere zwei Saison-Sorten sind die Ausnahme, und dort steht jede Zutat vorne auf dem Etikett.</p></div>
-    <div><h2>Kein <em>Palmöl.</em></h2><p>Nussmus trennt sich mit der Zeit. Das ist natürlich und braucht keinen Emulgator.</p></div>
-    <div><h2>Kein <em>Plastik.</em></h2><p>Glas und Metall, beides gut recycelbar. Das Etikett ist aus Papier.</p></div>
-  </div>
-</section>
-
-<section id="geschichte" class="wrap" aria-labelledby="storyH">
-  <div class="story">
-    <div>
-      <h2 id="storyH">Angefangen hat es mit einem Glas, das es nicht zu kaufen gab.</h2>
-      <p>Wir wollten Mandelmus ohne Zucker, das trotzdem nach etwas schmeckt. Also haben wir selbst geröstet, gemahlen und probiert, bis es stimmte. Heute machen wir genau das, nur in größeren Mengen.</p>
-      <p>Eine neue Sorte kommt erst ins Regal, wenn wir sie selbst jeden Morgen aufs Brot streichen würden.</p>
-    </div>
-    <img src="img/mood.jpg" alt="Weißes Mandelmus auf einem gelben Sockel, daneben eine Scheibe Vollkornbrot mit Mandelmus und lose Mandeln" loading="lazy">
-  </div>
-</section>
-
 <section id="newsletter" class="wrap" aria-labelledby="newsH">
   <div class="news">
-    <h2 id="newsH">Neue Saison-Sorten als Erste probieren.</h2>
+    <div><h2 id="newsH">Neue Saison-Sorten als Erste probieren</h2><p>Einmal im Monat. Abmelden mit einem Klick.</p></div>
     <form id="newsForm" novalidate>
       <label for="mail" class="vh">E-Mail-Adresse</label>
       <input id="mail" type="email" placeholder="deine@email.de" autocomplete="email" required>
       <button class="btn">Eintragen</button>
-      <p id="newsMsg" role="status">Einmal im Monat. Abmelden mit einem Klick.</p>
+      <p id="newsMsg" role="status"></p>
     </form>
   </div>
 </section>
@@ -225,44 +245,65 @@ footer{background:var(--fg);color:var(--bg);padding-block:56px calc(env(safe-are
 <footer>
   <div class="wrap">
     <div class="foot">
-      <img class="logo" src="img/logo.png" alt="KERNIG">
-      <nav aria-label="Fußzeile"><a href="#regal">Sorten</a><a href="#herstellung">Herstellung</a><a href="#geschichte">Über uns</a><a href="#newsletter">Newsletter</a></nav>
+      <div><img class="logo" src="img/logo.png" alt="KERNIG"><p>Nussmus aus gerösteten Nüssen. Im Glas, ohne Zusätze.</p></div>
+      <div><h4>Shop</h4><ul><li><a href="#sortiment">Alle Sorten</a></li><li><a href="#sortiment">Saison-Sorten</a></li></ul></div>
+      <div><h4>KERNIG</h4><ul><li><a href="#geschichte">Über uns</a></li><li><a href="#newsletter">Newsletter</a></li></ul></div>
+      <div><h4>Hilfe</h4><ul><li><a href="#hinweis">Versand</a></li><li><a href="#hinweis">Hinweis</a></li></ul></div>
     </div>
-    <p class="concept">Konzept- und Portfolio-Website. KERNIG ist eine fiktive Marke; Produkte, Preise und Bestellfunktion sind nicht echt, es werden keine Daten gespeichert.</p>
+    <p class="concept" id="hinweis">Konzept- und Portfolio-Website. KERNIG ist eine fiktive Marke; Produkte, Preise, Versand und Bestellfunktion sind nicht echt, es werden keine Daten gespeichert.</p>
   </div>
 </footer>
 
-<aside id="detail" aria-live="polite" aria-label="Produktdetails"><div>
-  <img id="dImg" src="img/weiss.png" alt="">
-  <div><small id="dTag"></small><h2 id="dName"></h2><p id="dText"></p>
-  <div class="row"><b id="dPrice"></b><button id="close">Schließen</button><button id="buy" class="btn">In den Warenkorb</button></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<aside id="detail" aria-label="Produktdetails"><div>
+  <div class="pic" id="dPic"><img id="dImg" src="img/weiss.png" alt=""></div>
+  <div><h2 id="dName"></h2><p id="dText"></p>
+  <div class="row"><p class="price" id="dPrice"></p><button id="close">Schließen</button><button id="buy" class="btn">In den Warenkorb</button></div></div>
 </div></aside>
 
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
-const P=[ // img, name, tag, price, text, seasonal
- ["weiss","Weißes Mandelmus","100 % Mandeln","12,90 €","Blanchierte Mandeln, langsam gemahlen. Mild, cremig, ideal für Porridge und Dressings.",0],
- ["erdnuss","Erdnussmus","100 % Erdnüsse","7,90 €","Geröstete Erdnüsse, sonst nichts. Kein Palmöl, kein Zucker, kein Salz.",0],
- ["pumpkin","Pumpkin Spice","Haselnuss, Kürbis & Zimt","10,90 €","Haselnussmus mit Kürbis, Zimt und Sternanis. Schmeckt nach Herbst auf dem Löffel.",1],
- ["braun","Braunes Mandelmus","100 % Mandeln mit Haut","11,90 €","Ganze Mandeln mit Haut, kräftig geröstet. Nussig, leicht herb, perfekt aufs Brot.",0],
- ["schoko","Schoko Erdnuss","Erdnuss & Kakao","9,90 €","Erdnussmus mit Kakao. Für alle, die zwischen Erdnuss und Schokolade nicht wählen wollen.",1],
+const P=[ // img, name, sub, price €, text, kind, seasonal, tint
+ ["weiss","Weißes Mandelmus","100 % Mandeln, blanchiert",12.9,"Blanchierte Mandeln, langsam gemahlen. Mild, cremig, ideal für Porridge und Dressings.","mandel",0,"var(--t-yellow)"],
+ ["braun","Braunes Mandelmus","100 % Mandeln mit Haut",11.9,"Ganze Mandeln mit Haut, kräftig geröstet. Nussig, leicht herb, perfekt aufs Brot.","mandel",0,"var(--t-latte)"],
+ ["erdnuss","Erdnussmus","100 % Erdnüsse",7.9,"Geröstete Erdnüsse, sonst nichts. Kein Palmöl, kein Zucker, kein Salz.","erdnuss",0,"var(--t-pink)"],
+ ["pumpkin","Pumpkin Spice","Haselnuss, Kürbis & Zimt",10.9,"Haselnussmus mit Kürbis, Zimt und Sternanis. Schmeckt nach Herbst auf dem Löffel.","saison",1,"var(--t-peach)"],
+ ["schoko","Schoko Erdnuss","Erdnuss & Kakao",9.9,"Erdnussmus mit Kakao. Für alle, die zwischen Erdnuss und Schokolade nicht wählen wollen.","erdnuss",1,"var(--t-forest)"],
 ];
-// --- page chrome (works even if 3D fails) ---
-const header=document.getElementById('top'),menuBtn=document.getElementById('menuBtn'),nav=document.getElementById('nav');
-const setMenu=o=>{nav.hidden=!o;menuBtn.setAttribute('aria-expanded',o)};
-menuBtn.onclick=()=>setMenu(nav.hidden);nav.onclick=()=>setMenu(false);
-const shelf=document.getElementById('shelf'),labels=document.getElementById('labels');
-P.forEach((p,k)=>{
-  const s=document.createElement('button');s.className='slot';s.setAttribute('aria-label',`${p[1]}, ${p[3]}`);
-  s.innerHTML=`${p[5]?'<span class="sticker" aria-hidden="true">SAISON</span>':''}<div class="jar"><img src="img/${p[0]}.png" alt="" loading="lazy"></div>`;
-  s.onclick=()=>openP(k);shelf.appendChild(s);
-  const l=document.createElement('div');l.innerHTML=`<h3>${p[1]}</h3><p>${p[2]} · ${p[3]}</p>`;labels.appendChild(l)});
-const det=document.getElementById('detail');let onOpen=()=>{},lastFocus=null;
-function openP(k){const p=P[k%P.length];dImg.src=`img/${p[0]}.png`;dImg.alt=p[1];dTag.textContent=(p[5]?'Saison-Sorte · ':'')+p[2]+' · 500 g';dName.textContent=p[1];dText.textContent=p[4];dPrice.textContent=p[3];
-  buy.textContent='In den Warenkorb';lastFocus=document.activeElement;det.classList.add('open');buy.focus({preventScroll:true});onOpen(k)}
+const eur=n=>n.toFixed(2).replace('.',',')+' €';
+const priceHTML=p=>`<b>${eur(p[3])}</b><span>${eur(p[3]*2)} je 1 kg</span>`; // 500 g jar → base price per kg
+// --- shop ---
+const grid=document.getElementById('grid'),countEl=document.getElementById('count'),cartBtn=document.getElementById('cartBtn'),toast=document.getElementById('toast');
+let cart=0,toastT;
+function addToCart(k){cart++;countEl.textContent=cart;cartBtn.setAttribute('aria-label',`Warenkorb, ${cart} Artikel`);
+  countEl.classList.remove('bump');void countEl.offsetWidth;countEl.classList.add('bump');
+  toast.textContent=`${P[k][1]} liegt im Warenkorb`;toast.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>toast.classList.remove('show'),2200)}
+const cards=P.map((p,k)=>{const c=document.createElement('article');c.className='card';c.dataset.k=k;
+  c.innerHTML=`<div class="media" style="--tint:${p[7]}"><div class="stage"><img src="img/${p[0]}.png" alt="${p[1]}" loading="lazy"></div>
+    ${p[6]?'<span class="badge">Saison</span>':''}
+    <button class="heart" aria-pressed="false" aria-label="${p[1]} merken"><svg class="i"><use href="#i-heart"/></svg></button>
+    <button class="cart" aria-label="${p[1]} in den Warenkorb"><svg class="i"><use href="#i-cart"/></svg></button></div>
+    <h3>${p[1]} | 500 g</h3><p class="sub">${p[2]}</p><p class="price">${priceHTML(p)}</p>`;
+  c.querySelector('.stage').onclick=c.querySelector('h3').onclick=()=>openP(k);
+  c.querySelector('.cart').onclick=()=>addToCart(k);
+  const h=c.querySelector('.heart');h.onclick=()=>h.setAttribute('aria-pressed',h.getAttribute('aria-pressed')!=='true');
+  grid.appendChild(c);return c});
+let filter='alle';
+function render(){const s=sortSel.value,order=[...cards].sort((a,b)=>s==='rec'?a.dataset.k-b.dataset.k:(P[a.dataset.k][3]-P[b.dataset.k][3])*(s==='asc'?1:-1));
+  let n=0;order.forEach(c=>{const p=P[c.dataset.k],show=filter==='alle'||(filter==='saison'?p[6]:p[5]===filter);c.hidden=!show;n+=show;grid.appendChild(c)});
+  resultCount.textContent=`${n} ${n===1?'Produkt':'Produkte'}`}
+sortSel.onchange=render;
+const chips=[...document.querySelectorAll('.chips button')];
+const setFilter=f=>{filter=f;chips.forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===f));render()};
+chips.forEach(b=>b.onclick=()=>setFilter(b.dataset.f));
+document.querySelector('[data-chip="saison"]').addEventListener('click',()=>setFilter('saison'));
+const det=document.getElementById('detail');let onOpen=()=>{},lastFocus=null,current=0;
+function openP(k){current=k%P.length;const p=P[current];dImg.src=`img/${p[0]}.png`;dImg.alt=p[1];dPic.style.setProperty('--tint',p[7]);
+  dName.textContent=`${p[1]} | 500 g`;dText.textContent=p[4];dPrice.innerHTML=priceHTML(p);
+  lastFocus=document.activeElement;det.classList.add('open');buy.focus({preventScroll:true});onOpen(current)}
 const closeP=()=>{det.classList.remove('open');lastFocus?.focus?.({preventScroll:true})};
-close.onclick=closeP;addEventListener('keydown',e=>{if(e.key==='Escape'){closeP();setMenu(false)}});
-buy.onclick=()=>{buy.textContent='Im Warenkorb ✓'};
+close.onclick=closeP;addEventListener('keydown',e=>{if(e.key==='Escape')closeP()});
+buy.onclick=()=>{addToCart(current);closeP()};
 newsForm.onsubmit=e=>{e.preventDefault();newsMsg.textContent=mail.checkValidity()?'Danke! (Demo – es wurde nichts gespeichert.)':'Diese Adresse sieht nicht vollständig aus. Bitte prüfe sie noch einmal.'};
 
 // --- 3D hero ---
@@ -286,7 +327,7 @@ const jars=[...Array(N)].map((_,k)=>{const g=buildJar(P[k%P.length][0]);g.userDa
 let W,H,R,cy,jw,STEP,pos=0,target=0,vel=0,hovered=null,running=true;
 function layout(){W=hero.clientWidth;H=hero.clientHeight;renderer.setSize(W,H,false);
   camera.aspect=W/H;camera.position.z=(H/2)/Math.tan(THREE.MathUtils.degToRad(15));camera.updateProjectionMatrix(); // 1 world unit = 1 css px at z=0
-  jw=Math.max(130,Math.min(W*.2,H*.29));R=Math.max(W*1.3,H*1.6);cy=H*.46+R;
+  jw=Math.max(130,Math.min(W*.2,H*.29));R=Math.max(W*1.3,H*1.6);cy=H*.44+R;
   STEP=Math.asin(Math.min(jw*1.5/R,.9)); // ≥1.5 jar-widths apart so neighbours never touch, even tilted
   const pw=Math.min(W<700?W*.95:W*.62,H*1.05);Object.assign(plinth.style,{width:pw+'px',top:H*.5+'px'})}
 const wrap=a=>{a=((a%N)+N)%N;return a>N/2?a-N:a};
@@ -294,7 +335,7 @@ function frame(){
   if(!running)return;
   if(!dragging)target+=.004; // idle drift
   const prev=pos;pos+=(target-pos)*.06;vel=pos-prev;
-  canvas.style.filter='drop-shadow(0 24px 18px rgba(30,10,10,.24))'+(Math.abs(vel)>.008?` blur(${Math.min(Math.abs(vel)*40,3)}px)`:'');
+  canvas.style.filter='drop-shadow(0 22px 16px rgba(20,30,20,.22))'+(Math.abs(vel)>.008?` blur(${Math.min(Math.abs(vel)*40,3)}px)`:'');
   jars.forEach(g=>{const a=wrap(g.userData.k-pos),ang=a*STEP,u=g.userData;
     u.hover+=((g===hovered?1:0)-u.hover)*.15;
     g.position.set(R*Math.sin(ang),H/2-cy+R*Math.cos(ang)+u.hover*10,-Math.abs(a)*120);
@@ -308,7 +349,7 @@ const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
 function hit(e){const r=canvas.getBoundingClientRect();ndc.set((e.clientX-r.left)/W*2-1,-(e.clientY-r.top)/H*2+1);ray.setFromCamera(ndc,camera);
   const h=ray.intersectObjects(jars.filter(g=>g.visible),true)[0];let o=h&&h.object;while(o&&!jars.includes(o))o=o.parent;return o||null}
 let lastY=scrollY;
-addEventListener('scroll',()=>{header.classList.toggle('solid',scrollY>H*.6);if(scrollY<H)target+=(scrollY-lastY)*.004;lastY=scrollY},{passive:true}); // scrolling turns the carousel
+addEventListener('scroll',()=>{if(scrollY<H)target+=(scrollY-lastY)*.004;lastY=scrollY},{passive:true}); // scrolling turns the carousel
 let dragging=false,lastX=0,downX=0,downY=0;
 canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=downX=e.clientX;downY=e.clientY});
 addEventListener('pointerup',e=>{if(!dragging)return;dragging=false;
