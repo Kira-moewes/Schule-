@@ -46,7 +46,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @keyframes bump{40%{transform:scale(1.4)}}
 
 /* hero */
-#hero{position:relative;height:calc(100svh - 69px);min-height:540px;overflow:hidden;background:radial-gradient(ellipse 60% 45% at 50% 42%,#efe3d3,transparent 70%)} /* soft warm glow behind the jars, no hard shapes */
+#hero{position:relative;height:calc(100svh - 69px);min-height:540px;overflow:hidden}
 #spin{transform-box:view-box;transform-origin:500px 640px;animation:spin 60s linear infinite}
 @keyframes spin{to{transform:rotate(-360deg)}}
 #gl{position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:pan-y;filter:drop-shadow(0 22px 16px rgba(40,22,10,.22))}
@@ -75,16 +75,16 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:clamp(16px,2.4vw,28px) clamp(14px,2vw,24px)}
 .card{display:flex;flex-direction:column}
 .card[hidden]{display:none}
-.media{position:relative;aspect-ratio:5/7;border-radius:var(--r);background:var(--tint);cursor:pointer;margin-bottom:16px}
-.media .stage{position:absolute;inset:0;border-radius:var(--r);overflow:hidden;display:grid;place-items:center}
-.media .stage::after{content:"";position:absolute;left:20%;right:20%;bottom:18%;height:4%;border-radius:50%;background:rgba(60,35,15,.2);filter:blur(8px)} /* floor shadow */
-.media img{position:relative;z-index:1;height:58%;width:auto;margin-top:-6%;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.media{position:relative;aspect-ratio:4/5;cursor:pointer;margin-bottom:12px} /* no tile: the jar stands on the page */
+.media .stage{position:absolute;inset:0;display:grid;place-items:end center;padding-bottom:10%}
+.media .stage::after{content:"";position:absolute;left:22%;right:22%;bottom:8.5%;height:4%;border-radius:50%;background:rgba(60,35,15,.2);filter:blur(8px)} /* floor shadow */
+.media img{position:relative;z-index:1;width:auto;height:auto;max-height:78%;max-width:80%;min-height:0;transition:transform .45s cubic-bezier(.22,1,.36,1)}
 .card:hover .media img{transform:translateY(-8px) rotate(-2deg)}
-.cart{position:absolute;right:-7px;bottom:-7px;z-index:2;width:62px;height:62px;border-radius:50%;border:7px solid var(--bg);background:var(--fg);color:var(--bg)!important;color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .2s}
-.cart:hover{background:var(--green-ink)}.cart:active{transform:scale(.94)}
-.cart svg{width:22px;height:22px}
-.badge{position:absolute;top:14px;left:16px;z-index:2;color:var(--green-ink);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.card h3{font-size:21px;line-height:1.2;padding-right:8px;cursor:pointer}
+.card .price{margin-bottom:14px}
+.cart{margin-top:auto;align-self:flex-start;border:1px solid var(--fg);background:transparent;color:var(--fg);border-radius:99px;padding:9px 18px;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s,color .2s}
+.cart:hover{background:var(--fg);color:var(--bg)}.cart:active{transform:scale(.94)}
+.badge{position:absolute;top:0;left:0;z-index:2;color:var(--green-ink);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.card h3{font-size:22px;line-height:1.2;padding-right:8px;cursor:pointer}
 .card .sub{margin:2px 0 0;color:var(--muted);font-size:15px}
 .price{margin:10px 0 0;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-variant-numeric:tabular-nums}
 .price b{font-size:19px;font-weight:600}
@@ -152,8 +152,6 @@ footer{color:var(--muted);padding-block:28px calc(env(safe-area-inset-bottom,0px
 @media (max-width:900px){.head nav{display:none}.head>a:first-child{margin-right:auto}.banner{grid-template-columns:1fr}.b-grey img{order:0}}
 @media (max-width:560px){
   .grid{grid-template-columns:1fr 1fr;gap:20px 12px}
-  .cart{width:60px;height:60px;border-width:6px;right:-6px;bottom:-6px}.cart svg{width:22px;height:22px}
-  .heart{top:6px;right:6px}.heart svg{width:24px;height:24px}
   .card h3{font-size:16px}.price b{font-size:18px}.price span,.card .sub{font-size:13px}
   #detail>div{grid-template-columns:90px 1fr;gap:18px}
   .sort{min-width:0;flex:1}
@@ -281,8 +279,8 @@ checkout.onclick=()=>{checkoutMsg.textContent='Demo-Shop: Hier gibt es keine ech
 const cards=P.map((p,k)=>{const c=document.createElement('article');c.className='card';c.dataset.k=k;
   c.innerHTML=`<div class="media" style="--tint:${p[7]}"><div class="stage"><img src="img/${p[0]}.png" alt="${p[1]}" loading="lazy"></div>
     ${p[6]?'<span class="badge">Saison</span>':''}
-    <button class="cart" aria-label="${p[1]} in den Warenkorb"><svg class="i"><use href="#i-cart"/></svg></button></div>
-    <h3>${p[1]} | 500 g</h3><p class="sub">${p[2]}</p><p class="price">${priceHTML(p)}</p>`;
+    </div>
+    <h3>${p[1]}</h3><p class="sub">${p[2]} · 500 g</p><p class="price">${priceHTML(p)}</p><button class="cart" aria-label="${p[1]} in den Warenkorb">In den Warenkorb</button>`;
   c.querySelector('.stage').onclick=c.querySelector('h3').onclick=()=>openP(k);
   c.querySelector('.cart').onclick=()=>addToCart(k);
   grid.appendChild(c);return c});
