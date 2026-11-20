@@ -110,14 +110,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .b-grey{--bb:#eceff1;grid-template-columns:1fr 1fr}.b-grey img{order:2;-webkit-mask:linear-gradient(270deg,#000 80%,transparent);mask:linear-gradient(270deg,#000 80%,transparent)}
 .ingr{font-size:15px;font-weight:600;letter-spacing:.02em;margin:0 0 10px;color:#5b4a26}
 
-/* newsletter: one quiet line */
-.news{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-block:clamp(40px,6vw,72px);margin-top:clamp(28px,5vw,64px);border-top:1px solid var(--line)}
-.news h2{font-size:clamp(22px,2.4vw,30px)}
-.news p{margin:4px 0 0;color:var(--muted);font-size:15px}
-.news form{display:flex;gap:8px;flex:1 1 380px;max-width:520px;flex-wrap:wrap}
-.news input{flex:1 1 220px;min-width:0;font:inherit;padding:13px 20px;border-radius:99px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg)}
-.news input::placeholder{color:var(--muted)}
-#newsMsg{flex-basis:100%;margin:0;font-size:14px;min-height:1.4em;color:var(--green-ink)}
 
 footer{background:var(--dark);color:#e8efe6;padding-block:28px calc(env(safe-area-inset-bottom,0px) + 28px)}
 .foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:15px}
@@ -247,24 +239,13 @@ footer{background:var(--dark);color:#e8efe6;padding-block:28px calc(env(safe-are
   </div>
 </section>
 
-<section id="newsletter" class="wrap" aria-labelledby="newsH">
-  <div class="news">
-    <div><h2 id="newsH">Neue Saison-Sorten zuerst</h2><p>Einmal im Monat. Abmelden mit einem Klick.</p></div>
-    <form id="newsForm" novalidate>
-      <label for="mail" class="vh">E-Mail-Adresse</label>
-      <input id="mail" type="email" placeholder="deine@email.de" autocomplete="email" required>
-      <button class="btn">Eintragen</button>
-      <p id="newsMsg" role="status"></p>
-    </form>
-  </div>
-</section>
 </main>
 
 <footer>
   <div class="wrap">
     <div class="foot">
       <img class="logo" src="img/logo-karamell.png" alt="KERNIG">
-      <nav aria-label="Fußzeile"><a href="#sortiment">Alle Sorten</a><a href="#geschichte">Zutaten</a><a href="#newsletter">Newsletter</a></nav>
+      <nav aria-label="Fußzeile"><a href="#sortiment">Alle Sorten</a><a href="#geschichte">Zutaten</a></nav>
     </div>
     <p class="concept">Konzept- und Portfolio-Website. KERNIG ist eine fiktive Marke; Produkte, Preise und Bestellfunktion sind nicht echt, es werden keine Daten gespeichert.</p>
   </div>
@@ -341,7 +322,6 @@ function openP(k){current=k%P.length;const p=P[current];dImg.src=`img/${p[0]}.pn
 const closeP=()=>{det.classList.remove('open');lastFocus?.focus?.({preventScroll:true})};
 close.onclick=closeP;addEventListener('keydown',e=>{if(e.key==='Escape'){closeP();closeCart()}});
 buy.onclick=()=>{addToCart(current);closeP()};
-newsForm.onsubmit=e=>{e.preventDefault();newsMsg.textContent=mail.checkValidity()?'Danke! (Demo – es wurde nichts gespeichert.)':'Diese Adresse sieht nicht vollständig aus. Bitte prüfe sie noch einmal.'};
 
 // --- 3D hero ---
 const THREE=await import('three');
