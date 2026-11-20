@@ -1,0 +1,115 @@
+<title>Orto di Sole</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;600&display=swap">
+<style>
+/* Layout: one screen; jars ride an invisible wheel whose hub sits below the fold, a red dome rises behind them */
+:root{
+  --bg:#efe9e1; --fg:#2a1416; --dome:#8f1d2c; --dome-ink:#e9714f; --pill:#fff; --muted:#8a7a74;
+  --display:"Fraunces",Georgia,serif; --body:"Outfit",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1415;--fg:#f3e6df;--dome:#7a1626;--dome-ink:#f08a63;--pill:#2e2224;--muted:#b19d96;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d1415;--fg:#f3e6df;--dome:#7a1626;--dome-ink:#f08a63;--pill:#2e2224;--muted:#b19d96;color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);overflow:hidden;user-select:none;touch-action:none}
+header{position:fixed;inset:0 0 auto;display:flex;justify-content:space-between;align-items:center;
+  padding-top:calc(env(safe-area-inset-top,0px) + 20px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));z-index:5}
+.lang{display:flex;gap:4px}
+.lang button,.menu{font:600 11px var(--body);letter-spacing:.08em;border:1px solid var(--muted);background:none;color:var(--fg);border-radius:99px;height:30px;min-width:30px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--dome-ink);border-color:var(--dome-ink);color:#fff}
+.menu{display:flex;align-items:center;gap:8px;padding:0 4px 0 12px}
+.menu i{width:22px;height:22px;border-radius:50%;background:var(--dome-ink)}
+.logo{text-align:center;font-family:var(--display);line-height:1}
+.logo b{display:block;font-size:22px;letter-spacing:.06em}
+.logo span{font-style:italic;font-size:14px;color:var(--dome-ink)}
+button:focus-visible{outline:2px solid var(--dome-ink);outline-offset:2px}
+
+#stage{position:fixed;inset:0}
+#dome{position:absolute;left:50%;border-radius:50%;background:var(--dome);transform:translateX(-50%)}
+#ring{position:absolute;left:50%;transform:translateX(-50%);animation:spin 60s linear infinite;pointer-events:none}
+#ring text{font:700 64px var(--display);fill:var(--dome-ink);letter-spacing:6px}
+@keyframes spin{to{transform:translateX(-50%) rotate(-360deg)}}
+
+.jar{position:absolute;left:0;top:0;width:var(--w);cursor:pointer;will-change:transform}
+.lid{height:calc(var(--w)*.2);margin:0 6%;border-radius:8px 8px 4px 4px;
+  background:linear-gradient(90deg,#7d8186,#e9ecef 30%,#a3a8ad 55%,#f4f5f6 75%,#80858a);box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)}
+.glass{position:relative;height:calc(var(--w)*1.15);border-radius:14% 14% 18% 18%/8% 8% 12% 12%;background:var(--fill);
+  box-shadow:inset 10px 0 18px rgba(255,255,255,.35),inset -14px 0 20px rgba(0,0,0,.25),0 30px 40px -20px rgba(0,0,0,.45);overflow:hidden}
+.label{position:absolute;inset:16% 0 14%;background:var(--label);display:grid;place-content:center;text-align:center;padding:6px;overflow:hidden}
+.label::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,var(--blob) 0 18%,transparent 19%),radial-gradient(circle at 85% 75%,var(--blob) 0 22%,transparent 23%)}
+.label h3{position:relative;font:700 calc(var(--w)*.17)/1 var(--display);color:var(--ink);margin:0}
+.label p{position:relative;font:400 calc(var(--w)*.075) var(--body);color:var(--ink);margin:4px 0 0;opacity:.85}
+.glass::after{content:"";position:absolute;inset:0 62% 0 10%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent)}
+
+#tip{position:fixed;left:0;top:0;padding:6px 12px;border-radius:99px;background:var(--pill);color:var(--fg);font:600 10px var(--body);letter-spacing:.1em;
+  pointer-events:none;opacity:0;transition:opacity .2s;z-index:6;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+#tip::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--dome-ink);margin-right:6px;vertical-align:1px}
+.hint{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);left:50%;transform:translateX(-50%);color:#fff;font:600 10px var(--body);letter-spacing:.2em;z-index:5}
+
+#detail{position:fixed;inset:auto 0 0;z-index:7;background:var(--pill);border-radius:24px 24px 0 0;
+  padding-block:24px calc(env(safe-area-inset-bottom,0px) + 28px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  transform:translateY(105%);transition:transform .4s cubic-bezier(.2,.8,.2,1);box-shadow:0 -10px 40px rgba(0,0,0,.2)}
+#detail.open{transform:none}
+#detail div{max-width:560px;margin:0 auto}
+#detail h2{font:700 32px var(--display);margin:0 0 6px;text-wrap:balance}
+#detail p{color:var(--muted);line-height:1.6;margin:0 0 16px}
+#detail button{font:600 13px var(--body);border:0;border-radius:99px;padding:12px 20px;cursor:pointer}
+#buy{background:var(--dome);color:#fff}#close{background:none;color:var(--fg)}
+@media (prefers-reduced-motion:reduce){#ring{animation:none}}
+</style>
+
+<header>
+  <div class="lang"><button aria-pressed="false">IT</button><button aria-pressed="true">EN</button></div>
+  <div class="logo"><b>ORTO DI SOLE</b><span>dal 1962</span></div>
+  <button class="menu">MENU <i></i></button>
+</header>
+
+<main id="stage">
+  <div id="dome"></div>
+  <svg id="ring" viewBox="0 0 1000 1000" aria-hidden="true">
+    <path id="c" d="M500,500 m-440,0 a440,440 0 1,1 880,0 a440,440 0 1,1 -880,0" fill="none"/>
+    <text><textPath href="#c">PICKED RIPE · JARRED BY HAND · GROWN IN THE SUN · PICKED RIPE · JARRED BY HAND · GROWN IN THE SUN ·</textPath></text>
+  </svg>
+</main>
+<div id="tip">DISCOVER THE PRODUCT</div>
+<div class="hint">SCROLL TO DISCOVER</div>
+<aside id="detail" aria-live="polite"><div><h2 id="dName"></h2><p id="dText"></p><button id="buy">Add to basket · 340 g</button> <button id="close">Close</button></div></aside>
+
+<script>
+const P=[ // name, sub, fill, label, blob, ink, text
+ ["Arancia","Blood-orange marmalade","#e0661d","#f3a03b","#e2551f","#5b1a07","Tarocco oranges, cooked slow with the peel. Bitter, bright, made for toast and dark chocolate."],
+ ["Fragola","Strawberry jam","#a5151c","#d42a2f","#b31b22","#fff1e8","Early-season strawberries and a squeeze of lemon. Nothing else."],
+ ["Smeralda","Green tomato chutney","#c8b52a","#b9e07a","#4f9a3a","#173b10","Unripe tomatoes, apple and mild chilli. Pairs with aged pecorino."],
+ ["Gelso","Black mulberry jam","#1d1f45","#2c3f8a","#1c2a63","#e9ecff","Wild black mulberries, picked in August from three old trees."],
+ ["Cipolla","Sweet & sour onion","#d38a2c","#f1c9a0","#e2602e","#5a1d08","Red onions braised in wine vinegar and honey. For cheese boards."],
+ ["Pera","Pear & cinnamon","#c99a2c","#2d7a3a","#c7d94a","#fff6d6","Late pears with a stick of cinnamon. Gentle, warm, autumnal."],
+ ["Rosso","Sun-dried tomato pesto","#9b2a1d","#f0d6c9","#c23b25","#5b130b","Dried tomatoes, almonds and basil. Stir into pasta straight from the jar."],
+ ["Limone","Lemon curd","#efcf3c","#fff4b0","#f2c12e","#4a3a00","Sorrento lemons, butter and free-range eggs. Keep it cold."],
+];
+const st=document.getElementById('stage'),dome=document.getElementById('dome'),ring=document.getElementById('ring'),tip=document.getElementById('tip');
+const step=360/P.length/1.6; // degrees between jars on the wheel
+const jars=P.map((p,i)=>{const e=document.createElement('div');e.className='jar';e.tabIndex=0;e.setAttribute('role','button');e.setAttribute('aria-label',p[0]+', '+p[1]);
+  e.style.cssText=`--fill:${p[2]};--label:${p[3]};--blob:${p[4]};--ink:${p[5]}`;
+  e.innerHTML=`<div class="lid"></div><div class="glass"><div class="label"><h3>${p[0]}</h3><p>${p[1]}</p></div></div>`;
+  e.onclick=()=>open(i);e.onkeydown=k=>{if(k.key==='Enter')open(i)};st.appendChild(e);return e});
+
+let W,H,R,cx,cy,jw,pos=0,target=0;
+function layout(){W=innerWidth;H=innerHeight;jw=Math.min(190,Math.max(110,W*.13));R=Math.max(W*.55,700);cx=W/2;cy=H*.52+R;
+  const d=Math.min(W*.85,900);Object.assign(dome.style,{width:d+'px',height:d+'px',top:H*.42+'px'});
+  const r=d*1.0;Object.assign(ring.style,{width:r+'px',height:r+'px',top:H*.42+'px'});
+  jars.forEach(j=>j.style.setProperty('--w',jw+'px'))}
+function frame(){target+=0.012;pos+=(target-pos)*.08; // auto-drift + eased follow
+  const n=P.length;jars.forEach((j,i)=>{let a=((i-pos)%n+n)%n;if(a>n/2)a-=n;const deg=a*step,rad=deg*Math.PI/180;
+    const x=cx+R*Math.sin(rad)-jw/2,y=cy-R*Math.cos(rad)-jw*.8,s=1-Math.min(Math.abs(a)*.08,.3);
+    j.style.transform=`translate(${x}px,${y}px) rotate(${deg*1.6}deg) scale(${s})`;j.style.zIndex=10-Math.round(Math.abs(a))});
+  requestAnimationFrame(frame)}
+addEventListener('wheel',e=>{target+=(e.deltaY+e.deltaX)*.004},{passive:true});
+let dragX=null;addEventListener('pointerdown',e=>dragX=e.clientX);addEventListener('pointerup',()=>dragX=null);
+addEventListener('pointermove',e=>{tip.style.transform=`translate(${e.clientX+14}px,${e.clientY+14}px)`;tip.style.opacity=e.target.closest('.jar')?1:0;
+  if(dragX!==null){target-=(e.clientX-dragX)*.01;dragX=e.clientX}});
+const det=document.getElementById('detail');
+function open(i){dName.textContent=P[i][0]+' · '+P[i][1];dText.textContent=P[i][6];det.classList.add('open');target=Math.round(target-((target-i)%P.length))}
+close.onclick=()=>det.classList.remove('open');
+buy.onclick=()=>{buy.textContent='Added ✓'};
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>document.querySelectorAll('.lang button').forEach(x=>x.setAttribute('aria-pressed',x===b)));
+addEventListener('resize',layout);layout();frame();
+</script>
