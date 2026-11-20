@@ -1,0 +1,71 @@
+<meta charset="utf-8">
+<title>KERNIG Schriftwahl</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&family=Young+Serif&family=Gloock&family=Hanken+Grotesk:wght@400;600&family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;600&display=swap">
+<style>
+/* Layout: four equal specimen columns of the same KERNIG content, only the type changes — caramel palette, lots of white */
+:root{--bg:#fff;--fg:#2a1a10;--muted:#6e6158;--caramel:#b8682e;--light:#f4e3cf;--line:#eadfd3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1410;--fg:#f4ebe3;--muted:#b9aca2;--line:#3a2e26;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1a1410;--fg:#f4ebe3;--muted:#b9aca2;--line:#3a2e26;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{max-width:1300px;margin:0 auto 40px}
+.top h1{font:600 28px/1.2 system-ui,sans-serif;margin:0 0 6px}
+.top p{margin:0;color:var(--muted)}
+.grid{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.opt{border:1px solid var(--line);border-radius:20px;padding:28px 24px;display:flex;flex-direction:column;gap:22px;min-width:0}
+.tag{display:flex;justify-content:space-between;align-items:baseline;font:600 13px system-ui,sans-serif;color:var(--muted)}
+.tag b{font-size:22px;color:var(--caramel)}
+.hero{background:var(--light);border-radius:16px;padding:28px 22px;color:#2a1a10}
+.hero h2{margin:0 0 8px;font-size:40px;line-height:1.02}
+.hero p{margin:0 0 16px;font-size:15px}
+.btn{display:inline-block;background:var(--caramel);color:#fff;border-radius:99px;padding:10px 18px;font-size:14px;font-weight:600}
+.card{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
+.card .pic{background:var(--light);border-radius:14px;aspect-ratio:5/7;display:grid;place-items:center}
+.card img{height:62%;width:auto}
+.card h3{margin:0;font-size:20px;line-height:1.15}
+.card .price{margin:6px 0 0;font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.card .price span{font-size:13px;color:var(--muted);font-weight:400;margin-left:6px}
+.body{margin:0;color:var(--muted);font-size:15px}
+.why{font-size:14px;color:var(--fg);border-top:1px solid var(--line);padding-top:16px;margin:0}
+/* the four options */
+.a{font-family:"Figtree",sans-serif}.a h2,.a h3{font-weight:800;letter-spacing:-.02em}
+.b{font-family:"Figtree",sans-serif}.b h2,.b h3{font-family:"Young Serif",serif;font-weight:400}
+.c{font-family:"Hanken Grotesk",sans-serif}.c h2,.c h3{font-family:"Gloock",serif;font-weight:400}.c h2{font-size:44px}
+.d{font-family:"Barlow",sans-serif}.d h2,.d h3{font-family:"Barlow Condensed",sans-serif;font-weight:700}.d h2{font-size:50px}.d h3{font-size:24px}
+</style>
+
+<div class="top">
+  <h1>Welche Schrift passt zu KERNIG?</h1>
+  <p>Gleicher Inhalt, gleiche Farbe (Karamell), nur die Schrift ändert sich. Sag mir einfach A, B, C oder D.</p>
+</div>
+<div class="grid">
+  <section class="opt a" aria-label="Variante A">
+    <div class="tag"><b>A</b>Figtree</div>
+    <div class="hero"><h2>Nussmus. Nur Nuss.</h2><p>Geröstet, gemahlen, abgefüllt.</p><span class="btn">Alle Sorten</span></div>
+    <div class="card"><div class="pic"><img src="img/weiss.png" alt=""></div><div><h3>Weißes Mandelmus</h3><p class="price">12,90 €<span>25,80 € je 1 kg</span></p></div></div>
+    <p class="body">Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften.</p>
+    <p class="why"><b>Rund & freundlich.</b> Wie jetzt. Nahbar und modern, aber wenig eigen.</p>
+  </section>
+  <section class="opt b" aria-label="Variante B">
+    <div class="tag"><b>B</b>Young Serif + Figtree</div>
+    <div class="hero"><h2>Nussmus. Nur Nuss.</h2><p>Geröstet, gemahlen, abgefüllt.</p><span class="btn">Alle Sorten</span></div>
+    <div class="card"><div class="pic"><img src="img/weiss.png" alt=""></div><div><h3>Weißes Mandelmus</h3><p class="price">12,90 €<span>25,80 € je 1 kg</span></p></div></div>
+    <p class="body">Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften.</p>
+    <p class="why"><b>Warme Serife.</b> Wirkt hochwertig und handwerklich, bleibt aber freundlich.</p>
+  </section>
+  <section class="opt c" aria-label="Variante C">
+    <div class="tag"><b>C</b>Gloock + Hanken Grotesk</div>
+    <div class="hero"><h2>Nussmus. Nur Nuss.</h2><p>Geröstet, gemahlen, abgefüllt.</p><span class="btn">Alle Sorten</span></div>
+    <div class="card"><div class="pic"><img src="img/weiss.png" alt=""></div><div><h3>Weißes Mandelmus</h3><p class="price">12,90 €<span>25,80 € je 1 kg</span></p></div></div>
+    <p class="body">Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften.</p>
+    <p class="why"><b>Elegant, kontrastreich.</b> Feinkost-Gefühl, am „edelsten“, etwas strenger.</p>
+  </section>
+  <section class="opt d" aria-label="Variante D">
+    <div class="tag"><b>D</b>Barlow Condensed + Barlow</div>
+    <div class="hero"><h2>Nussmus. Nur Nuss.</h2><p>Geröstet, gemahlen, abgefüllt.</p><span class="btn">Alle Sorten</span></div>
+    <div class="card"><div class="pic"><img src="img/weiss.png" alt=""></div><div><h3>Weißes Mandelmus</h3><p class="price">12,90 €<span>25,80 € je 1 kg</span></p></div></div>
+    <p class="body">Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften.</p>
+    <p class="why"><b>Wie das Etikett.</b> Schmal und fett, Seite und Glas wirken wie aus einem Guss.</p>
+  </section>
+</div>
