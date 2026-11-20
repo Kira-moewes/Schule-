@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>KERNIG Nussmus</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;600&display=swap">
@@ -28,13 +29,10 @@ button:focus-visible,.jar:focus-visible{outline:2px solid var(--ring);outline-of
 #spin{transform-box:view-box;transform-origin:500px 640px;animation:spin 50s linear infinite}
 @keyframes spin{to{transform:rotate(-360deg)}}
 
-.jar{position:absolute;left:0;top:0;width:var(--w);cursor:pointer;will-change:transform,filter}
-.jar img{display:block;width:100%;pointer-events:none;filter:drop-shadow(0 30px 24px rgba(30,10,10,.25))}
-.nut{position:absolute;left:0;top:0;pointer-events:none;will-change:transform}
-
-#tip{position:fixed;left:0;top:0;padding:7px 12px;border-radius:99px;background:var(--pill);color:var(--fg);font:600 9px var(--body);letter-spacing:.12em;
-  pointer-events:none;opacity:0;transition:opacity .2s;z-index:40;box-shadow:0 4px 14px rgba(0,0,0,.12)}
-#tip::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ring);margin-right:6px;vertical-align:1px}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:10;filter:drop-shadow(0 28px 22px rgba(30,10,10,.22))}
+#gl.hover{cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.sr:focus-within{position:fixed;width:auto;height:auto;clip:auto;left:16px;top:70px;z-index:60;display:flex;gap:6px;flex-wrap:wrap}
 .hint{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);left:50%;transform:translateX(-50%);color:#fff;font:600 9px var(--body);letter-spacing:.2em;z-index:30;white-space:nowrap}
 .legal{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);font-size:10px;color:var(--muted);z-index:30}
 
@@ -69,7 +67,8 @@ button:focus-visible,.jar:focus-visible{outline:2px solid var(--ring);outline-of
     <g clip-path="url(#clip)"><g id="spin"><text><textPath href="#c">GERÖSTET · GEMAHLEN · GELIEBT · GERÖSTET · GEMAHLEN · GELIEBT ·</textPath></text></g></g>
   </svg>
 </main>
-<div id="tip">PRODUKT ENTDECKEN</div>
+<canvas id="gl" aria-hidden="true"></canvas>
+<nav class="sr" aria-label="Produkte"></nav>
 <div class="hint">SCROLLEN ZUM ENTDECKEN</div>
 <div class="legal">Impressum &amp; Datenschutz</div>
 <aside id="detail" aria-live="polite"><div>
@@ -77,7 +76,10 @@ button:focus-visible,.jar:focus-visible{outline:2px solid var(--ring);outline-of
   <div class="row"><b id="dPrice"></b><button id="close">Schließen</button><button id="buy">In den Warenkorb</button></div>
 </div></aside>
 
-<script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 const P=[ // img, name, tag, price, text
  ["weiss","Weißes Mandelmus","100 % Mandeln · 500 g","12,90 €","Blanchierte Mandeln, langsam gemahlen. Mild, cremig, ideal für Porridge und Dressings."],
  ["erdnuss","Erdnussmus","100 % Erdnüsse · 500 g","7,90 €","Geröstete Erdnüsse, sonst nichts. Kein Palmöl, kein Zucker, kein Salz."],
@@ -86,40 +88,64 @@ const P=[ // img, name, tag, price, text
  ["schoko","Schoko Erdnuss","Limited Edition · 500 g","9,90 €","Erdnussmus mit Kakao. Für alle, die zwischen Erdnuss und Schokolade nicht wählen wollen."],
 ];
 const N=P.length*2; // list repeated so the arc never runs empty
-const st=document.getElementById('stage'),plinth=document.getElementById('plinth'),tip=document.getElementById('tip');
-const jars=[...Array(N)].map((_,k)=>{const p=P[k%P.length],e=document.createElement('div');
-  e.className='jar';e.tabIndex=k<P.length?0:-1;e.setAttribute('role','button');e.setAttribute('aria-label',p[1]);
-  e.innerHTML=`<img src="img/${p[0]}.png" alt="">`;e.onclick=()=>openP(k);e.onkeydown=ev=>{if(ev.key==='Enter')openP(k)};st.appendChild(e);
-  return{el:e,tilt:(k*37%13-6)}}); // fixed per-jar wobble so they don't look machine-aligned
+const canvas=document.getElementById('gl'),plinth=document.getElementById('plinth');
+const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(30,1,10,20000);
+scene.environment=new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(),.04).texture;
+const meta=await (await fetch('img/meta.json')).json(),loader=new THREE.TextureLoader();
+const gold=new THREE.MeshStandardMaterial({color:0xe8c97c,metalness:1,roughness:.22,envMapIntensity:1.7,side:THREE.DoubleSide});
+const gloss=new THREE.MeshStandardMaterial({color:0x000000,roughness:.12,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,envMapIntensity:1.4});
 
-let W,H,R,cx,cy,jw,STEP,pos=0,target=0,vel=0;
-function layout(){W=innerWidth;H=innerHeight;
-  jw=Math.max(150,Math.min(W*.24,H*.36)); // jar width; height ≈ 1.3×
-  R=Math.max(W*1.3,H*1.6);cx=W/2;cy=H*.5+R;STEP=Math.asin(Math.min(jw*1.25/R,.9))*180/Math.PI;
-  const pw=Math.min(W<700?W*.95:W*.62,H*1.05);Object.assign(plinth.style,{width:pw+'px',top:H*.5+'px'});jars.forEach(j=>j.el.style.setProperty('--w',jw+'px'))}
+function buildJar(key){ // body shape = the photo's own silhouette, so the wrapped label lines up exactly
+  const m=meta[key],pts=m.profile.map(([r,y])=>new THREE.Vector2(r,y));pts.unshift(new THREE.Vector2(0,0));
+  const top=pts[pts.length-1].y,body=new THREE.LatheGeometry(pts,96,Math.PI);
+  const pos=body.attributes.position,uv=body.attributes.uv;for(let i=0;i<uv.count;i++)uv.setY(i,pos.getY(i)/top); // v by height, not by point index
+  const tex=loader.load(`img/${key}-wrap.jpg`);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=8;
+  const g=new THREE.Group();
+  g.add(new THREE.Mesh(body,new THREE.MeshBasicMaterial({map:tex}))); // photo already carries its studio lighting
+  const shell=new THREE.Mesh(body,gloss);shell.scale.setScalar(1.004);g.add(shell); // live reflections on top
+  const r=m.lidW/2,h=m.lid,lid=new THREE.LatheGeometry([[0,h],[r*.9,h],[r*.99,h*.92],[r,h*.75],[r,h*.12],[r*.97,0],[r*.9,0]].map(([x,y])=>new THREE.Vector2(x,y)),96);
+  const l=new THREE.Mesh(lid,gold);l.position.y=top-.02;g.add(l);
+  g.children.forEach(c=>c.position.y-=(top+h)/2);return g}
+const jars=[...Array(N)].map((_,k)=>{const g=buildJar(P[k%P.length][0]);g.userData={k,hover:0,tilt:(k*37%13-6)/60};scene.add(g);return g});
+
+let W,H,R,cy,jw,STEP,pos=0,target=0,vel=0,hovered=null;
+function layout(){W=innerWidth;H=innerHeight;renderer.setSize(W,H,false);
+  camera.aspect=W/H;camera.position.z=(H/2)/Math.tan(THREE.MathUtils.degToRad(15));camera.updateProjectionMatrix(); // 1 world unit = 1 css px at z=0
+  jw=Math.max(150,Math.min(W*.22,H*.32));R=Math.max(W*1.3,H*1.6);cy=H*.5+R;STEP=Math.asin(Math.min(jw*1.3/R,.9));
+  const pw=Math.min(W<700?W*.95:W*.62,H*1.05);Object.assign(plinth.style,{width:pw+'px',top:H*.5+'px'})}
 const wrap=a=>{a=((a%N)+N)%N;return a>N/2?a-N:a};
-function frame(){
+function frame(t){
   if(!dragging)target+=.004; // idle drift
   const prev=pos;pos+=(target-pos)*.06;vel=pos-prev;
-  const blur=Math.min(Math.abs(vel)*60,6),skew=Math.max(-25,Math.min(25,vel*600));
-  jars.forEach((j,i)=>{const a=wrap(i-pos),deg=a*STEP,rad=deg*Math.PI/180,s=1-Math.min(Math.abs(a)*.12,.4),h=jw*1.3;
-    const x=cx+R*Math.sin(rad)-jw/2,y=cy-R*Math.cos(rad)-h/2;
-    j.el.style.transform=`translate(${x}px,${y}px) perspective(800px) rotateY(${skew}deg) rotate(${deg*2.2+j.tilt*Math.min(Math.abs(a),1)}deg) scale(${s})`;
-    j.el.style.filter=blur>.3?`blur(${blur}px)`:'none';
-    j.el.style.zIndex=20-Math.round(Math.abs(a)*2);j.el.style.visibility=Math.abs(a)>3.2?'hidden':'visible'});
-  requestAnimationFrame(frame)}
+  canvas.style.filter=`drop-shadow(0 28px 22px rgba(30,10,10,.22))`+(Math.abs(vel)>.006?` blur(${Math.min(Math.abs(vel)*50,4)}px)`:'');
+  jars.forEach((g,i)=>{const a=wrap(i-pos),ang=a*STEP,u=g.userData;
+    u.hover+=((g===hovered?1:0)-u.hover)*.15;
+    const s=jw*(1-Math.min(Math.abs(a)*.12,.4))*(1+u.hover*.06);
+    g.position.set(R*Math.sin(ang),H/2-cy+R*Math.cos(ang)+u.hover*12,-Math.abs(a)*120);
+    g.scale.setScalar(s);
+    g.rotation.set(.1,-a*.35-vel*25+Math.sin(t/1400+i)*.12+u.hover*.3,-ang*2.2+u.tilt*Math.min(Math.abs(a),1));
+    g.visible=Math.abs(a)<3.2});
+  renderer.render(scene,camera);requestAnimationFrame(frame)}
+
+const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
+function hit(e){ndc.set(e.clientX/W*2-1,-e.clientY/H*2+1);ray.setFromCamera(ndc,camera);
+  const h=ray.intersectObjects(jars.filter(g=>g.visible),true)[0];let o=h&&h.object;while(o&&!jars.includes(o))o=o.parent;return o||null}
 addEventListener('wheel',e=>{target+=(e.deltaY+e.deltaX)*.0025},{passive:true});
-let dragging=false,lastX=0;
-addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX});addEventListener('pointerup',()=>{dragging=false;target=Math.round(target)});
-addEventListener('pointermove',e=>{const j=e.target.closest('.jar');
-  if(j){const r=j.getBoundingClientRect();tip.style.transform=`translate(${r.left+r.width*.45}px,${r.top+r.height*.62}px)`}
-  tip.style.opacity=j?1:0;
+let dragging=false,lastX=0,downX=0,downY=0;
+canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=downX=e.clientX;downY=e.clientY});
+addEventListener('pointerup',e=>{if(!dragging)return;dragging=false;
+  if(Math.hypot(e.clientX-downX,e.clientY-downY)<6){const g=hit(e);if(g)openP(g.userData.k)} // a tap, not a drag
+  else target=Math.round(target)});
+addEventListener('pointermove',e=>{hovered=e.pointerType==='mouse'?hit(e):null;canvas.classList.toggle('hover',!!hovered);
   if(dragging){target-=(e.clientX-lastX)*.006;lastX=e.clientX}});
 const det=document.getElementById('detail');
 function openP(k){const p=P[k%P.length];dTag.textContent=p[2].toUpperCase();dName.textContent=p[1];dText.textContent=p[4];dPrice.textContent=p[3];
   buy.textContent='In den Warenkorb';det.classList.add('open');target+=wrap(k-target)}
 close.onclick=()=>det.classList.remove('open');
 buy.onclick=()=>{buy.textContent='Im Warenkorb ✓'};
+const sr=document.querySelector('.sr');P.forEach((p,k)=>{const b=document.createElement('button');b.textContent=p[1];b.onclick=()=>openP(k);sr.appendChild(b)});
 document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>document.querySelectorAll('.lang button').forEach(x=>x.setAttribute('aria-pressed',x===b)));
 addEventListener('resize',layout);layout();requestAnimationFrame(frame);
 </script>
