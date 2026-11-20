@@ -274,7 +274,7 @@ function renderCart(){let n=0,sum=0;cartList.innerHTML='';
 function openCart(){renderCart();checkoutMsg.textContent='';cartPanel.classList.add('open');scrim.classList.add('open');cartPanel.setAttribute('aria-hidden','false');cartClose.focus({preventScroll:true})}
 function closeCart(){cartPanel.classList.remove('open');scrim.classList.remove('open');cartPanel.setAttribute('aria-hidden','true')}
 function addToCart(k){cart.set(k,(cart.get(k)||0)+1);countEl.classList.remove('bump');void countEl.offsetWidth;countEl.classList.add('bump');openCart()}
-cartBtn.onclick=openCart;cartClose.onclick=scrim.onclick=closeCart;
+cartBtn.onclick=openCart;cartClose.onclick=closeCart;scrim.onclick=()=>{closeP();closeCart()}; // click outside closes product sheet and cart
 checkout.onclick=()=>{checkoutMsg.textContent='Demo-Shop: Hier gibt es keine echte Bestellung.'};
 const cards=P.map((p,k)=>{const c=document.createElement('article');c.className='card';c.dataset.k=k;
   c.innerHTML=`<div class="media" style="--tint:${p[7]}"><div class="stage"><img src="img/${p[0]}.png" alt="${p[1]}" loading="lazy"></div>
@@ -296,8 +296,8 @@ document.querySelectorAll('[data-chip]').forEach(a=>a.addEventListener('click',(
 const det=document.getElementById('detail');let onOpen=()=>{},lastFocus=null,current=0;
 function openP(k){current=k%P.length;const p=P[current];dImg.src=`img/${p[0]}.png`;dImg.alt=p[1];dPic.style.setProperty('--tint',p[7]);
   dName.textContent=`${p[1]} | 500 g`;dText.textContent=p[4];dPrice.innerHTML=priceHTML(p);
-  lastFocus=document.activeElement;det.classList.add('open');buy.focus({preventScroll:true});onOpen(current)}
-const closeP=()=>{det.classList.remove('open');lastFocus?.focus?.({preventScroll:true})};
+  lastFocus=document.activeElement;det.classList.add('open');scrim.classList.add('open');buy.focus({preventScroll:true});onOpen(current)}
+const closeP=()=>{if(!det.classList.contains('open'))return;det.classList.remove('open');if(!cartPanel.classList.contains('open'))scrim.classList.remove('open');lastFocus?.focus?.({preventScroll:true})};
 close.onclick=closeP;addEventListener('keydown',e=>{if(e.key==='Escape'){closeP();closeCart()}});
 buy.onclick=()=>{addToCart(current);closeP()};
 
@@ -309,13 +309,16 @@ const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(30,1,10,20000);
 const meta=await (await fetch('img/meta.json')).json(),loader=new THREE.TextureLoader(),maxAniso=renderer.capabilities.getMaxAnisotropy();
+const texCache={}; // one texture per flavour, shared by both copies on the wheel
 function buildJar(key){ // whole jar = the photo wrapped on its own silhouette: real lid, real glass, geometric (clean) edges
   const m=meta[key],pts=m.profile.map(([r,y])=>new THREE.Vector2(r,y));pts.unshift(new THREE.Vector2(0,0));
   const top=pts[pts.length-1].y;pts.push(new THREE.Vector2(0,top));
   const geo=new THREE.LatheGeometry(pts,160,Math.PI),p=geo.attributes.position,uv=geo.attributes.uv;
   for(let i=0;i<uv.count;i++)uv.setY(i,Math.min(p.getY(i)/top,.999)); // v by height, not by point index
-  const tex=loader.load(`img/${key}-wrap.jpg`);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=maxAniso;
-  const mesh=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:tex}));mesh.position.y=-top/2;
+  const mat=new THREE.MeshBasicMaterial({transparent:true,opacity:0}); // invisible until its photo has loaded (no black jars), then fades in
+  (texCache[key]??=new Promise(r=>loader.load(`img/${key}-wrap.jpg`,t=>{t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=maxAniso;r(t)})))
+    .then(t=>{mat.map=t;mat.needsUpdate=true;mat.userData.ready=true});
+  const mesh=new THREE.Mesh(geo,mat);mesh.position.y=-top/2;
   const g=new THREE.Group();g.add(mesh);return g}
 const jars=[...Array(N)].map((_,k)=>{const g=buildJar(P[k%P.length][0]);g.userData={k,hover:0,tilt:(k*37%13-6)/90};scene.add(g);return g});
 
@@ -336,6 +339,7 @@ function frame(){
     g.position.set(R*Math.sin(ang),H/2-cy+R*Math.cos(ang)+u.hover*10,-Math.abs(a)*120);
     g.scale.setScalar(jw*(1-Math.min(Math.abs(a)*.1,.35))*(1+u.hover*.05));
     g.rotation.set(0,0,-ang+u.tilt*Math.min(Math.abs(a),1)); // radial tilt only: bottoms point at the wheel hub, so they don't converge and overlap
+    const m=g.children[0].material;if(m.userData.ready&&m.transparent){m.opacity=Math.min(1,m.opacity+.05);if(m.opacity===1){m.transparent=false;m.needsUpdate=true}}
     g.visible=Math.abs(a)<3.2});
   renderer.render(scene,camera);requestAnimationFrame(frame)}
 new IntersectionObserver(([e])=>{const was=running;running=e.isIntersecting;if(running&&!was)requestAnimationFrame(frame)}).observe(hero); // pause 3D when scrolled away
