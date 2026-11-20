@@ -62,16 +62,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* shop */
 #sortiment{padding-block:clamp(72px,10vw,136px)}
-.shop-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
-.shop-top h2{font-size:clamp(36px,4.4vw,56px)}
-.shop-top p{margin:6px 0 0;color:var(--muted)}
-.sort{position:relative;border:1px solid var(--line);border-radius:10px;padding:6px 40px 6px 14px;min-width:220px}
-.sort small{display:block;font-size:12px;color:var(--muted)}
-.sort select{all:unset;font-weight:500;font-size:16px;width:100%;cursor:pointer}
-.sort::after{content:"";position:absolute;right:16px;top:50%;width:8px;height:8px;border:solid var(--fg);border-width:0 2px 2px 0;transform:translateY(-70%) rotate(45deg);pointer-events:none}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
-.chips button{border:1px solid var(--line);background:transparent;border-radius:99px;padding:8px 16px;font-weight:500;font-size:15px;cursor:pointer}
-.chips button[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:clamp(16px,2.4vw,28px) clamp(14px,2vw,24px)}
 .card{display:flex;flex-direction:column}
 .card[hidden]{display:none}
@@ -154,8 +144,7 @@ footer{color:var(--muted);padding-block:28px calc(env(safe-area-inset-bottom,0px
   .grid{grid-template-columns:1fr 1fr;gap:20px 12px}
   .card h3{font-size:16px}.price b{font-size:18px}.price span,.card .sub{font-size:13px}
   #detail>div{grid-template-columns:90px 1fr;gap:18px}
-  .sort{min-width:0;flex:1}
-}
+  }
 @media (prefers-reduced-motion:reduce){#spin{animation:none}html{scroll-behavior:auto}*{transition-duration:0s!important;animation-duration:0s!important}}
 </style>
 
@@ -171,7 +160,7 @@ footer{color:var(--muted);padding-block:28px calc(env(safe-area-inset-bottom,0px
 <header>
   <div class="wrap head">
     <a href="#hero" aria-label="KERNIG, zum Anfang"><span class="logo" role="img" aria-label="KERNIG"></span></a>
-    <nav aria-label="Hauptmenü"><a href="#sortiment">Nussmus</a><a href="#sortiment" data-chip="saison">Saison-Sorten</a><a href="#geschichte">Zutaten</a></nav>
+    <nav aria-label="Hauptmenü"><a href="#sortiment">Sorten</a><a href="#geschichte">Zutaten</a></nav>
         <button class="icon-btn" aria-label="Warenkorb, 0 Artikel" id="cartBtn"><svg class="i"><use href="#i-cart"/></svg><span id="count"></span></button>
   </div>
 </header>
@@ -189,15 +178,8 @@ footer{color:var(--muted);padding-block:28px calc(env(safe-area-inset-bottom,0px
   <span role="listitem"><svg class="i"><use href="#i-truck"/></svg>Versand in 1–2 Werktagen</span>
 </div>
 
-<section id="sortiment" class="wrap" aria-labelledby="shopH">
-  <div class="shop-top">
-    <div><h2 id="shopH">Nussmus</h2><p id="resultCount">5 Produkte</p></div>
-    <label class="sort"><small>Sortieren nach</small><select id="sortSel"><option value="rec">Empfehlung</option><option value="asc">Preis aufsteigend</option><option value="desc">Preis absteigend</option></select></label>
-  </div>
-  <div class="chips" role="group" aria-label="Filter">
-    <button aria-pressed="true" data-f="alle">Alle</button><button aria-pressed="false" data-f="mandel">Mandel</button><button aria-pressed="false" data-f="erdnuss">Erdnuss</button><button aria-pressed="false" data-f="saison">Saison-Sorten</button>
-  </div>
-  <div class="grid" id="grid"></div>
+<section id="sortiment" class="wrap" aria-label="Unsere Sorten">
+<div class="grid" id="grid"></div>
 </section>
 
 <section id="geschichte" class="wrap" aria-label="Was drin ist">
@@ -207,7 +189,7 @@ footer{color:var(--muted);padding-block:28px calc(env(safe-area-inset-bottom,0px
       <p class="ingr">Zutaten: Mandeln.</p>
       <h2>Das war's.</h2>
       <p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p>
-      <a class="btn" href="#sortiment" data-chip="mandel">Mandelmus entdecken</a>
+      <a class="btn" href="#sortiment">Mandelmus entdecken</a>
     </div>
   </div>
   <div class="banner b-grey">
@@ -284,15 +266,6 @@ const cards=P.map((p,k)=>{const c=document.createElement('article');c.className=
   c.querySelector('.stage').onclick=c.querySelector('h3').onclick=()=>openP(k);
   c.querySelector('.cart').onclick=()=>addToCart(k);
   grid.appendChild(c);return c});
-let filter='alle';
-function render(){const s=sortSel.value,order=[...cards].sort((a,b)=>s==='rec'?a.dataset.k-b.dataset.k:(P[a.dataset.k][3]-P[b.dataset.k][3])*(s==='asc'?1:-1));
-  let n=0;order.forEach(c=>{const p=P[c.dataset.k],show=filter==='alle'||(filter==='saison'?p[6]:p[5]===filter);c.hidden=!show;n+=show;grid.appendChild(c)});
-  resultCount.textContent=`${n} ${n===1?'Produkt':'Produkte'}`}
-sortSel.onchange=render;
-const chips=[...document.querySelectorAll('.chips button')];
-const setFilter=f=>{filter=f;chips.forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===f));render()};
-chips.forEach(b=>b.onclick=()=>setFilter(b.dataset.f));
-document.querySelectorAll('[data-chip]').forEach(a=>a.addEventListener('click',()=>setFilter(a.dataset.chip)));
 const det=document.getElementById('detail');let onOpen=()=>{},lastFocus=null,current=0;
 function openP(k){current=k%P.length;const p=P[current];dImg.src=`img/${p[0]}.png`;dImg.alt=p[1];dPic.style.setProperty('--tint',p[7]);
   dName.textContent=`${p[1]} | 500 g`;dText.textContent=p[4];dPrice.innerHTML=priceHTML(p);
