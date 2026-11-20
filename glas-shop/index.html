@@ -76,10 +76,9 @@ button:focus-visible,.jar:focus-visible{outline:2px solid var(--ring);outline-of
   <div class="row"><b id="dPrice"></b><button id="close">Schließen</button><button id="buy">In den Warenkorb</button></div>
 </div></aside>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
 import * as THREE from 'three';
-import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 const P=[ // img, name, tag, price, text
  ["weiss","Weißes Mandelmus","100 % Mandeln · 500 g","12,90 €","Blanchierte Mandeln, langsam gemahlen. Mild, cremig, ideal für Porridge und Dressings."],
  ["erdnuss","Erdnussmus","100 % Erdnüsse · 500 g","7,90 €","Geröstete Erdnüsse, sonst nichts. Kein Palmöl, kein Zucker, kein Salz."],
@@ -92,22 +91,15 @@ const canvas=document.getElementById('gl'),plinth=document.getElementById('plint
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(30,1,10,20000);
-scene.environment=new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(),.04).texture;
 const meta=await (await fetch('img/meta.json')).json(),loader=new THREE.TextureLoader();
-const gold=new THREE.MeshStandardMaterial({color:0xe8c97c,metalness:1,roughness:.22,envMapIntensity:1.7,side:THREE.DoubleSide});
-const gloss=new THREE.MeshStandardMaterial({color:0x000000,roughness:.12,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,envMapIntensity:1.4});
-
-function buildJar(key){ // body shape = the photo's own silhouette, so the wrapped label lines up exactly
+function buildJar(key){ // whole jar = the photo wrapped on its own silhouette: real lid, real glass, geometric (clean) edges
   const m=meta[key],pts=m.profile.map(([r,y])=>new THREE.Vector2(r,y));pts.unshift(new THREE.Vector2(0,0));
-  const top=pts[pts.length-1].y,body=new THREE.LatheGeometry(pts,96,Math.PI);
-  const pos=body.attributes.position,uv=body.attributes.uv;for(let i=0;i<uv.count;i++)uv.setY(i,pos.getY(i)/top); // v by height, not by point index
+  const top=pts[pts.length-1].y;pts.push(new THREE.Vector2(0,top));
+  const geo=new THREE.LatheGeometry(pts,128,Math.PI),p=geo.attributes.position,uv=geo.attributes.uv;
+  for(let i=0;i<uv.count;i++)uv.setY(i,Math.min(p.getY(i)/top,.999)); // v by height, not by point index
   const tex=loader.load(`img/${key}-wrap.jpg`);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=8;
-  const g=new THREE.Group();
-  g.add(new THREE.Mesh(body,new THREE.MeshBasicMaterial({map:tex}))); // photo already carries its studio lighting
-  const shell=new THREE.Mesh(body,gloss);shell.scale.setScalar(1.004);g.add(shell); // live reflections on top
-  const r=m.lidW/2,h=m.lid,lid=new THREE.LatheGeometry([[0,h],[r*.9,h],[r*.99,h*.92],[r,h*.75],[r,h*.12],[r*.97,0],[r*.9,0]].map(([x,y])=>new THREE.Vector2(x,y)),96);
-  const l=new THREE.Mesh(lid,gold);l.position.y=top-.02;g.add(l);
-  g.children.forEach(c=>c.position.y-=(top+h)/2);return g}
+  const mesh=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:tex}));mesh.position.y=-top/2;
+  const g=new THREE.Group();g.add(mesh);return g}
 const jars=[...Array(N)].map((_,k)=>{const g=buildJar(P[k%P.length][0]);g.userData={k,hover:0,tilt:(k*37%13-6)/60};scene.add(g);return g});
 
 let W,H,R,cy,jw,STEP,pos=0,target=0,vel=0,hovered=null;
@@ -125,7 +117,7 @@ function frame(t){
     const s=jw*(1-Math.min(Math.abs(a)*.12,.4))*(1+u.hover*.06);
     g.position.set(R*Math.sin(ang),H/2-cy+R*Math.cos(ang)+u.hover*12,-Math.abs(a)*120);
     g.scale.setScalar(s);
-    g.rotation.set(.1,-a*.35-vel*25+Math.sin(t/1400+i)*.12+u.hover*.3,-ang*2.2+u.tilt*Math.min(Math.abs(a),1));
+    g.rotation.set(0,0,-ang*1.6+u.tilt*Math.min(Math.abs(a),1)); // jars face front; only the arc tilts them
     g.visible=Math.abs(a)<3.2});
   renderer.render(scene,camera);requestAnimationFrame(frame)}
 
