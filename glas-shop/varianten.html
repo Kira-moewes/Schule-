@@ -51,48 +51,41 @@ img{display:block;max-width:100%}
 .d-photo img{width:100%;height:100%;object-fit:cover}
 .d .txt{padding-left:clamp(28px,5vw,72px)}
 
+
+/* modern photo treatments — no faded edges */
+.m-a img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px}
+.m-b img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:999px 999px 16px 16px}
+.m-c{position:relative;padding:0 18% 18% 0}
+.m-c .big{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px}
+.m-c .small{position:absolute;right:0;bottom:0;width:48%;aspect-ratio:1;object-fit:cover;border-radius:12px;border:8px solid var(--bg)}
+.m-d{overflow:hidden;border-radius:16px;aspect-ratio:4/5}
+.m-d img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.15));will-change:transform}
+@media (prefers-reduced-motion:reduce){.m-d img{transform:none}}
 @media (max-width:820px){.v,.d{grid-template-columns:1fr}.d{margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)))}
   .d-photo{margin-left:0;height:420px}.d .txt{padding:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}}
 body{overflow-x:hidden}
 </style>
 
 <div class="wrap">
-  <div class="intro"><h1>Neben „Das war's.“: vier Alternativen</h1><p>Gleicher Text, gleiche Farben. Nur das Bild daneben ändert sich. Sag mir A, B, C oder D.</p></div>
+  <div class="intro"><h1>Das Bild neben „Das war's.“: moderner</h1><p>Text bleibt genau so. Gleiches Foto, ohne ausgeblendeten Rand. Sag mir A, B, C oder D.</p></div>
 
-  <p class="tag"><b>A</b>Freisteller <span>– nur das Glas, wie im Sortiment</span></p>
-  <section class="v">
-    <div class="a-stage"><span class="nut" aria-hidden="true">100 %</span><img src="img/weiss.png" alt="Glas Weißes Mandelmus"></div>
-    <div class="txt"><p class="ingr">Zutaten: Mandeln.</p><h2>Das war's.</h2><p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p><a class="btn" href="#">Mandelmus entdecken</a></div>
-  </section>
+  <p class="tag"><b>A</b>Klar <span>– scharfe Kante, leicht gerundet, Originalfarben</span></p>
+  <section class="v"><div class="m-a"><img src="img/mood.jpg" alt="Weißes Mandelmus auf gelbem Sockel neben Brot mit Mandelmus"></div><div class="txt"><p class="ingr">Zutaten: Mandeln.</p><h2>Das war's.</h2><p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p><a class="btn" href="#">Mandelmus entdecken</a></div></section>
 
-  <p class="tag"><b>B</b>Etikett <span>– kein Foto, die Zutatenliste ist das Bild</span></p>
-  <section class="v">
-    <div class="label" role="img" aria-label="Nährwerttabelle Weißes Mandelmus">
-      <p class="big">100 % Mandeln<small>Zutatenliste, vollständig</small></p>
-      <table>
-        <tr><th>Nährwerte je 100 g</th><th></th></tr>
-        <tr><td>Energie</td><td>2604 kJ / 630 kcal</td></tr>
-        <tr><td>Fett</td><td>55 g</td></tr>
-        <tr><td class="in">davon gesättigt</td><td>4,4 g</td></tr>
-        <tr><td>Kohlenhydrate</td><td>6,5 g</td></tr>
-        <tr><td>Eiweiß</td><td>22 g</td></tr>
-        <tr class="zero"><td>Zuckerzusatz</td><td>0 g</td></tr>
-        <tr class="zero"><td>Salz</td><td>0 g</td></tr>
-      </table>
-    </div>
-    <div class="txt"><p class="ingr">Zutaten: Mandeln.</p><h2>Das war's.</h2><p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p><a class="btn" href="#">Mandelmus entdecken</a></div>
-  </section>
+  <p class="tag"><b>B</b>Bogen <span>– oben rund wie ein Fenster</span></p>
+  <section class="v"><div class="m-b"><img src="img/mood.jpg" alt="Weißes Mandelmus auf gelbem Sockel neben Brot mit Mandelmus"></div><div class="txt"><p class="ingr">Zutaten: Mandeln.</p><h2>Das war's.</h2><p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p><a class="btn" href="#">Mandelmus entdecken</a></div></section>
 
-  <p class="tag"><b>C</b>Foto, sauber zugeschnitten <span>– Originalfarben, klarer Rahmen statt Verlauf</span></p>
-  <section class="v">
-    <div class="c-photo"><img src="img/mood.jpg" alt="Weißes Mandelmus auf gelbem Sockel neben Brot mit Mandelmus"></div>
-    <div class="txt"><p class="ingr">Zutaten: Mandeln.</p><h2>Das war's.</h2><p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p><a class="btn" href="#">Mandelmus entdecken</a></div>
-  </section>
+  <p class="tag"><b>C</b>Collage <span>– zwei Fotos versetzt übereinander</span></p>
+  <section class="v"><div class="m-c"><img class="big" src="img/mood.jpg" alt="Weißes Mandelmus auf gelbem Sockel neben Brot mit Mandelmus"><img class="small" src="img/loeffel.jpg" alt="Löffel mit Mandelmus"></div><div class="txt"><p class="ingr">Zutaten: Mandeln.</p><h2>Das war's.</h2><p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p><a class="btn" href="#">Mandelmus entdecken</a></div></section>
 
-  <p class="tag"><b>D</b>Randlos <span>– Foto läuft bis an den Bildschirmrand</span></p>
-  <section class="v d">
-    <div class="d-photo"><img src="img/loeffel.jpg" alt="Goldener Löffel zieht cremiges Mandelmus aus dem Glas"></div>
-    <div class="txt"><p class="ingr">Zutaten: Mandeln.</p><h2>Das war's.</h2><p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p><a class="btn" href="#">Mandelmus entdecken</a></div>
-  </section>
+  <p class="tag"><b>D</b>Bewegt <span>– Foto zoomt beim Scrollen langsam heran</span></p>
+  <section class="v"><div class="m-d"><img id="zoom" src="img/mood.jpg" alt="Weißes Mandelmus auf gelbem Sockel neben Brot mit Mandelmus"></div><div class="txt"><p class="ingr">Zutaten: Mandeln.</p><h2>Das war's.</h2><p>Kein Zucker, kein Palmöl, kein Salz. Wir rösten die Mandeln, bis sie duften, und mahlen sie, bis sie fließen.</p><a class="btn" href="#">Mandelmus entdecken</a></div></section>
   <div style="height:72px"></div>
 </div>
+
+<script>
+// D: scroll-linked zoom-out, image is fully visible at rest
+const z=document.getElementById('zoom');
+function upd(){const r=z.parentElement.getBoundingClientRect(),t=Math.min(1,Math.max(0,1-(r.top+r.height/2)/innerHeight));z.style.setProperty('--z',(1.15-.15*t).toFixed(3))}
+addEventListener('scroll',upd,{passive:true});upd();
+</script>
